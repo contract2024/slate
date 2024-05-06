@@ -20,6 +20,8 @@ set :js_dir, 'javascripts'
 set :images_dir, 'images'
 set :fonts_dir, 'fonts'
 
+activate :i18n
+
 # Activate the syntax highlighter
 activate :syntax
 ready do
