@@ -192,7 +192,7 @@ curl 调用:
 
 参数: `NONE`
 
->200
+> 响应:
 
 
 ```json
@@ -209,7 +209,7 @@ curl 调用:
 
 参数: `NONE`
 
-> 200
+> 响应:
 
 ```json
 [
@@ -242,7 +242,7 @@ curl 调用:
 | limit        | Integer | 默认100;最大100       |
 | contractName | String  | 合约名称 如:E-BTC-USDT |
 
-> 200 成功获取深度信息
+> 响应:
 
 ```json
 {
@@ -278,7 +278,7 @@ curl 调用:
 |--------------|---------|-------------------|
 | contractName | String  | 合约名称 如:E-BTC-USDT |
 
-> 200 成功获取ticker信息
+> 响应:
 
 ```json
 {
@@ -299,7 +299,7 @@ curl 调用:
 | limit        | Integer | 默认100;最大100       |
 | contractName | String  | 合约名称 如:E-BTC-USDT |
 
-> 200
+> 响应:
 
 ```json
 {
@@ -322,7 +322,7 @@ curl 调用:
 | limit        | integer | 否    | 默认100; 最大300                                                                                   |
 | startTime    | long    | 否    | 时间戳，毫秒（ms）                                                                                     |
 | endTime      | long    | 否    | 时间戳，毫秒（ms）                                                                                     |
-> 200
+> 响应:
 
 ```json
 [
@@ -380,7 +380,7 @@ curl 调用:
 | clientOrderId | string | 否    | 客户端下单标识,长度小32位              |
 | timeInForce   | string | 否    | `IOC,FOK,POST_ONLY`         |
 
->200
+> 响应:
 
 ```json
 {
@@ -413,7 +413,7 @@ curl 调用:
 | positionType  | number | 否    | 持仓类型:`1:全仓/2:逐仓`            |
 | clientOrderId | string | 否    | 客户端下单标识,长度小32位              |
 
->200
+> 响应:
 
 ```json
 {
@@ -446,7 +446,7 @@ curl 调用:
 | contractName | string | 是    | 大写合约名称 `E-BTC-USDT` |
 | orderId      | string | 是    | 订单ID                |
 
->200
+> 响应:
 
 ```json
 {
@@ -471,7 +471,7 @@ curl 调用:
 | orderId       | string | 是    | 订单ID                |
 | clientOrderId | string | 否    | 客户端唯一标识             |
 
->200
+> 响应:
 
 ```json
 {
@@ -505,7 +505,7 @@ curl 调用:
 |---------------|--------|------|---------------------|
 | contractName  | string | 是    | 大写合约名称 `E-BTC-USDT` |
 
->200
+> 响应:
 
 ```json
 [
@@ -542,7 +542,7 @@ curl 调用:
 | limit        | string | 是    | 分页条数, 默认100; 最大1000 |
 | fromId       | long   | 否    | 从这条记录开始检索           |
 
->200
+> 响应:
 
 ```json
 [
@@ -589,7 +589,7 @@ curl 调用:
 | limit        | string | 是    | 分页条数, 默认100; 最大1000 |
 | fromId       | long   | 否    | 从这条记录开始检索           |
 
->200
+> 响应:
 
 ```json
 [
