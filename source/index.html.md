@@ -356,7 +356,7 @@ curl 调用:
 ## 安全类型: TRADE
 交易下方的接口都需要签名和API-KEY验证
 
-### 创建订单
+## 创建订单
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/order`
 #### 请求头
 
@@ -387,7 +387,7 @@ curl 调用:
     "orderId": 256609229205684228//订单ID
 }
 ```
-### 创建条件单
+## 创建条件单
 
 `POST` `https://futuresopenapi.xxx.com/fapi/v1/conditionOrder/`
 #### 请求头
@@ -429,7 +429,7 @@ curl 调用:
     "succ": true
 }
 ```
-### 取消订单
+## 取消订单
 `POST` `https://futuresopenapi.xxx.com/fapi/v1/cancel`
 
 #### 请求头
@@ -453,7 +453,7 @@ curl 调用:
     "orderId": 256609229205684228//订单ID
 }
 ```
-### 订单详情
+## 订单详情
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/order`
 
 #### 请求头
@@ -489,7 +489,7 @@ curl 调用:
     "status": "NEW"//订单状态。可能出现的值为：NEW(新订单，无成交)、PARTIALLY_FILLED（部分成交）、FILLED（全部成交）、CANCELED（已取消）和REJECTED（订单被拒绝）
 }
 ```
-### 当前订单
+## 当前订单
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/openOrders`
 
 #### 请求头
@@ -524,7 +524,7 @@ curl 调用:
     }
 ]
 ```
-### 历史委托
+## 历史委托
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/orderHistorical`
 
 #### 请求头
@@ -571,7 +571,7 @@ curl 调用:
     }
 ]
 ```
-### 盈亏记录
+## 盈亏记录
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/profitHistorical`
 
 #### 请求头
