@@ -1,4 +1,4 @@
-FROM ruby:2.6-slim
+FROM ruby:3.0.4
 
 WORKDIR /srv/slate
 
@@ -12,7 +12,7 @@ RUN apt-get update \
         build-essential \
         git \
         nodejs \
-    && gem install bundler -v 2.4.22 \
+    && gem install bundler \
     && bundle install \
     && apt-get remove -y build-essential git \
     && apt-get autoremove -y \
