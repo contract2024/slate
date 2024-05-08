@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
 set -o errexit #abort if any command fails
 # build futures-api/zh
-docker run --rm --name slate
--v $(pwd)/build/zh/latest/futures-api:/srv/slate/build
--v $(pwd)/futures-api/zh/index.html.md:/srv/slate/source/index.html.md
--v $(pwd)/futures-api/zh/includes:/srv/slate/source/includes
-futuresdocker/slate build
+docker run --rm --name slate -v $(pwd)/build/zh/latest/futures-api:/srv/slate/build -v $(pwd)/futures-api/zh/index.html.md:/srv/slate/source/index.html.md -v $(pwd)/futures-api/zh/includes:/srv/slate/source/includes futuresdocker/slate build
 # build futures-api/en
-docker run --rm --name slate
--v $(pwd)/build/en/latest/futures-api:/srv/slate/build
--v $(pwd)/futures-api/en/index.html.md:/srv/slate/source/index.html.md
--v $(pwd)/futures-api/en/includes:/srv/slate/source/includes
-futuresdocker/slate build
+#docker run --rm --name slate -v $(pwd)/build/en/latest/futures-api:/srv/slate/build -v $(pwd)/futures-api/en/index.html.md:/srv/slate/source/index.html.md -v $(pwd)/futures-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
 
 sudo cp $(pwd)/index.html $(pwd)/build
 
