@@ -6,7 +6,7 @@ docker run --rm --name slate1 -v $(pwd)/build/zh/latest/API-MPC:/srv/slate/build
 #docker run --rm --name slate -v $(pwd)/build/en/latest/futures-api:/srv/slate/build -v $(pwd)/futures-api/en/_index.md.erb.erb:/srv/slate/source/_index.md.erb.erb -v $(pwd)/futures-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
 
 
-sudo cp $(pwd)/CNAME $(pwd)/build
+#sudo cp $(pwd)/CNAME $(pwd)/build
 
 #docker run --rm --name slate -p 4567:4567 -v $(pwd)/source:/srv/slate/source futures-open-api/slate serve
 
