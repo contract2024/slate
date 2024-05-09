@@ -1,9 +1,11 @@
+
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
     <title>API Reference</title>
 
     <style media="screen">
@@ -291,6 +293,26 @@
   </head>
 
   <body class="index" data-languages="[&quot;java&quot;]">
+    <div class="header">
+        <div class="header-left">
+            <img src="images/logo-1e815a84.png" class="logo" alt="" />
+            <div class="header-line"></div>
+            <div class="header-nav-h5">
+                Custody WAPI
+                <ul class="header-nav-list-h5">
+                        <li class="header-nav__item"><a href="/zh/latest/API-MPC/index.html">MPC WALLET</a></li>
+                        <li class="header-nav__item"><a href="/zh/latest/API-WaaS-V2/index.html">Custody V2</a></li>
+                        <li class="header-nav__item active"><a href="/zh/latest/API-WAPI/index.html">Custody WAPI</a></li>
+                </ul>
+            </div>
+            <ul class="header-nav">
+                    <li class="header-nav__item"><a href="/zh/latest/API-MPC/index.html">MPC WALLET</a></li>
+                    <li class="header-nav__item"><a href="/zh/latest/API-WaaS-V2/index.html">Custody V2</a></li>
+                    <li class="header-nav__item active"><a href="/zh/latest/API-WAPI/index.html">Custody WAPI</a></li>
+            </ul>
+        </div>
+        <a class="switch-language" href="/en/latest/API-WAPI/index.html">English</a>
+    </div>
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -298,7 +320,6 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="java">java</a>
         </div>
@@ -345,6 +366,23 @@
                   </li>
                   <li>
                     <a href="#enum" class="toc-h2 toc-link" data-title="ENUM">ENUM</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#6db415da2a" class="toc-h3 toc-link" data-title="术语解释">术语解释</a>
+                          </li>
+                          <li>
+                            <a href="#4e4ca9ca80" class="toc-h3 toc-link" data-title="订单状态">订单状态</a>
+                          </li>
+                          <li>
+                            <a href="#8a2949b872" class="toc-h3 toc-link" data-title="订单种类">订单种类</a>
+                          </li>
+                          <li>
+                            <a href="#ba0138f8ea" class="toc-h3 toc-link" data-title="订单方向">订单方向</a>
+                          </li>
+                          <li>
+                            <a href="#k" class="toc-h3 toc-link" data-title="K线间隔">K线间隔</a>
+                          </li>
+                      </ul>
                   </li>
               </ul>
           </li>
@@ -365,6 +403,17 @@
                   </li>
                   <li>
                     <a href="#b754edd9d5" class="toc-h2 toc-link" data-title="订单薄">订单薄</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#ticker" class="toc-h3 toc-link" data-title="行情ticker">行情ticker</a>
+                          </li>
+                          <li>
+                            <a href="#c3474f0c9f" class="toc-h3 toc-link" data-title="获取指数/标记价格">获取指数/标记价格</a>
+                          </li>
+                          <li>
+                            <a href="#k-2" class="toc-h3 toc-link" data-title="K线/蜡烛图数据">K线/蜡烛图数据</a>
+                          </li>
+                      </ul>
                   </li>
               </ul>
           </li>
@@ -435,6 +484,23 @@
                   </li>
                   <li>
                     <a href="#enum-2" class="toc-h2 toc-link" data-title="ENUM">ENUM</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#6db415da2a-2" class="toc-h3 toc-link" data-title="术语解释">术语解释</a>
+                          </li>
+                          <li>
+                            <a href="#4e4ca9ca80-2" class="toc-h3 toc-link" data-title="订单状态">订单状态</a>
+                          </li>
+                          <li>
+                            <a href="#8a2949b872-2" class="toc-h3 toc-link" data-title="订单种类">订单种类</a>
+                          </li>
+                          <li>
+                            <a href="#ba0138f8ea-2" class="toc-h3 toc-link" data-title="订单方向">订单方向</a>
+                          </li>
+                          <li>
+                            <a href="#k-3" class="toc-h3 toc-link" data-title="K线间隔">K线间隔</a>
+                          </li>
+                      </ul>
                   </li>
               </ul>
           </li>
@@ -455,6 +521,17 @@
                   </li>
                   <li>
                     <a href="#b754edd9d5-2" class="toc-h2 toc-link" data-title="订单薄">订单薄</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#ticker-2" class="toc-h3 toc-link" data-title="行情ticker">行情ticker</a>
+                          </li>
+                          <li>
+                            <a href="#c3474f0c9f-2" class="toc-h3 toc-link" data-title="获取指数/标记价格">获取指数/标记价格</a>
+                          </li>
+                          <li>
+                            <a href="#k-4" class="toc-h3 toc-link" data-title="K线/蜡烛图数据">K线/蜡烛图数据</a>
+                          </li>
+                      </ul>
                   </li>
               </ul>
           </li>
