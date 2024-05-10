@@ -146,7 +146,7 @@ m -> minutes; h -> hours; day -> days; week -> weeks; month -> months
 
 # Market
 
-## Security:`None`
+### Security:`None`
 Public section can be accessed freely without requiring any API-key or signatures.
 
 ## Test Connectivity
@@ -330,7 +330,7 @@ Parameter: `NONE`
 ]
 ```
 # Trade
-## Security: TRADE
+### Security: TRADE
 The interface in Trade requires API-key and signature for access.
 
 ## Create new order
@@ -792,7 +792,7 @@ The interface in Trade requires API-key and signature for access.
 ```
 
 # Account
-##Security: USER_DATA
+### Security: USER_DATA
 The interface in Trade requires API-key and signature for access.
 
 ## Account Information
@@ -1150,11 +1150,11 @@ The returned error report generally consists of two parts: error code and error 
 ## 10xx - General server and network errors
 
 
-### -1000 UNKNOWN
+ -1000 UNKNOWN
 - An unknown error occurred while processing the request
 
 
-### -1001 DISCONNECTED
+ -1001 DISCONNECTED
 - Internal error, unable to process your request, please try again
 
 
@@ -1162,35 +1162,35 @@ The returned error report generally consists of two parts: error code and error 
 - You do not have permission to perform this request. The request requires sending an API key. We recommend appending the API key to all request headers.
 
 
-### -1003 TOO_MANY_REQUESTS
+ -1003 TOO_MANY_REQUESTS
 - The request is too frequent and exceeds the limit.
 
 
-### -1006 UNEXPECTED_RESP
+ -1006 UNEXPECTED_RESP
 - A message that does not conform to the preset format was received and the order status is unknown.
 
 
-### -1007 TIMEOUT
+ -1007 TIMEOUT
 - Timeout waiting for backend server response. The sending status is unknown; the execution status is unknown
 
 
-### -1014 UNKNOWN_ORDER_COMPOSITION
+ -1014 UNKNOWN_ORDER_COMPOSITION
 - Unsupported order combination
 
 
-### -1015 TOO_MANY_ORDERS
+ -1015 TOO_MANY_ORDERS
 - There are too many new orders. Please reduce the frequency of your requests
 
 
-### -1016 SERVICE_SHUTTING_DOWN
+ -1016 SERVICE_SHUTTING_DOWN
 - Server offline
 
 
-### -1017 ILLEGAL_CONTENT_TYPE
+ -1017 ILLEGAL_CONTENT_TYPE
 - We recommend appending Content-Type to all request headers and setting it to application/json
 
 
-### -1020 UNSUPPORTED_OPERATION
+ -1020 UNSUPPORTED_OPERATION
 - This operation is not supported
 
 
@@ -1199,42 +1199,42 @@ The returned error report generally consists of two parts: error code and error 
 - The time offset is too large. The server determines that the client time is more than 1 second ahead of the server time based on the timestamp in the request.
 
 
-### -1022 INVALID_SIGNATURE
+ -1022 INVALID_SIGNATURE
 - The signature for this request is invalid.
 
 
-### -1023 UNTIMESTAMP
+ -1023 UNTIMESTAMP
 - You do not have permission to perform this request, we recommend that you append X-CH-TS to all request headers
 
 
-### -1024 UNSIGNATURE
+ -1024 UNSIGNATURE
 - You do not have permission to perform this request. We recommend that you append X-CH-SIGN to the request header.
 
 
 ## 11xx - Issues in request content
 
 
-### -1100 ILLEGAL_CHARS
+ -1100 ILLEGAL_CHARS
 - Illegal characters found in parameter.
 
 
-### -1101 TOO_MANY_PARAMETERS
+ -1101 TOO_MANY_PARAMETERS
 - Too many parameters were sent.
 - Duplicate parameter value detected
 
 
-### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
+ -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
 - Mandatory parameter was not sent, was null/null or was malformed.
 - Mandatory parameter '%s' was not sent, empty/null or malformed.
 - Parameter '%s' or '%s' must be sent, but both are empty!
 
 
-### -1103 UNKNOWN_PARAM
+ -1103 UNKNOWN_PARAM
 - Unknown parameters were sent.
 - Each request requires at least one parameter {Timestamp}.
 
 
-### -1104 UNREAD_PARAMETERS
+ -1104 UNREAD_PARAMETERS
 
 # Official SDK
 

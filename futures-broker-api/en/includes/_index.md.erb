@@ -1,0 +1,702 @@
+# Instructions
+
+1. Before requesting the API interface in the document, merchants need to contact the product manager to obtain the public and private keys. We need to generate a pair of RSA public key and private key. The private key will be delivered to the merchant by product manager. And merchant needs to keep the private key for use in the following steps.
+2. Create a user trading account under the merchant, use this account to log in to the Web side, and obtain APIKey and SecretKey. (Same steps as using user-level OpenApi)
+3. To call the merchant-level open API interface, need add the following parameters to the request header：
+
+> { "X-CH-TS":"时间戳", "Ex-sign":"签名后文本", "Ex-ts":"时间戳"}
+
+4. The RSA algorithm is used to sign, the algorithm is as follows: The important thing is the signature need required correct parameters order. Before the paramMap is converted to json need use the Red-Black Tree data structure to format the parameters order. (Every port parameters entered which in this API document have correct order).
+
+> paramMap:Required parameters
+> time:The EX-ts which in the required head (Time stamp)
+> signContent：Unsigned data
+> String signContent = JSON.toJSONString(paramMap) + time
+
+```
+    /**
+      * RSA Signature
+      * @param content Data to be signed
+      * @param priKey Private key
+      * @return Signature value
+    */
+    public static String sign(String content, String priKey) {
+        try {
+            PrivateKey privateKey = getPrivateKey(priKey);
+            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+            signature.initSign(privateKey);
+            signature.update(content.getBytes());
+            byte[] signed = signature.sign();
+            return Base64.getEncoder().encodeToString(signed);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+```
+
+5. The interface involves the input of the user ID, and the interface contains a total of two types of user IDs.
+
+>  coUid:"contract user id (cloud uid)"
+> exUid:"exchange user id (originUid)"
+
+6. The interface is sensitive to the type of the input parameter, and the character type needs to be included with the symbol " ", and the numeric type does not.
+
+> String type : "Parameters"
+> Number type : 100
+
+7. All input parameters unless otherwise specified are mandatory. Number types are include integers and floating-point numbers, which are integer types unless otherwise specified.
+
+8. The exmple of access URL：
+   > https://futuresopenapi.xxx.com/v1/inner/interface
+
+# Interface information
+
+Note: All the following time formats are "yyyy-MM-dd HH:mm:ss" parameters and return value formats are json, where key is the parameter name and value are parameter type and definition.
+
+## 1. According to the brokerId, uid and time to query the merchant fee sharing
+
+`POST` `/v1/inner/get_broker_fee_share_by_broker_ctime`
+
+Examples of input parameters::
+
+```json
+{
+   "beginTime"    : "2000-01-01 00:00:00",
+   "brokerId"     : "0000",
+   "coUid"        : "000000",
+   "endTime"      : "2001-01-01 00:00:00",
+   "limit"        : "10",
+   "page"         : "1",
+   "type"         : "1",
+   "uid"          : "000000"
+}
+
+ -Examples of unsigned data:：
+signContent = {"beginTime":"2000-01-01 00:00:00","brokerId":"0000","endTime":"2000-01-01 00:00:00","limit":"10","page":"1","type":"1","uid":"000000"}946656000000
+```
+
+### Parameter:
+
+| Name      | Type   | Must | Description                                                         |
+| --------- | ------ | -------- | ------------------------------------------------------------ |
+| beginTime | String | yes       | begin time                                                      |
+| brokerId  | String | yes       | merchant id                                                       |
+| coUid     | String | no       | Non-required.If coUid and uid are both inputted,then use uid to query. If not input coUid and uid, then query all user |
+| endTime   | String | yes       | End date                                                     |
+| limit     | String | no       | Per page size(default 1000, Maximum 1000)                               |
+| page      | String | no       | Current page number                                              |
+| type      | String | yes       | Sharing type, 1: Merchant fee share(Currently, only this type of query is being opened) |
+| uid       | String | no       | exUid                                                        |
+
+### The parameters returned::
+```json
+{
+   "totalShareAmount"          :[String] "Total merchant share amount",
+   "total"                     :[number] "Total number of data",
+   "totalPlatformShareAmount"  :[String] "Total platform share amount",
+   "totalAmount"               :[String] "Total share amount (merchant+ platform)",
+   "records": [{
+      "id"                     :[number] "Autoincrement id",
+      "uid"                    :[number] "exUid",
+      "coUid"                  :[number] "coUid",
+      "ctime"                  :[String] "Create time",
+      "mtime"	               :[String] "Modify time",
+      "ctimeStamp"             :[number] "Create time timestamp",
+      "mtimeStamp"             :[number] "Modify time timestamp",
+      "shareAmount"            :[number] "Merchant sharing amount(Floating-point)",
+      "platformShareAmount"    :[number] "Platform share amount",
+      "totalShareAmountRecord" :[number] "Total share amount per record (merchant + platform)",
+      "brokerId"               :[number] "Merchant id",
+      "shareRatio"             :[number] "Share proportions(Floating-point)",
+      "contractId"             :[number] "Futures contract id"
+   }]
+}
+```
+## Position List
+`POST` `/v1/inner/get_position_list`
+
+Examples of input parameters::
+
+```json
+{
+  "endDate"   : "2023-06-01 00:00:00",
+  "originUid" : "123456",
+  "pageNum"   : "1",
+  "pageSize"  : "10",
+  "startDate" : "2023-01-01 00:00:00",
+  "status"    : "0"
+}
+ -Examples of unsigned data:：
+signContent = {"endDate":"2023-06-01 00:00:00","originUid":"123456","pageNum":"1","pageSize":"10","startDate":"2023-01-01 00:00:00","status":"0"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| endDate   | String | yes    | End date yyyy-MM-dd HH:mm:ss            |
+| originUid | String | yes    | exUid                              |
+| pageNum   | String | no    | Current page number                                |
+| pageSize  | String | yes    | Per page size(Default 10，Maximum 1000)                  |
+| startDate | String | no    | tart Date yyyy-MM-dd HH:mm:ss            |
+| status    | String | no    | Position status: 0 means query history position, 1 means current position, not 'status' parameter means query all position |
+
+### The parameters returned::
+```json
+{
+   "total"            :[number] "The number of data",
+   "current"          :[number] "Current page number",
+   "size"             :[number] "Per page size",
+   "dataList":[{
+      "maxFeeRate"        :[number]  "Maximum fee rate for closing positions(floating-point numbers)",
+      "returnRate"        :[number]  "ROE% /Return on equity rate(floating-point numbers)",
+      "positionType"      :[number]  "Holding type (1 Cross, 2 Isolated)",
+      "unRealizedAmount"  :[number]  "Unrealized Profit and Loss(floating-point numbers)",
+      "avgPrice"          :[number]  "Average holding price(floating-point numbers)",
+      "tradeFee"          :[number]  "Fee (floating-point numbers)",
+      "buy"               :[String]  "Judge whether it is a long position, it is true, otherwise, it is false",
+      "part"              :[String]  "Judge whether it is an isolated position, it is true, otherwise, it is false",
+      "realizedAmount"    :[number]  "Realized Profit and Loss(floating-point numbers)",
+      "openPrice"         :[number]  "Open price(floating-point numbers)",
+      "secret"            :[String]  "Position secret key",
+      "mtime"             :[String]  "Update time",
+      "mtimeStamp"	  :[String]  "Update time timeStamp",
+      "positionValue"     :[number]  "Position opening value (cumulative)(floating-point numbers)",
+      "closeProfit"       :[number]  "Closing profit and loss(floating-point numbers)",
+      "coinPrecious"      :[number]  "Coin Precious",
+      "uid"               :[number]  "coUid",
+      "originUid"         :[number]  "exUid",
+      "lockTime"          :[String]  "Liquidation lock time",
+      "lockTimeStamp"	  :[String]  "Liquidation lock time timestamp"
+      "closeVolume"       :[number]  "Closed Volume",
+      "keepRate"          :[number]  "Ladder minimum maintenance margin rate(floating-point numbers)",
+      "ctime"             :[String]  "Creation time",
+      "ctimeStamp"	  :[String]  "Creation time timeStamp",
+      "contractName"      :[String]  "Contract name",
+      "id"                :[number]  "Position id",
+      "pendingCloseVolume":[number]  "The volume of closing orders that have been placed",
+      "class"             :[String]  "Class name(Position data usage, without attention)",
+      "openRealizedAmount":[number]  "Unrealized profit and loss when opening a position(floating-point numbers)",
+      "brokerId"          :[number]  "Merchant ID",
+      "side"              :[String]  "Position direction",
+      "indexPrice"        :[number]  "Latest mark price(floating-point numbers)",
+      "positionBalance"   :[number]  "position value (contract size * volume * price)(floating-point numbers)",
+      "freezeLock"        :[number]  "Position freeze status: 0 normal, 1 liquidation freeze, 2 delivery freeze",
+      "leverageLevel"     :[number]  "Leverage multiple",
+      "tagPrice"          :[number]  "The current contract mark price(floating-point numbers)",
+      "shareAmount"       :[number]  "Allocation amount(floating-point numbers)",
+      "openAmount"        :[number]  "Opening margin（including delta）(floating-point numbers)",
+      "volume"            :[number]  "Position volume(floating-point numbers)",
+      "contractId"        :[number]  "Contract id",
+      "historyRealizedAmount" :[number]  "Historical cumulative realized profit and loss(floating-point numbers)",
+      "holdAmount"        :[number]  "Position margin(floating-point numbers)",
+      "closePrice"        :[number]  "Average closing price(floating-point numbers)",
+      "brokerName"        :[String]  "Merchant Name",
+      "capitalFee"        :[number]  "Funding Fee(floating-point numbers)",
+      "status"            :[number]  "Position validity, 0 is invalid, 1 is valid"
+   }]
+}
+
+```
+
+## Entrusted records
+`POST` `/v1/inner/get_entrusted_record`
+
+Examples of input parameters::
+
+```json
+{
+  "contractId"   : "0",
+  "contractName" : "E-BTC-USDT",
+  "endDate"      : "2023-06-01 00:00:00",
+  "originUid"    : "123456",
+  "originUids"   : "123456,112312,321231",
+  "pageNum"      : "1",
+  "pageSize"     : "10",
+  "startDate"    : "2023-01-01 00:00:00"
+}
+
+ -Examples of unsigned data:：
+signContent = {"contractId":"0","contractName":"E-BTC-USDT","endDate": "2023-06-01 00:00:00","originUid":"123456","originUids":"123456,112312,321231","pageNum":"1","pageSize":"10","startDate": "2023-01-01 00:00:00"}946656000000```
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| contractId   | String | no    | Futures contract id(Priority is given to contractName queries, not required)          |
+| contractName | String | no    | Futures contract currency name(not required. if contract name and contract id not input, query all)                             |
+| endDate   | String | no    | End date yyyy-MM-dd HH:mm:ss                                |
+| originUid  | String | no    | exUid                |
+| originUids | String | no    | exUids separated by ','. If input originUid and originUids at the same time, query originUid first.(The number of originUid maximum 10,non-required).            |
+| pageNum    | String | no    | The current page number |
+| pageSize    | String | no    | Per page size(Default 10，Maximum 1000) |
+| startDate    | String | yes    | Start date yyyy-MM-dd HH:mm:ss" |
+
+### The parameters returned::
+```json
+{
+   "total"    :[number] "The number of data",
+   "current"  :[number] "Current page number",
+   "size"     :[number] "Per page size",
+   "dataList":[{
+      "id"               :[number] "primary id",
+      "clientId"         :[number] "Client order identification",
+      "uid"              :[number] "coUid",
+      "positionType"     :[number] "Position type(1 Cross Margin，2 Isolated Margin)",
+      "open"             :[String] "Open and close the position direction (open position, close position)",
+      "side"             :[String] "Buying and selling direction(buy, sell)",
+      "type"             :[number] "Order type(1 limit; 2 market; 3 IOC; 4 FOK; 5 POST_ONLY; 6 Force liquidation, Only displayed on the page, not the record type in the database)",
+      "leverageLevel"    :[number] "Leverage multiplier",
+      "price"            :[number] "The price of place order(floating-point numbers)",
+      "volume"           :[number] "The number of place order (Open position Market Order: Amount)(floating-point numbers)",
+      "openTakerFeeRate" :[number] "Open position maker fee(floating-point numbers)",
+      "openMakerFeeRate" :[number] "Open position taker fee(floating-point numbers)",
+      "closeTakerFeeRate":[number] "Close position maker fee(floating-point numbers)",
+      "closeMakerFeeRate":[number] "Close position taker fee(floating-point numbers)",
+      "realizedAmount"   :[number] "Orders accumulate profit and loss(floating-point numbers)",
+      "dealVolume"       :[number] "Number of Transactions Completed (Cont.)",
+      "dealMoney"        :[number] "The amount of the transaction that has been filled(floating-point numbers)",
+      "avgPrice"         :[number] "Average transaction price(floating-point numbers)",
+      "tradeFee"         :[number] "Transaction fees(floating-point numbers)",
+      "status"           :[number] "Order status(0 init，1 new，2 filled，3 part_filled，4 canceled，5 pending_cancel，6 expired)",
+      "memo"             :[String] "Order status notes",
+      "source"           :[number] "Source of the order(1web,2app,3api,4Other)",
+      "ctime"            :[String] "Create time",
+      "ctimeStamp"       :[number] "create time timestamp",
+      "mtime"            :[String] "Modify time",
+      "mtimeStamp"       :[number] "Modify time timestamp",
+      "brokerId"         :[number] "Merchant id"
+   }]
+}
+
+```
+
+## Query the transaction history
+`POST` `/v1/inner/get_trade_record`
+
+Examples of input parameters::
+
+```json
+{
+  "contractId"   : "0",
+  "contractName" : "E-BTC-USDT",
+  "endDate"      : "2023-06-01 00:00:00",
+  "originUid"    : "123456",
+  "pageNum"      : "1",
+  "pageSize"     : "10",
+  "startDate"    : "2023-01-01 00:00:00"
+}
+
+ -Examples of unsigned data:：
+signContent = {"contractId":"0","contractName":"E-BTC-USDT","endTime":"1692164611000","originUid":"123456","pageNum":"1","pageSize":"10","startTime":"1674193411000"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| contractId   | String | no    | Futures contract id(Priority is given to contractName queries, not required)          |
+| contractName | String | no    | Futures contract currency name                              |
+| endDate   | String | no    | End date yyyy-MM-dd HH:mm:ss                                |
+| originUid  | String | no    | exUid                |
+| pageNum    | String | no    | The current page number |
+| pageSize    | String | no    | Per page size(Default 10，Maximum 1000) |
+| startDate    | String | yes    | Start date yyyy-MM-dd HH:mm:ss" |
+
+### The parameters returned::
+```json
+{
+   "total"    :[number] "The number of data",
+   "current"  :[number] "Current page number",
+   "size"     :[number] "Per page size",
+   "dataList":
+   [{
+      "id"        :[number] "Primary key",
+      "price"     :[number] "Deal price(floating-point numbers)",
+      "volume"    :[number] "Deal volume(floating-point numbers)",
+      "bidId"     :[number] "Buy order id",
+      "askId"     :[number] "Sell order id",
+      "trendSide" :[String] "Active order direction",
+      "bidUserId" :[number] "Buy order user id",
+      "askUserId" :[number] "Sell order user id",
+      "buyFee"    :[number] "Buy order fee(floating-point numbers)",
+      "sellFee"   :[number] "Sell order fee(floating-point numbers)",
+      "bidCid"    :[number] "Buy order merchant id",
+      "askCid"    :[number] "Sell order merchant id",
+      "ctime"     :[String] "Create time",
+      "ctimeStamp":[number] "Create time timestamp",
+      "mtime"     :[String] "Modify time",
+      "mtimeStamp":[number] "Modify time timestamp"
+   }]
+}
+
+
+```
+## Position Detail
+`POST` `/v1/inner/get_position_detail`
+
+Examples of input parameters::
+
+```json
+{
+  "positionId":"123456"
+}
+ -Examples of unsigned data:：
+signContent = {"positionId":"123456"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| positionId   | String | no    | position id            |
+
+### The parameters returned::
+```json
+{
+   "resultDate": {
+      "contactName"             :[String] "Futures contract name",
+      "side"                    :[String] "Direction",
+      "positionType"            :[number] "Hold position type(1 Cross Margin，2 Isolated Margin)",
+      "leverageLevel"           :[number] "Leverage Multiple",
+      "status"                  :[number] "Status",
+      "holdVolume"              :[number] "Hold number of volume(floating-point numbers)",
+      "closeVolume"             :[number] "Manually close position volume(floating-point numbers)",
+      "volume"                  :[number] "Hold position volume(floating-point numbers)",
+      "mergeVolume"             :[number] "Number of combined cont",
+      "liquidationVolume"       :[number] "Number of liquidation cont",
+      "historyRealizedAmount"   :[number] "Total historical profit and loss(floating-point numbers)",
+      "realizedAmount"          :[number] "Position settlement profit and loss(floating-point numbers)",
+      "capitalFee"              :[number] "Funding cost(floating-point numbers)",
+      "tradeFee"                :[number] "Handing fee(floating-point numbers)",
+      "shareAmount"             :[number] "Share amount(floating-point numbers)",
+      "openPrice"               :[number] "Open price(floating-point numbers)",
+      "openEndPrice"            :[number] "Average final price of open position(floating-point numbers)",
+      "avgPrice"                :[number] "Average position price(floating-point numbers)",
+      "tagPrice"                :[number] "Tag price(floating-point numbers)",
+      "holdMargin"              :[number] "Margin for open position(floating-point numbers)",
+      "marginRate"              :[number] "Margin rate(floating-point numbers)",
+      "holdAmount"              :[number] "Profit and loss of open position(floating-point numbers)",
+      "closeAmount"             :[number] "Profit and loss of close position(floating-point numbers)",
+      "brokerName"              :[String] "Merchant name",
+      "marginCoin"              :[String] "Margin coin",
+      "ctime"                   :[String] "Create time",
+      "ctimeStamp"		:[number] "Create time timestamp",
+      "mtime"                   :[String] "Modify time",
+      "mtimeStamp"		:[number] "Modify time timestamp",
+      "liquidation":[{
+         "lockTime"             :[String] "Force liquidation time",
+         "lockTimeStamp"	:[number] "Force liquidation time timestamp",
+         "subVolume"            :[number] "Force liquidation volume(floating-point numbers)",
+         "forcedPrice"          :[number] "Force liquidation price(floating-point numbers)",
+         "takeOverPrice"        :[number] "System take over price(floating-point numbers)",
+         "openPrice"            :[number] "Open position average price(floating-point numbers)",
+         "keepRate"             :[number] "Maintenance margin rate(floating-point numbers)",
+         "liquidationLoss"      :[number] "Force liquidation loss(floating-point numbers)"
+      }]
+   }
+}
+```
+
+## Query user id list(According to the positive order of contract UID, the maximum limit is 1000)
+`POST` `/v1/inner/get_uid_list`
+
+Examples of input parameters::
+
+```json
+{
+  "limit"   : "100",
+  "startUid": "0"
+}
+
+ -Examples of unsigned data:：
+signContent = {"limit":"100","startUid":"0"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| limit   | String | no    | Returns the number of entries(Default 20, maximum return 1000 data)           |
+| startUid   | String | no    | coUid,The first start ID in the user data, the first time to query please enters 0 (The return value does not contain the input user id)            |
+
+### The parameters returned::
+```json
+{
+"msg":"成功(Success)",
+"code":"0",
+"data":
+   {"uidInfo":
+     [{
+        "coUid": [number] "Futures contract user id(cloud uid)",
+        "exUid": [number] "exchange user id(originUid)"
+     }]
+   }
+}
+```
+
+## Query the list of transfer records
+`POST` `/v1/inner/get_trans_records`
+
+Examples of input parameters::
+
+```json
+{
+  "endTime"      : "948656000000",
+  "limit"        : "10",
+  "page"         : "1",
+  "startTime"    : "946656000000",
+  "transferType" : "wallet_to_contract",
+  "uid"          : "123456"
+}
+ -Examples of unsigned data:：
+signContent = {"endTime":"948656000000","limit":"10","page":"1","startTime":"946656000000","transferType":"wallet_to_contract","uid":"123456"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| endTime   | String | yes    | End date            |
+| limit   | String | no    | The number of return data(Default 20, Maximum 1000)            |
+| page   | String | no    | The number of page            |
+| startTime   | String | yes    | Start date            |
+| transferType   | String | no    | Transfer direction type(Include futures transfer to spot:contract_to_wallet. And Spot transfer to futures: wallet_to_contract)"           |
+| uid   | String | no    | coUid           |
+
+### The parameters returned::
+```json
+{
+   "msg":"成功(Success)",
+   "code":"0",
+   "data":
+    {"transRecords":
+      [{
+         "uid"          :[number] "coUid",
+         "amount"       :[number] "Transfer amount(floating-point numbers)",
+         "unionId"      :[String] "Unique ID",
+         "coinSymbol"   :[String] "Transfer currency",
+         "transferType" :[String] "Transfer direction type",
+         "ctime"        :[String] "Transfer record create time",
+	 "ctimeStamp"	:[number] "Transfer record create time timestamp",
+         "type"         :[number] "Transfer type(1:Normal transfer, 2:Bonus transfer)",
+         "brokerName"   :[String] "Merchant name",
+         "status"       :[number] "Transfer status(0:Paying, 1:Success, 2:Fail)"
+      }]
+    }
+}
+```
+
+## Query all the user asset of the merchant
+`POST` `/v1/inner/get_trans_records`
+
+Examples of input parameters::
+
+```json
+{
+  "endDate"   : "2023-06-01 00:00:00",
+  "page"      : 1,
+  "pageSize"  : 10,
+  "startDate" : "2023-01-01 00:00:00",
+  "uid"       : 123456
+}
+ -Examples of unsigned data:：
+signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate":"2023-01-01 00:00:00","uid":123456}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| endDate   | String | yes    | End dateyyyy-MM-dd HH:mm:ss            |
+| pageSize   | String | no    | The number of return data(Default 20, Maximum 1000)            |
+| page   | String | no    | The number of page            |
+| startTime   | String | yes    | Start date            |
+| uid   | String | no    | coUid            |
+
+### The parameters returned::
+```json
+{
+"code": "0",
+"data":
+  {
+     "record":
+     [{
+        "uid"         :[number]  "coUid",
+        "totalBalance":[number]  "User asset(floating-point numbers)",
+        "symbol"      :[String]  "Currency",
+     }],
+     "total":[number] "Total data number"
+  },
+"msg": "成功(success)"
+}
+```
+
+## Query the Insurance funds and flow of the merchant
+`POST` `/v1/inner/risk_amount`
+
+Examples of input parameters::
+
+```json
+{
+  "endDate"   : "2023-06-01 00:00:00",
+  "page"      : 1,
+  "pageSize"  : 10,
+  "startDate" : "2023-01-01 00:00:00"
+}
+ -Examples of unsigned data:：
+signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate":"2023-01-01 00:00:00"}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                 |
+|-----------|--------|------|------------------------------------|
+| endDate   | String | yes    | End date yyyy-MM-dd HH:mm:ss            |
+| pageSize   | String | no    | The number of return data(Default 20, Maximum 1000)            |
+| page   | String | no    | The number of page            |
+| startDate   | String | yes    | Start date yyyy-MM-dd HH:mm:ss            |
+
+### The parameters returned::
+```json
+{
+   "code": "0",
+   "data":
+   {
+      "riskAmount":[number]  "Insurance fund(floating-point numbers)",
+      "symbol"    :[String]  "Currency",
+      "total"     :[number]  "The number of insurance flow",
+      "record":
+      [{
+         "symbol" 	:[String]  "Currency",
+         "mTime"  	:[number]  "Flow record time stamp",
+	 "mTimeDate"    :[String]  "Flow record time",
+         "amount" 	:[number]  "Flow fund (Income is +, Expenditure is -)(floating-point numbers)"
+      }]
+   },
+   "msg": "成功(Success)"
+
+}
+
+```
+
+## Query the contract information of this merchant
+`GET` `/fapi/v1/contracts`
+
+
+### The parameters returned::
+```json
+[
+  {
+     "symbol"           :[String]  "Contract name",
+     "pricePrecision"   :[number]  "Price accuracy",
+     "side"             :[number]  "Contract direction 0 reverse 1 forward",
+     "maxMarketVolume"  :[number]  "The maximum number of market orders",
+     "multiplier"       :[number]  "Contract par value(floating-point numbers)",
+     "minOrderVolume"   :[number]  "Minimum order quantity",
+     "maxMarketMoney"   :[number]  "The maximum order amount placed at the market price(floating-point numbers)",
+     "type"             :[String]  "Contract type，E:Perpetual contracts W:week N:next week M:month Q:Quarter",
+     "maxLimitVolume"   :[number]  "The maximum number of limit orders to place",
+     "maxValidOrder"    :[number]  "The maximum number of orders that are validly ordered",
+     "multiplierCoin"   :[String]  "Contract par value units",
+     "minOrderMoney"    :[number]  "Minimum order amount(floating-point numbers)",
+     "maxLimitMoney"    :[number]  "The maximum order amount for limit orders(floating-point numbers)",
+     "contractId"       :[number]  "Contract ID",
+     "status"           :[number]  "Contract status（0：Not tradable，1：Tradable）"
+  }
+]
+
+```
+
+## Query user assets
+`POST` `/v1/inner/user_account_balance`
+
+Examples of input parameters::
+
+```json
+{
+  "coin" : "USDT",
+  "uid"  : 123456,
+  "pageSize" : 1,
+  "pageNum" : 10
+}
+ -Examples of unsigned data:：
+signContent = {"coin":"USDT","uid":123456,"pageSize":1,"pageNum":10}946656000000
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                                           |
+|-----------|--------|------|--------------------------------------------------------------|
+| coin   | String | yes    | The margin currency of the query                                                     |
+| uid   | number | no    | exUid                                                        |
+| pageSize   | number | no    | The number of data each page (Maximum 100, at present, due to query performance, too much data per page will lead to query timeout, it is recommended that the maximum pageSize = 30 for querying ,and the performance of this query will be optimised later.) |
+| pageNum   | number | no    | The current page number (Please set pageNum to 1 when querying for a specified uid.) |
+
+### The parameters returned::
+```json
+{
+   "code": "0",
+   "data":
+   {
+      "uid"             :[number] "exUid",
+      "crossBalance"    :[String] "User cross balance",
+      "isolatedBalance" :[String] "User isolated balance",
+      "totalBalance"    :[String] "User total balance",
+      "frozenBalance"   :[String] "User frozen balance"
+   },
+   "msg": "success"
+}
+
+```
+
+## Query user fund transactions
+`POST` ` /v1/inner/transaction_funding_record`
+
+Examples of input parameters::
+
+```json
+{
+  "beginTime" : "2023-01-01 08:00:00",
+  "endTime"   : "2023-01-02 08:00:00",
+  "page"      : 1,
+  "limit"     : 10,
+  "uid"       : 3221231
+}
+
+ -Examples of unsigned data:：
+signContent = {"beginTime":"2023-01-01 08:00:00","endTime":"2023-01-02 08:00:00","page":1,"limit":10,"uid":3221231}946656000000```
+```
+
+### parameters:
+
+| Name        | Type     | Must | Description                                             |
+|-----------|--------|------|------------------------------------------------|
+| beginTime   | String | yes    | The filter time of begining, the format is:yyyy-MM-dd HH:mm:ss                      |
+| endTime   | number | no    | The filter time of ending, the format is:yyyy-MM-dd HH:mm:ss                      |
+| limit   | number | no    | The number of data each page (Non-required, Maximum 100, Default 100) |
+| page   | number | no    | Current page number (Non-required Default 1)                  |
+| uid   | number | yes    | coUid                                           |
+
+### The parameters returned::
+```json
+{
+  "data": [
+    {
+      "uid",
+      "contractName",
+      "contractOtherName":,
+      "timeStamp",
+      "type",
+      "date",
+      "amount"
+    }
+  ],
+  "page",
+  "limit"
+}
+
+```
