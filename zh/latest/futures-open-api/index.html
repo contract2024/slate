@@ -476,6 +476,60 @@
                   <li>
                     <a href="#bd9157656f" class="toc-h2 toc-link" data-title="账户信息">账户信息</a>
                   </li>
+                  <li>
+                    <a href="#websocket" class="toc-h2 toc-link" data-title="Websocket推送">Websocket推送</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#153042ed9e" class="toc-h3 toc-link" data-title="概述">概述</a>
+                          </li>
+                          <li>
+                            <a href="#b122f813d5-2" class="toc-h3 toc-link" data-title="基本信息">基本信息</a>
+                          </li>
+                          <li>
+                            <a href="#demo" class="toc-h3 toc-link" data-title="Demo">Demo</a>
+                          </li>
+                          <li>
+                            <a href="#00a0f1327d" class="toc-h3 toc-link" data-title="订阅全量深度">订阅全量深度</a>
+                          </li>
+                          <li>
+                            <a href="#6c81f8d216" class="toc-h3 toc-link" data-title="订阅实时成交">订阅实时成交</a>
+                          </li>
+                          <li>
+                            <a href="#k-3" class="toc-h3 toc-link" data-title="订阅k线行情">订阅k线行情</a>
+                          </li>
+                          <li>
+                            <a href="#24h-ticker" class="toc-h3 toc-link" data-title="订阅24h行情ticker">订阅24h行情ticker</a>
+                          </li>
+                          <li>
+                            <a href="#k-4" class="toc-h3 toc-link" data-title="请求k线历史数据">请求k线历史数据</a>
+                          </li>
+                          <li>
+                            <a href="#3cf0f7e533" class="toc-h3 toc-link" data-title="请求成交记录">请求成交记录</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#e08c1d4f9a" class="toc-h2 toc-link" data-title="错误码">错误码</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#10xx" class="toc-h3 toc-link" data-title="10xx - 通用服务器和网络错误">10xx - 通用服务器和网络错误</a>
+                          </li>
+                          <li>
+                            <a href="#11xx" class="toc-h3 toc-link" data-title="11xx - 请求内容中的问题">11xx - 请求内容中的问题</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#sdk" class="toc-h2 toc-link" data-title="SDK 开发库">SDK 开发库</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#09957702bc-2" class="toc-h3 toc-link" data-title="签名示例">签名示例</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#0adb1147b3" class="toc-h2 toc-link" data-title="常见问题">常见问题</a>
+                  </li>
               </ul>
           </li>
       </ul>
@@ -2149,7 +2203,642 @@
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='websocket'>Websocket推送</h2><h3 id='153042ed9e'>概述</h3>
+<p>WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服务器全双工通信， 使得数据可以快速地双向传播。通过一次简单的握手就可以建立客户端和服务器连接， 服务器根据业务规则可以主动推送信息给客户端。其优点如下：</p>
+
+<ul>
+<li>客户端和服务器进行数据传输时，请求头信息比较小，大概2个字节。</li>
+<li>客户端和服务器皆可以主动地发送数据给对方。</li>
+<li>不需要多次创建TCP请求和销毁，节约宽带和服务器的资源。</li>
+</ul>
+
+<p><strong>强烈建议开发者使用WebSocket API获取市场行情和买卖深度等信息。</strong></p>
+<h3 id='b122f813d5-2'>基本信息</h3>
+<ul>
+<li>合约行情基础站点: <a href="wss://futuresws.xxx.xxx/kline-api/ws">wss://futuresws.xxx.xxx/kline-api/ws</a> 其中<code>xxx.xxx</code>替换成交易所的主域</li>
+<li>返回数据除了心跳数据都会二进制压缩(用户需要通过Gzip算法进行解压)</li>
+</ul>
+<h3 id='demo'>Demo</h3>
+<p><a href="https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java">https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java</a></p>
+<h4 id='13b6328c37'>参数示例</h4>
+<table><thead>
+<tr>
+<th>event</th>
+<th>channel</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>sub</code></td>
+<td><code>market_$symbol_depth_step0</code></td>
+<td><code>订阅深度</code></td>
+</tr>
+<tr>
+<td><code>unsub</code></td>
+<td><code>market_$symbol_depth_step0</code></td>
+<td><code>取消订阅深度</code></td>
+</tr>
+<tr>
+<td><code>sub</code></td>
+<td><code>market_$symbol_trade_ticker</code></td>
+<td><code>订阅实时成交</code></td>
+</tr>
+<tr>
+<td><code>unsub</code></td>
+<td><code>market_$symbol_trade_ticker</code></td>
+<td><code>取消订阅实时成交</code></td>
+</tr>
+<tr>
+<td><code>sub</code></td>
+<td><code>market_$symbol_ticker</code></td>
+<td><code>订阅24h行情数据</code></td>
+</tr>
+<tr>
+<td><code>unsub</code></td>
+<td><code>market_$symbol_ticker</code></td>
+<td><code>取消订阅24h行情数据</code></td>
+</tr>
+<tr>
+<td><code>sub</code></td>
+<td><code>market_$symbol_kline_1min</code></td>
+<td><code>订阅1min实时k线信息</code></td>
+</tr>
+<tr>
+<td><code>req</code></td>
+<td><code>market_$symbol_kline_1month</code></td>
+<td><code>请求1month历史k线记录</code></td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"pong"</span><span class="p">:</span><span class="w"> </span><span class="mi">15359750</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='00a0f1327d'>订阅全量深度</h3>
+<ul>
+<li>订阅数据样例
+<code>json
+{
+&quot;event&quot;:&quot;sub&quot;,
+&quot;params&quot;:{
+&quot;channel&quot;:&quot;market_$symbol_depth_step0&quot;, // $symbol E.g. 币币:btcusdt 合约:e_btcusdt
+&quot;cb_id&quot;:&quot;1&quot; // 业务id 非必填
+}
+}
+</code></li>
+<li>返回买卖盘最多30条数据</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_btcusdt_depth_step0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tick"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"asks"</span><span class="p">:[</span><span class="w"> </span><span class="err">//卖盘</span><span class="w">
+            </span><span class="p">[</span><span class="mf">10000.19</span><span class="p">,</span><span class="mf">0.93</span><span class="p">],</span><span class="w">
+            </span><span class="p">[</span><span class="mf">10001.21</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span><span class="w">
+            </span><span class="p">[</span><span class="mf">10002.22</span><span class="p">,</span><span class="mf">0.34</span><span class="p">]</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nl">"buys"</span><span class="p">:[</span><span class="w"> </span><span class="err">//买盘</span><span class="w">
+            </span><span class="p">[</span><span class="mf">9999.53</span><span class="p">,</span><span class="mf">0.93</span><span class="p">],</span><span class="w">
+            </span><span class="p">[</span><span class="mf">9998.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span><span class="w">
+            </span><span class="p">[</span><span class="mf">9997.19</span><span class="p">,</span><span class="mf">0.21</span><span class="p">]</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='6c81f8d216'>订阅实时成交</h3>
+<ul>
+<li>订阅数据样例</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event"</span><span class="p">:</span><span class="s2">"sub"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_trade_ticker"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">$symbol</span><span class="w"> </span><span class="err">E.g.</span><span class="w"> </span><span class="err">币币:btcusdt</span><span class="w"> </span><span class="err">合约:e_btcusdt</span><span class="w">
+        </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"1"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">业务id</span><span class="w"> </span><span class="err">非必填</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
+<ul>
+<li>返回</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_trade_ticker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="err">//请求时间</span><span class="w">
+    </span><span class="nl">"tick"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="mi">12121</span><span class="p">,</span><span class="err">//data中最大交易ID</span><span class="w">
+        </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="err">//data中最大时间</span><span class="w">
+        </span><span class="nl">"data"</span><span class="p">:[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="err">//买卖方向buy</span><span class="p">,</span><span class="err">sell</span><span class="w">
+                </span><span class="nl">"price"</span><span class="p">:</span><span class="mf">32.233</span><span class="p">,</span><span class="err">//单价</span><span class="w">
+                </span><span class="nl">"vol"</span><span class="p">:</span><span class="mi">232</span><span class="p">,</span><span class="err">//数量</span><span class="w">
+                </span><span class="nl">"amount"</span><span class="p">:</span><span class="mi">323</span><span class="p">,</span><span class="err">//总额</span><span class="w">
+                </span><span class="nl">"ds"</span><span class="p">:</span><span class="err">'</span><span class="mi">2017-09-10</span><span class="w"> </span><span class="mi">23</span><span class="err">:</span><span class="mi">12</span><span class="err">:</span><span class="mi">21</span><span class="err">'</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='k-3'>订阅k线行情</h3>
+<ul>
+<li>订阅数据样例</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event"</span><span class="p">:</span><span class="s2">"sub"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">$symbol</span><span class="w"> </span><span class="err">E.g.</span><span class="w"> </span><span class="err">btcusdt</span><span class="w">
+        </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"1"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">业务id</span><span class="w"> </span><span class="err">非必填</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<ul>
+<li>返回</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_kline_1min"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="mi">1</span><span class="err">min代表</span><span class="mi">1</span><span class="err">分钟k线</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="err">//请求时间</span><span class="w">
+    </span><span class="nl">"tick"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="mi">1506602880</span><span class="p">,</span><span class="err">//时间刻度起始值</span><span class="w">
+        </span><span class="nl">"vol"</span><span class="p">:</span><span class="mf">1212.12211</span><span class="p">,</span><span class="err">//交易量</span><span class="w">
+        </span><span class="nl">"open"</span><span class="p">:</span><span class="mf">2233.22</span><span class="p">,</span><span class="err">//开盘价</span><span class="w">
+        </span><span class="nl">"close"</span><span class="p">:</span><span class="mf">1221.11</span><span class="p">,</span><span class="err">//收盘价</span><span class="w">
+        </span><span class="nl">"high"</span><span class="p">:</span><span class="mf">22322.22</span><span class="p">,</span><span class="err">//最高价</span><span class="w">
+        </span><span class="nl">"low"</span><span class="p">:</span><span class="mf">2321.22</span><span class="err">//最低价</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='24h-ticker'>订阅24h行情ticker</h3>
+<ul>
+<li>订阅数据样例</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event"</span><span class="p">:</span><span class="s2">"sub"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_ticker"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">$symbol</span><span class="w"> </span><span class="err">E.g.</span><span class="w"> </span><span class="err">币币:btcusdt</span><span class="w"> </span><span class="err">合约:e_btcusdt</span><span class="w">
+        </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"1"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">业务id</span><span class="w"> </span><span class="err">非必填</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<ul>
+<li>返回</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_ticker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="err">//请求时间</span><span class="w">
+    </span><span class="nl">"tick"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="mf">123.1221</span><span class="p">,</span><span class="err">//交易额</span><span class="w">
+        </span><span class="nl">"vol"</span><span class="p">:</span><span class="mf">1212.12211</span><span class="p">,</span><span class="err">//交易量</span><span class="w">
+        </span><span class="nl">"open"</span><span class="p">:</span><span class="mf">2233.22</span><span class="p">,</span><span class="err">//开盘价</span><span class="w">
+        </span><span class="nl">"close"</span><span class="p">:</span><span class="mf">1221.11</span><span class="p">,</span><span class="err">//收盘价</span><span class="w">
+        </span><span class="nl">"high"</span><span class="p">:</span><span class="mf">22322.22</span><span class="p">,</span><span class="err">//最高价</span><span class="w">
+        </span><span class="nl">"low"</span><span class="p">:</span><span class="mf">2321.22</span><span class="p">,</span><span class="err">//最低价</span><span class="w">
+        </span><span class="nl">"rose"</span><span class="p">:</span><span class="mf">-0.2922</span><span class="p">,</span><span class="err">//涨幅</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='k-4'>请求k线历史数据</h3>
+<ul>
+<li>请求数据样例</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event"</span><span class="p">:</span><span class="s2">"req"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"endIdx"</span><span class="p">:</span><span class="s2">"1506602880"</span><span class="p">,</span><span class="w"> </span><span class="err">//返回endIdx前pageSize条数据</span><span class="w">  </span><span class="err">非必填</span><span class="w">
+        </span><span class="nl">"pageSize"</span><span class="p">:</span><span class="mi">100</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">非必填</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<ul>
+<li>返回</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event_rep"</span><span class="p">:</span><span class="s2">"rep"</span><span class="p">,</span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_kline_5min"</span><span class="p">,</span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"原路返回"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="err">//请求时间</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:[</span><span class="w"> </span><span class="err">//最多</span><span class="mi">300</span><span class="err">条</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="mi">1506602880</span><span class="p">,</span><span class="err">//时间刻度起始值</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="mf">123.1221</span><span class="p">,</span><span class="err">//交易额</span><span class="w">
+            </span><span class="nl">"vol"</span><span class="p">:</span><span class="mf">1212.12211</span><span class="p">,</span><span class="err">//交易量</span><span class="w">
+            </span><span class="nl">"open"</span><span class="p">:</span><span class="mf">2233.22</span><span class="p">,</span><span class="err">//开盘价</span><span class="w">
+            </span><span class="nl">"close"</span><span class="p">:</span><span class="mf">1221.11</span><span class="p">,</span><span class="err">//收盘价</span><span class="w">
+            </span><span class="nl">"high"</span><span class="p">:</span><span class="mf">22322.22</span><span class="p">,</span><span class="err">//最高价</span><span class="w">
+            </span><span class="nl">"low"</span><span class="p">:</span><span class="mf">2321.22</span><span class="err">//最低价</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="mi">1506602880</span><span class="p">,</span><span class="err">//时间刻度起始值</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="mf">123.1221</span><span class="p">,</span><span class="err">//交易额</span><span class="w">
+            </span><span class="nl">"vol"</span><span class="p">:</span><span class="mf">1212.12211</span><span class="p">,</span><span class="err">//交易量</span><span class="w">
+            </span><span class="nl">"open"</span><span class="p">:</span><span class="mf">2233.22</span><span class="p">,</span><span class="err">//开盘价</span><span class="w">
+            </span><span class="nl">"close"</span><span class="p">:</span><span class="mf">1221.11</span><span class="p">,</span><span class="err">//收盘价</span><span class="w">
+            </span><span class="nl">"high"</span><span class="p">:</span><span class="mf">22322.22</span><span class="p">,</span><span class="err">//最高价</span><span class="w">
+            </span><span class="nl">"low"</span><span class="p">:</span><span class="mf">2321.22</span><span class="err">//最低价</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='3cf0f7e533'>请求成交记录</h3>
+<ul>
+<li>请求数据样例</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event"</span><span class="p">:</span><span class="s2">"req"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_trade_ticker"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">$symbol</span><span class="w"> </span><span class="err">E.g.</span><span class="w"> </span><span class="err">币币:btcusdt</span><span class="w"> </span><span class="err">合约:e_btcusdt</span><span class="w">
+        </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"1"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">业务id</span><span class="w"> </span><span class="err">非必填</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<ul>
+<li>返回</li>
+</ul>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"event_rep"</span><span class="p">:</span><span class="s2">"rep"</span><span class="p">,</span><span class="nl">"channel"</span><span class="p">:</span><span class="s2">"market_$symbol_trade_ticker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cb_id"</span><span class="p">:</span><span class="s2">"原路返回"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ts"</span><span class="p">:</span><span class="mi">1506584998239</span><span class="p">,</span><span class="nl">"status"</span><span class="p">:</span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="err">//买卖方向buy</span><span class="p">,</span><span class="err">sell</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="mf">32.233</span><span class="p">,</span><span class="err">//单价</span><span class="w">
+            </span><span class="nl">"vol"</span><span class="p">:</span><span class="mi">232</span><span class="p">,</span><span class="err">//数量</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="mi">323</span><span class="err">//总额</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="err">//买卖方向buy</span><span class="p">,</span><span class="err">sell</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="mf">32.233</span><span class="p">,</span><span class="err">//单价</span><span class="w">
+            </span><span class="nl">"vol"</span><span class="p">:</span><span class="mi">232</span><span class="p">,</span><span class="err">//数量</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="mi">323</span><span class="err">//总额</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='e08c1d4f9a'>错误码</h2>
+<p>错误码解释说明</p>
+
+<p>返回报错一般由两个部分组成：错误码和错误信息。错误码是通用的，但是错误信息会有所不同。如下是一个报错JSON Payload示例：</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"code"</span><span class="p">:</span><span class="mi">-1121</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"msg"</span><span class="p">:</span><span class="s2">"Invalid symbol."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='10xx'>10xx - 通用服务器和网络错误</h3><h4 id='1000-unknown'>-1000 UNKNOWN</h4>
+<ul>
+<li>处理请求时发生未知错误</li>
+</ul>
+<h4 id='1001-disconnected'>-1001 DISCONNECTED</h4>
+<ul>
+<li>内部错误, 无法处理您的请求, 请再试一次</li>
+</ul>
+<h4 id='1002-unauthorized'>1002 UNAUTHORIZED</h4>
+<ul>
+<li>您无权执行此请求. 请求需要发送API key,  我们建议在所有的请求头附加API key</li>
+</ul>
+<h4 id='1003-too_many_requests'>-1003 TOO_MANY_REQUESTS</h4>
+<ul>
+<li>请求过于频繁超过限制.</li>
+</ul>
+<h4 id='1006-unexpected_resp'>-1006 UNEXPECTED_RESP</h4>
+<ul>
+<li>接收到了不符合预设格式的消息，下单状态未知</li>
+</ul>
+<h4 id='1007-timeout'>-1007 TIMEOUT</h4>
+<ul>
+<li>等待后端服务器响应超时。 发送状态未知； 执行状态未知</li>
+</ul>
+<h4 id='1014-unknown_order_composition'>-1014 UNKNOWN_ORDER_COMPOSITION</h4>
+<ul>
+<li>不支持的订单组合</li>
+</ul>
+<h4 id='1015-too_many_orders'>-1015 TOO_MANY_ORDERS</h4>
+<ul>
+<li>新订单太多。请减少你的请求频率</li>
+</ul>
+<h4 id='1016-service_shutting_down'>-1016 SERVICE_SHUTTING_DOWN</h4>
+<ul>
+<li>服务器下线</li>
+</ul>
+<h4 id='1017-illegal_content_type'>-1017 ILLEGAL_CONTENT_TYPE</h4>
+<ul>
+<li>我们建议在所有的请求头附加Content-Type, 并设置成application/json</li>
+</ul>
+<h4 id='1020-unsupported_operation'>-1020 UNSUPPORTED_OPERATION</h4>
+<ul>
+<li>不支持此操作</li>
+</ul>
+<h4 id='1021-invalid_timestamp'>1021 INVALID_TIMESTAMP</h4>
+<ul>
+<li>时延过大，服务器根据接请求中的时间戳判定耗时已经超出了recevWindow。请改善网络条件或者增大recevWindow.</li>
+<li>时间偏移过大，服务器根据请求中的时间戳判定客户端时间比服务器时间提前了1秒钟以上.</li>
+</ul>
+<h4 id='1022-invalid_signature'>-1022 INVALID_SIGNATURE</h4>
+<ul>
+<li>此请求的签名无效。</li>
+</ul>
+<h4 id='1023-untimestamp'>-1023 UNTIMESTAMP</h4>
+<ul>
+<li>您无权执行此请求, 我们建议您在所有的请求头附加X-CH-TS</li>
+</ul>
+<h4 id='1024-unsignature'>-1024 UNSIGNATURE</h4>
+<ul>
+<li>您无权执行此请求, 我们建议您在请求头附加X-CH-SIGN</li>
+</ul>
+<h3 id='11xx'>11xx - 请求内容中的问题</h3><h4 id='1100-illegal_chars'>-1100 ILLEGAL_CHARS</h4>
+<ul>
+<li>在参数中发现非法字符。</li>
+</ul>
+<h4 id='1101-too_many_parameters'>-1101 TOO_MANY_PARAMETERS</h4>
+<ul>
+<li>发送的参数太多。</li>
+<li>检测到的参数值重复</li>
+</ul>
+<h4 id='1102-mandatory_param_empty_or_malformed'>-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED</h4>
+<ul>
+<li>未发送强制性参数，该参数为空/空或格式错误。</li>
+<li>强制参数&#39;％s&#39;未发送，为空/空或格式错误。</li>
+<li>必须发送参数&#39;％s&#39;或&#39;％s&#39;，但两者均为空！</li>
+</ul>
+<h4 id='1103-unknown_param'>-1103 UNKNOWN_PARAM</h4>
+<ul>
+<li>发送了未知参数。</li>
+<li>每条请求需要至少一个参数{Timestamp}.</li>
+</ul>
+<h4 id='1104-unread_parameters'>-1104 UNREAD_PARAMETERS</h4>
+<ul>
+<li>并非所有发送的参数都被读取。</li>
+<li>并非所有发送的参数都被读取； 读取了&#39;％s&#39;参数，但被发送了&#39;％s&#39;。</li>
+</ul>
+<h4 id='1105-param_empty'>-1105 PARAM_EMPTY</h4>
+<ul>
+<li>参数为空。</li>
+<li>参数&#39;％s&#39;为空。</li>
+</ul>
+<h4 id='1106-param_not_required'>-1106 PARAM_NOT_REQUIRED</h4>
+<ul>
+<li>不需要时已发送参数。</li>
+<li>不需要时发送参数&#39;％s&#39;。</li>
+</ul>
+<h4 id='1111-bad_precision'>-1111 BAD_PRECISION</h4>
+<ul>
+<li>发送了未知参数。</li>
+<li>每条请求需要至少一个参数{Timestamp}.</li>
+</ul>
+<h4 id='1112-no_depth'>-1112 NO_DEPTH</h4>
+<ul>
+<li>交易对没有挂单</li>
+</ul>
+<h4 id='1116-invalid_order_type'>-1116 INVALID_ORDER_TYPE</h4>
+<ul>
+<li>无效订单类型。</li>
+</ul>
+<h4 id='1117-invalid_side'>-1117 INVALID_SIDE</h4>
+<ul>
+<li>无效买卖方向。</li>
+</ul>
+<h4 id='1118-empty_new_cl_ord_id'>-1118 EMPTY_NEW_CL_ORD_ID</h4>
+<ul>
+<li>新的客户订单ID为空。</li>
+</ul>
+<h4 id='1121-bad_symbol'>-1121 BAD_SYMBOL</h4>
+<ul>
+<li>无效的symbol</li>
+</ul>
+<h4 id='1136-order_quantity_too_small'>-1136 ORDER_QUANTITY_TOO_SMALL</h4>
+<ul>
+<li>订单quantity小于最小值</li>
+</ul>
+<h4 id='1138-order_price_wave_exceed'>-1138 ORDER_PRICE_WAVE_EXCEED</h4>
+<ul>
+<li>订单价格超出允许范围</li>
+</ul>
+<h4 id='1139-order_not_support_market'>-1139 ORDER_NOT_SUPPORT_MARKET</h4>
+<ul>
+<li>该交易对不支持市价交易</li>
+</ul>
+<h4 id='1145-order_not_support_cancellation'>-1145 ORDER_NOT_SUPPORT_CANCELLATION</h4>
+<ul>
+<li>该订单类型不支持撤销</li>
+</ul>
+<h4 id='1147-price_volume_presion_error'>-1147  PRICE_VOLUME_PRESION_ERROR</h4>
+<ul>
+<li>订单价格或数量超过最大限制</li>
+</ul>
+<h4 id='2013-no_such_order'>-2013 NO_SUCH_ORDER</h4>
+<ul>
+<li>Order不存在</li>
+</ul>
+<h4 id='2015-rejected_ch_key'>-2015 REJECTED_CH_KEY</h4>
+<ul>
+<li>无效的API密钥，IP或操作权限.</li>
+</ul>
+<h4 id='2016-exchange_lock'>-2016 EXCHANGE_LOCK</h4>
+<ul>
+<li>交易被冻结</li>
+</ul>
+<h4 id='2017-balance_not_enough'>-2017 BALANCE_NOT_ENOUGH</h4>
+<ul>
+<li>余额不足</li>
+</ul>
+<h2 id='sdk'>SDK 开发库</h2><h3 id='09957702bc-2'>签名示例</h3><div class="highlight"><pre class="highlight java tab-java"><code><span class="cm">/**
+ * 生成sign
+ **/</span>
+<span class="kd">private</span> <span class="nc">String</span> <span class="nf">toSign</span><span class="o">(</span><span class="nc">String</span> <span class="n">timestamp</span><span class="o">,</span> <span class="nc">String</span> <span class="n">method</span><span class="o">,</span> <span class="nc">String</span> <span class="n">requestPath</span><span class="o">,</span>
+                             <span class="nc">String</span> <span class="n">queryString</span><span class="o">,</span> <span class="nc">String</span> <span class="n">body</span><span class="o">,</span> <span class="nc">String</span> <span class="n">secretKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="c1">// 签名串</span>
+    <span class="nc">String</span> <span class="n">preHash</span> <span class="o">=</span> <span class="n">preHash</span><span class="o">(</span><span class="n">timestamp</span><span class="o">,</span> <span class="n">method</span><span class="o">,</span> <span class="n">requestPath</span><span class="o">,</span> <span class="n">queryString</span><span class="o">,</span> <span class="n">body</span><span class="o">);</span>
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">secretKeyBytes</span> <span class="o">=</span> <span class="n">secretKey</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+    <span class="nc">SecretKeySpec</span> <span class="n">secretKeySpec</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SecretKeySpec</span><span class="o">(</span><span class="n">secretKeyBytes</span><span class="o">,</span> <span class="s">"HmacSHA256"</span><span class="o">);</span>
+    <span class="nc">Mac</span> <span class="n">mac</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Mac</span><span class="o">)</span> <span class="no">MAC</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+    <span class="n">mac</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="n">secretKeySpec</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">Hex</span><span class="o">.</span><span class="na">encodeHexString</span><span class="o">(</span><span class="n">mac</span><span class="o">.</span><span class="na">doFinal</span><span class="o">(</span><span class="n">preHash</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">)));</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 签名串
+ **/</span>
+<span class="kd">private</span> <span class="nc">String</span> <span class="nf">preHash</span><span class="o">(</span><span class="nc">String</span> <span class="n">timestamp</span><span class="o">,</span> <span class="nc">String</span> <span class="n">method</span><span class="o">,</span> <span class="nc">String</span> <span class="n">requestPath</span><span class="o">,</span> <span class="nc">String</span> <span class="n">queryString</span><span class="o">,</span> <span class="nc">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">StringBuilder</span> <span class="n">preHash</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+    <span class="n">preHash</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">timestamp</span><span class="o">);</span>
+    <span class="n">preHash</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">());</span>
+    <span class="n">preHash</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">requestPath</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">commons</span><span class="o">.</span><span class="na">lang3</span><span class="o">.</span><span class="na">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">queryString</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">preHash</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"?"</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">queryString</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">commons</span><span class="o">.</span><span class="na">lang3</span><span class="o">.</span><span class="na">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">body</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">preHash</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">body</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">preHash</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * queryString
+ **/</span>
+<span class="kd">private</span> <span class="nc">String</span> <span class="nf">queryString</span><span class="o">(</span><span class="nc">ServerHttpRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getURI</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="n">queryString</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"?"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">queryString</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">lastIndexOf</span><span class="o">(</span><span class="s">"?"</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">queryString</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><h4 id='aa98ff54ce'>下面是创建订单的样例</h4>
+<ul>
+<li>java</li>
+</ul>
+<div class="highlight"><pre class="highlight java tab-java"><code><span class="nc">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OkHttpClient</span><span class="o">().</span><span class="na">newBuilder</span><span class="o">()</span>
+<span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="nc">MediaType</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="nc">MediaType</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+<span class="nc">RequestBody</span> <span class="n">body</span> <span class="o">=</span> <span class="nc">RequestBody</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">mediaType</span><span class="o">,</span> <span class="s">"{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}"</span><span class="o">);</span>
+<span class="nc">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+<span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"https://openapi.xxx.com"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">method</span><span class="o">(</span><span class="s">"POST"</span><span class="o">,</span> <span class="n">body</span><span class="o">)</span>
+<span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"X-CH-APIKEY"</span><span class="o">,</span> <span class="s">"Your API key"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"X-CH-TS"</span><span class="o">,</span> <span class="s">"1596543296058"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"X-CH-SIGN"</span><span class="o">,</span> <span class="s">"encrypt sign"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre></div>
+<ul>
+<li>go</li>
+</ul>
+<div class="highlight"><pre class="highlight mosel"><code><span class="k">package</span> <span class="n">main</span>
+<span class="n">import</span> <span class="p">(</span>
+<span class="s2">"fmt"</span>
+<span class="s2">"strings"</span>
+<span class="s2">"net/http"</span>
+<span class="s2">"io/ioutil"</span>
+<span class="p">)</span>
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">url</span> <span class="p">:=</span> <span class="s2">"https://openapi.xxx.com"</span>
+  <span class="n">method</span> <span class="p">:=</span> <span class="s2">"POST"</span>
+  <span class="n">payload</span> <span class="p">:=</span> <span class="n">strings</span><span class="p">.</span><span class="n">NewReader</span><span class="p">(</span><span class="s2">"{</span><span class="se">\"</span><span class="s2">symbol</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">BTCUSDT</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">volume</span><span class="se">\"</span><span class="s2">:1,</span><span class="se">\"</span><span class="s2">side</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">BUY</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">LIMIT</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">price</span><span class="se">\"</span><span class="s2">:10000,</span><span class="se">\"</span><span class="s2">newClientOrderId</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">recvWindow</span><span class="se">\"</span><span class="s2">:5000}"</span><span class="p">)</span>
+  <span class="n">client</span> <span class="p">:=</span> <span class="p">&amp;</span><span class="n">http</span><span class="p">.</span><span class="n">Client</span> <span class="p">{</span>
+<span class="p">}</span>
+  <span class="n">req</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">http</span><span class="p">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
+</span>    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="p">}</span>
+  <span class="n">req</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s2">"X-CH-APIKEY"</span><span class="p">,</span> <span class="s2">"Your API key"</span><span class="p">)</span>
+  <span class="n">req</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s2">"X-CH-TS"</span><span class="p">,</span> <span class="s2">"1596543881257"</span><span class="p">)</span>
+  <span class="n">req</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">)</span>
+  <span class="n">req</span><span class="p">.</span><span class="n">Header</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s2">"X-CH-SIGN"</span><span class="p">,</span> <span class="s2">"encrypt sign"</span><span class="p">)</span>
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">client</span><span class="p">.</span><span class="k">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+  <span class="n">defer</span> <span class="n">res</span><span class="p">.</span><span class="n">Body</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+  <span class="n">body</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">ioutil</span><span class="p">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">Body</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="k">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>Python</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>import requests
+url = "https://openapi.xxx.com"
+payload = "{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}"
+headers = {
+'X-CH-APIKEY': 'Your API key',
+'X-CH-TS': '1596543881257',
+'Content-Type': 'application/json',
+'X-CH-SIGN': 'encrypt sign'
+}
+response = requests.request("POST", url, headers=headers, data = payload)
+print(response.text.encode('utf8'))
+</code></pre></div>
+<ul>
+<li>php</li>
+</ul>
+<div class="highlight"><pre class="highlight php"><code><span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://openapi.xxx.com'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+<span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+<span class="s1">'X-CH-APIKEY'</span> <span class="o">=&gt;</span> <span class="s1">'Your API key'</span><span class="p">,</span>
+<span class="s1">'X-CH-TS'</span> <span class="o">=&gt;</span> <span class="s1">'1596543881257'</span><span class="p">,</span>
+<span class="s1">'Content-Type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+<span class="s1">'X-CH-SIGN'</span> <span class="o">=&gt;</span> <span class="s1">'encrypt sign'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{"symbol":"BTCUSDT","volume":1,"side":"BUY","type":"LIMIT","price":10000,"newClientOrderId":"","recvWindow":5000}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+</code></pre></div>
+<ul>
+<li>nodeJs</li>
+</ul>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+<span class="dl">'</span><span class="s1">method</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+<span class="dl">'</span><span class="s1">url</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://openapi.xxx.com</span><span class="dl">'</span><span class="p">,</span>
+<span class="dl">'</span><span class="s1">headers</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+<span class="dl">'</span><span class="s1">X-CH-APIKEY</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Your API key</span><span class="dl">'</span><span class="p">,</span>
+<span class="dl">'</span><span class="s1">X-CH-TS</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1596543881257</span><span class="dl">'</span><span class="p">,</span>
+<span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+<span class="dl">'</span><span class="s1">X-CH-SIGN</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">encrypt sign</span><span class="dl">'</span>
+<span class="p">},</span>
+  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">BTCUSDT</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">volume</span><span class="dl">"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="dl">"</span><span class="s2">side</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">BUY</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">type</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">LIMIT</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="dl">"</span><span class="s2">newClientOrderId</span><span class="dl">"</span><span class="p">:</span><span class="dl">""</span><span class="p">,</span><span class="dl">"</span><span class="s2">recvWindow</span><span class="dl">"</span><span class="p">:</span><span class="mi">5000</span><span class="p">})</span>
+<span class="p">};</span>
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre></div><h2 id='0adb1147b3'>常见问题</h2><h4 id='timestamp'>请求接口的timestamp参数和到达服务器时间最大差值是多少?</h4>
+<p>服务器收到请求时会判断请求中的时间戳，如果是5000毫秒之前发出的，则请求会被认为无效。这个时间窗口值可以通过发送可选参数<code>recvWindow</code>来自定义。</p>
+<h4 id='quot-x-ch-ts-quot'>请求头&quot;X-CH-TS&quot;不能为空 如何解决？</h4>
+<p>首先建议用户打印一下<code>X-CH-TS</code>，出现异常时检查<code>X-CH-TS</code>是否为空，另外建议用户代码优化，每次请求前先判断<code>X-CH-TS</code>是否为空。</p>
+<h4 id='33abae8139'>为什么签名认证总返回无效的签名?</h4>
+<p>可以打印出请求头信息和签名前字符串，重点有以下几点：
+- 将您的请求头和下面的请求头示例一一对比</p>
+
+<blockquote>
+<p>请求头示例：
+Content-Type: application/json
+X-CH-APIKEY: 44c541a1-*<strong><em>-</em></strong><em>-</em>***-10fe390df2
+X-CH-SIGN: ssseLeefrffraoEQ3yI9qEtI1CZ82ikZ4xSG5Kj8gnl3uw=
+X-CH-TS: 1574327555669</p>
+</blockquote>
+
+<ul>
+<li>是否在程序中正确的配置了API-key</li>
+<li>签名前字符串是否符合标准格式, 所有要素的顺序要保持一致. 可以复制如下示例跟您的签名前字符串进行比对：</li>
+</ul>
+
+<blockquote>
+<p>GET示例： 1588591856950GET/sapi/v1/account
+POST示例：1588591856950POST/sapi/v1/order/test{&quot;symbol&quot;:&quot;BTCUSDT&quot;,&quot;price&quot;:&quot;9300&quot;,&quot;volume&quot;:&quot;1&quot;,&quot;side&quot;:&quot;BUY&quot;,&quot;type&quot;:&quot;LIMIT&quot;}</p>
+</blockquote>
+<h4 id='illegal_content_type-1017'>调用接口提示ILLEGAL_CONTENT_TYPE (-1017),是什么原因？</h4>
+<p>我们建议在所有的请求头附加Content-Type, 并设置成application/json</p>
+<h4 id='api'>API每秒调用频率有限制吗?</h4>
+<p>有限制，具体可以看下文档中每个接口的访问频率限制。</p>
+<h4 id='api-2'>API的访问频率是根据什么限制的？</h4>
+<p>个人数据是根据<strong>API-key</strong>限制的，公共数据是根据<strong>ip</strong>限制，需要注意的是，若用户请求公共数据时传入有效的个人信息就根据<strong>API-key</strong>限制。</p>
+<h4 id='http-429'>HTTP状态码429是怎样造成的?</h4>
+<p>请求接口超过访问频率限制，建议降低访问频率。</p>
+<h5 id='api-ip'>API调用接口报超过访问频率会被封IP吗？封多久？</h5>
+<p>通常情况下不会的，降低访问频率就可以。</p>
+<h4 id='websocker'>为什么WebSocker出现了断开连接?</h4>
+<ul>
+<li>未添加心跳，WebSocket连接需客户端需要回pong，保证连接的稳定。</li>
+<li>网络原因造成客户端发送的pong消息，但服务端并未接收到，或其他网络原因也会导致自动断开连接。</li>
+<li>建议用户做好WebSocket断开重连机制，在确保心跳（ping/pong）连接意外断开时，程序能够自动重新进行连接。</li>
+</ul>
+<h4 id='time-out'>用户请求接口报错Time Out?</h4>
+<p>网络无法连接服务器，建议您检查下网络是否通畅。</p>
+<h4 id='clientorderid'>ClientOrderId是什么, 有什么作用?</h4>
+<ul>
+<li>clientOrderId是您自定义的订单号，可以用来标识您的一笔订单，当下单完成后，可以使clientOrderId调用 “订单信息“接口，查看订单状态；</li>
+<li>用户需要自己保证此ID不重复，我方不会进行排重提示，如有重复，撤单和查询订单时只能撤销或者查询最新的一条数据</li>
+</ul>
+<h4 id='d4a316cdec'>如何获取最新成交价格?</h4>
+<p>可以通过获取ticker信息, last就是最新成交价</p>
+<h4 id='ticker-24'>ticker接口中的24小时成交量会出现负增长吗？</h4>
+<p>会的。因为24小时成交量，为24小时滚动数据（平移窗口大小24小时），有可能会出现后一个窗口内的累计成交量、累计成交额小于前一窗口的情况。</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
