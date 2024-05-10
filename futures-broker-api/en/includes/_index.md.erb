@@ -90,7 +90,7 @@ signContent = {"beginTime":"2000-01-01 00:00:00","brokerId":"0000","endTime":"20
 | type      | String | yes       | Sharing type, 1: Merchant fee share(Currently, only this type of query is being opened) |
 | uid       | String | no       | exUid                                                        |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "totalShareAmount"          :[String] "Total merchant share amount",
@@ -132,7 +132,7 @@ Examples of input parameters::
 signContent = {"endDate":"2023-06-01 00:00:00","originUid":"123456","pageNum":"1","pageSize":"10","startDate":"2023-01-01 00:00:00","status":"0"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -143,7 +143,7 @@ signContent = {"endDate":"2023-06-01 00:00:00","originUid":"123456","pageNum":"1
 | startDate | String | no    | tart Date yyyy-MM-dd HH:mm:ss            |
 | status    | String | no    | Position status: 0 means query history position, 1 means current position, not 'status' parameter means query all position |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "total"            :[number] "The number of data",
@@ -222,7 +222,7 @@ Examples of input parameters::
 signContent = {"contractId":"0","contractName":"E-BTC-USDT","endDate": "2023-06-01 00:00:00","originUid":"123456","originUids":"123456,112312,321231","pageNum":"1","pageSize":"10","startDate": "2023-01-01 00:00:00"}946656000000```
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -235,7 +235,7 @@ signContent = {"contractId":"0","contractName":"E-BTC-USDT","endDate": "2023-06-
 | pageSize    | String | no    | Per page size(Default 10，Maximum 1000) |
 | startDate    | String | yes    | Start date yyyy-MM-dd HH:mm:ss" |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "total"    :[number] "The number of data",
@@ -294,7 +294,7 @@ Examples of input parameters::
 signContent = {"contractId":"0","contractName":"E-BTC-USDT","endTime":"1692164611000","originUid":"123456","pageNum":"1","pageSize":"10","startTime":"1674193411000"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -306,7 +306,7 @@ signContent = {"contractId":"0","contractName":"E-BTC-USDT","endTime":"169216461
 | pageSize    | String | no    | Per page size(Default 10，Maximum 1000) |
 | startDate    | String | yes    | Start date yyyy-MM-dd HH:mm:ss" |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "total"    :[number] "The number of data",
@@ -348,13 +348,13 @@ Examples of input parameters::
 signContent = {"positionId":"123456"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
 | positionId   | String | no    | position id            |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "resultDate": {
@@ -416,14 +416,14 @@ Examples of input parameters::
 signContent = {"limit":"100","startUid":"0"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
 | limit   | String | no    | Returns the number of entries(Default 20, maximum return 1000 data)           |
 | startUid   | String | no    | coUid,The first start ID in the user data, the first time to query please enters 0 (The return value does not contain the input user id)            |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
 "msg":"成功(Success)",
@@ -456,7 +456,7 @@ Examples of input parameters::
 signContent = {"endTime":"948656000000","limit":"10","page":"1","startTime":"946656000000","transferType":"wallet_to_contract","uid":"123456"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -467,7 +467,7 @@ signContent = {"endTime":"948656000000","limit":"10","page":"1","startTime":"946
 | transferType   | String | no    | Transfer direction type(Include futures transfer to spot:contract_to_wallet. And Spot transfer to futures: wallet_to_contract)"           |
 | uid   | String | no    | coUid           |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "msg":"成功(Success)",
@@ -507,7 +507,7 @@ Examples of input parameters::
 signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate":"2023-01-01 00:00:00","uid":123456}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -517,7 +517,7 @@ signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate
 | startTime   | String | yes    | Start date            |
 | uid   | String | no    | coUid            |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
 "code": "0",
@@ -551,7 +551,7 @@ Examples of input parameters::
 signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate":"2023-01-01 00:00:00"}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                 |
 |-----------|--------|------|------------------------------------|
@@ -560,7 +560,7 @@ signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate
 | page   | String | no    | The number of page            |
 | startDate   | String | yes    | Start date yyyy-MM-dd HH:mm:ss            |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "code": "0",
@@ -587,7 +587,7 @@ signContent = {"endDate":"2023-06-01 00:00:00","page":1,"pageSize":10,"startDate
 `GET` `/fapi/v1/contracts`
 
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 [
   {
@@ -627,7 +627,7 @@ Examples of input parameters::
 signContent = {"coin":"USDT","uid":123456,"pageSize":1,"pageNum":10}946656000000
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                                           |
 |-----------|--------|------|--------------------------------------------------------------|
@@ -636,7 +636,7 @@ signContent = {"coin":"USDT","uid":123456,"pageSize":1,"pageNum":10}946656000000
 | pageSize   | number | no    | The number of data each page (Maximum 100, at present, due to query performance, too much data per page will lead to query timeout, it is recommended that the maximum pageSize = 30 for querying ,and the performance of this query will be optimised later.) |
 | pageNum   | number | no    | The current page number (Please set pageNum to 1 when querying for a specified uid.) |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
    "code": "0",
@@ -671,7 +671,7 @@ Examples of input parameters::
 signContent = {"beginTime":"2023-01-01 08:00:00","endTime":"2023-01-02 08:00:00","page":1,"limit":10,"uid":3221231}946656000000```
 ```
 
-### parameters:
+####  parameters:
 
 | Name        | Type     | Must | Description                                             |
 |-----------|--------|------|------------------------------------------------|
@@ -681,7 +681,7 @@ signContent = {"beginTime":"2023-01-01 08:00:00","endTime":"2023-01-02 08:00:00"
 | page   | number | no    | Current page number (Non-required Default 1)                  |
 | uid   | number | yes    | coUid                                           |
 
-### The parameters returned::
+#### The parameters returned:
 ```json
 {
   "data": [
