@@ -1,74 +1,69 @@
 
-# 更新日志
+# update record
 
-2024.04.15 更新API风格
+2024.04.15 Update API style
 
 
-# 基本信息
+# Basic Information
 
-## Rest基本信息
+## API Basic Information
 
-- 本篇列出REST接口的baseurl: **htts://futuresopenapi.xxx.xxx**
-- 所有接口都会返回一个JSON object或者array.
-- Response中如有数组，数组元素以时间倒序排列，越早的数据越提前.
-- 所有时间、Timestamp均为UNIX时间，单位为毫秒.
-- 所有数据Type采用JAVA的数据Type定义.
+- baseurl : **htts://futuresopenapi.xxx.xxx**
+- All endpoints return either a JSON object or array.
+- Data is returned in Reverse order. newest first, oldest last.
+- All time and timestamp related fields are in milliseconds.
 
-## 接口错误代码
-- 每个接口都有可能抛出异常
-- 具体的错误代码及其解释在错误代码
+## HTTP Error Codes
 
-## HTTP返回代码
-- HTTP `4XX` 错误码用于指示错误的请求内容、行为、格式.
-- HTTP `429` 错误码表示警告访问频次超限，即将被封IP.
-- HTTP `418` 表示收到429后继续访问，于yes被封了.
-- HTTP `5XX` 返回错误码yes内部系统错误；这说明这个问题yes在服务器这边。在对待这个错误时，千万不要把它当成一个失败的任务，因为执行状态未知，有可能Successful也有可能yes失败.
-- HTTP `504` 表示API服务端已经向业务核心提交了请求但未能获取Response，特别需要注意的yes504代码不代表请求失败，而yes未知。很可能已经得到了执行，也有可能执行失败，需要做进一步确认.
-- 任何接口都可能返回ERROR(错误); 错误的返回payload如下:
+- HTTP `4XX` return codes are used for malformed requests; the issue is on the sender's side.
+- HTTP `429` return code is used when breaking a request rate limit.
+- HTTP `418` eturn code is used when an IP has been auto-banned for continuing to send requests after receiving `429`codes.
+- HTTP `5XX` return codes are used for internal errors
+- HTTP `504` return code is used when the API successfully sent the message but not get a response within the timeout period. It is important to NOT treat this as a failure operation; the execution status is UNKNOWN and could have been a success.
+
 >{
 "code": -1121,
 "msg": "Invalid symbol."
 }
 
-## 接口通用信息
-- 所有请求基于Https协议，Headers信息中Content-Type需要统一设置为: 'application/json'
-- GET方法的接口, Parameter必须在query string中发送.
-- POST方法的接口, Parameter必须在request body中发送
-- 对Parameter的顺序不做要求。
+## General Information
+- All requests are based on the Https protocol, and the`Content-Type`n the request header information needs to be uniformly set to: 'application/json'
+- For the interface of the`GET` method, the parameters must be sent in the`query string`.
+- The interface of the`POST` method, the parameters must be sent in the`request body`.
+- Parameters may be sent in any order.
 
-## 访问限制
-- 在每个接口下面会有限频的说明.
-- 违反频率限制都会收到HTTP 429，这yes一个警告.
-- 当收到429告警时，调用者应当降低访问频率或者停止访问.
+## LIMITS
+- There will be a limited frequency description below each interface..
+- A 429 will be returned when either rate limit is violated.
+- A 429 will be returned when either rate limit is violated.
 
-## 接口鉴权Type
-- 每个接口都有自己的鉴权Type，鉴权Type决定了访问时应当进行何种鉴权
-- 如果需要 `API-key`，应当在HTTP头中以`X-CH-APIKEY`Name传递
-- `API-key` 与 `API-secret` yes大小写敏感的
-- 可以在网页用户中心修改API-key 所具有的权限，例如读取账户信息、发送交易指令、发送提现指令
+## Endpoint Security Type
+- Each endpoint has a security type that determines the how you will interact with it.
+- API-keys are passed into the Rest API via the X-CH-APIKEY header.
+- API-keys and secret-keys are case sensitive.
 
-| 鉴权Type        | 描述             |
+| Security Type | Description             |
 |-------------|----------------|
-| NONE        | 不需要鉴权的接口       |
-| TRADE       | 需要有效API-KEY和Sign |
-| USER_DATA   | 需要有效API-KEY和Sign |
-| USER_STREAM | 需要有效的API-KEY   |
-| MARKET_DATA | 需要有效的API-KEY   |
+| NONE        | Endpoint can be accessed freely.   |
+| TRADE       | Endpoint requires sending a valid API-Key and signature. |
+| USER_DATA   | Endpoint requires sending a valid API-Key and signature. |
+| USER_STREAM | Endpoint requires sending a valid API-Key.  |
+| MARKET_DATA | Endpoint requires sending a valid API-Key.   |
 
-## 需要Sign的接口(TRADE与USER_DATA)
-- 调用`TRADE`或者`USER_DATA`接口时，应当在HTTP头中以`X-CH-SIGN`Name传递SignParameter.
-- Sign使用HMAC `SHA256算法`. API-KEY所对应的API-Secret作为 `HMAC SHA256` 的密钥.
-- `X-CH-SIGN`的Headersyes以timestamp + method + requestPath + body字符串(+表示字符串连接)作为操作对象
-- 其中`timestamp`的值与`X-CH-TS`Headers相同, methodyes请求方法，字母全部大写：GET/POST.
-- requestPathyes请求接口路径 例如:/sapi/v1/order?orderId=211222334&symbol=BTCUSDT
-- bodyyes请求主体的字符串(post only) 如果yesGET请求则body可省略
-- Sign大小写不敏感
+## SIGNED (TRADE and USER_DATA) endpoint security
+- When calling the`TRADE`or`USER_DATA`interface, the signature parameter should be passed in the X-CH-SIGN field in the HTTP header.
+- The signature uses the `HMAC SHA256`algorithm. API-KEY the API-Secret corresponding to the API-KEY is used as the `HMAC SHA256` key.
+- The request header of `X-CH-SIGN` is based on `timestamp` + `method` + `requestPath` + `body string`  (+ means string connection) as the operation object
+- The value of timestamp is the same as the `X-CH-TS` request header, method is the request method, and the letters are all uppercase: `GET/POST`
+- `requestPath` is the request interface path For example: ``/sapi/v1/order`
+- `body` is the string of the request body (post only)
+- The signature is not case sensitive.
 
-## 时间同步安全
-- Sign接口均需要在HTTP头中以`X-CH-TS`Name传递Timestamp, 其值应当yes请求发送时刻的unixTimestamp（毫秒） e.g. 1528394129373
-- 服务器收到请求时会判断请求中的Timestamp，如果yes5000毫秒之前发出的，则请求会被认为无效。这个时间窗口值可以通过发送可选Parameter`recvWindow`来自定义。\
-- 另外，如果服务器计算得出客户端Timestamp在服务器时间的‘未来’一秒以上，也会拒绝请求。
-- 逻辑伪代码：
+## Timing Security
+- The signature interface needs to pass the timestamp in the `X-CH-TS` field in the `HTTP header`, and its value should be the unix timestamp of the request sending time `e.g. 1528394129373`
+- An additional parameter, `recvWindow`, may be sent to specify the number of milliseconds after `timestamp` the request is valid for. If `recvWindow` is not sent, it defaults to 5000.
+- In addition, if the server calculates that the client's timestamp is more than one second ‘in the future’ of the server’s time, it will also reject the request.
+- The logic is as follows：
 
 ```javascript
 if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow) {
@@ -78,17 +73,19 @@ if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow) {
 }
 ```
 
-**关于交易时效性** 互联网状况并不100%可靠，不可完全依赖,因此你的程序本地到交易所服务器的时延会有抖动. 这yes我们设置recvWindow的目的所在，如果你从事高频交易，对交易时效性有较高的要求，可以灵活设置recvWindow以达到你的要求。 不推荐使用5秒以上的recvWindow
+**Serious trading is about timing** Networks can be unstable and unreliable, which can lead to requests taking varying amounts of time to reach the servers. With recvWindow, you can specify that the request must be processed within a certain number of milliseconds or be rejected by the server.
+**It recommended to use a small recvWindow of 5000 or less!**
 
-## POST /sapi/v1/order/test 的示例
-以下yes在linux bash环境下使用 echo openssl 和curl工具实现的一个调用接口下单的示例 apikey、secret仅供示范
+
+## SIGNED Endpoint Examples for POST /sapi/v1/order
+Here is a step-by-step example of how to send a vaild signed payload from the Linux command line using `echo`, `openssl`, and `curl`.
 
 | key       | value                            |
 |-----------|----------------------------------|
 | apikey    | vmPUZE6mv9SD5V5e14y7Ju91duEh8A   |
 | secretKey | 902ae3cb34ecee2779aa4d3e1d226686 |
 
-| Parameter     | 取值      |
+| Parameter     | Value      |
 |--------|---------|
 | symbol | BTCUSDT |
 | side   | BUY     |
@@ -96,7 +93,7 @@ if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow) {
 | volume | 1       |
 | price  | 9300    |
 
-## Sign示例
+## Signature example
 
 - body
 > {"symbol":"BTCUSDT","price":"9300","volume":"1","side":"BUY","type":"LIMIT"}
@@ -108,33 +105,34 @@ HMAC SHA256 Sign:
 ```
 
 ```shell
-curl 调用:
+curl :
 (HMAC SHA256)
   [linux]$ curl -H "X-CH-APIKEY: c3b165fd5218cdd2c2874c65da468b1e" -H "X-CH-SIGN: c50d0a74bb9427a9a03933d0eded03af9bf50115dc5b706882a4fcf07a26b761" -H "X-CH-TS: 1588591856950" -H "Content-Type:application/json" -X POST 'http://localhost:30000/sapi/v1/order/test' -d '{"symbol":"BTCUSDT","price":"9300","quantity":"1","side":"BUY","type":"LIMIT"}'
 ```
 
-## ENUM
-### 术语解释
-- `base` 指一个交易对的交易对象，即写在靠前部分的资产名
-- `quote` 指一个交易对的定价资产，即写在靠后部分资产名
+## Enum Type
+### Terminology
+- `base asset` refers to the asset that is the `quantity` of a symbol.
+- `quote asset` refers to the asset that is the `price` of a symbol.
 
-### 订单状态
-- `NEW` 新建订单
-- `PARTIALLY_FILLED`  部分成交
-- `FILLED`  全部成交
-- `CANCELED`  已撤销
-- `PENDING_CANCEL` 正在撤销中
-- `REJECTED` 订单被拒绝
+### Order status:
+- `NEW ORDER` ]
+- `PARTIALLY_FILLED`
+- `FILLED`
+- `CANCELED`
+- `PENDING_CANCEL`
+- `REJECTED`
 
-### 订单种类
-- `LIMIT` 限价单
-- `MARKET` 市价单
+### Order types:
+- `LIMIT`
+- `MARKET`
 
-### 订单方向
-- `BUY` 买单
-- `SELL` 卖单
+### Order side:
+- `BUY`
+- `SELL`
 
-### K线间隔
+### Kline/Candlestick Interval:
+m -> minutes; h -> hours; day -> days; week -> weeks; month -> months
 - `1min`
 - `5min`
 - `15min`
@@ -385,11 +383,11 @@ The interface in Trade requires API-key and signature for access.
 | triggerPrice  | string | yes    | Trigger price                         |
 | volume        | number | yes    | The order quantity. When opening a position at market price, the unit here is value. There is a precision limit. The precision is set by the administrator. |
 | price         | number | no    | The order price has precision limits, and the precision is set by the administrator.  |
-| contractName  | string | yes    | 大写合约名称:`E-BTC-USDT`         |
-| type          | string | yes    | 订单Type:`LIMIT/MARKET`         |
-| side          | string | yes    | 买卖方向`BUY/SELL`              |
-| open          | string | yes    | 开平仓方向`OPEN/CLOSE`           |
-| positionType  | number | no    | 持仓Type:`1:全仓/2:逐仓`            |
+| contractName  | string | yes    | Uppercase contract name E.g. :`E-BTC-USDT`         |
+| type          | string | yes    | Order type:`LIMIT/MARKET`         |
+| side          | string | yes    | Order side:`BUY/SELL`              |
+| open          | string | yes    | Position side:`OPEN/CLOSE`           |
+| positionType  | number | no    | Position type: 1.Cross Margin/2.Isolated Margin           |
 | clientOrderId | string | no    | Client order identification, a string less than 32 characters in length             |
 
 > Response:
@@ -400,7 +398,7 @@ The interface in Trade requires API-key and signature for access.
     "msg": "Success",
     "data": {
         "triggerIds": [
-            "1322738336974712847"//条件单ID
+            "1322738336974712847"// trigger order id
         ],
         "ids": [],
         "cancelIds": []
@@ -525,29 +523,29 @@ The interface in Trade requires API-key and signature for access.
 
 ```json
 [
-    {
-        "side":"BUY", //订单方向
-        "clientId":"0",//客户端唯一标识
-        "ctimeMs":1632903411000,//创建Timestamp
-        "positionType":2,//仓位Type,1:全仓/2:逐仓
-        "orderId":777293886968070157,//订单ID
-        "avgPrice":41000,//成交均价
-        "openOrClose":"OPEN",//OPEN/CLOSE
-        "leverageLevel":26,//杠杆倍数
-        "type":4,//订单Type
-        "closeTakerFeeRate":0.00065,//平仓taker手续费率
-        "volume":2,//订单忽略
-        "openMakerFeeRate":0.00025,//开仓maker手续费率
-        "dealVolume":1,//成交数量
-        "price":41000,//委托价格
-        "closeMakerFeeRate":0.00025,//平台maker手续费率
-        "contractId":1,//合约ID
-        "ctime":"2021-09-29T16:16:51",//订单创建时间
-        "contractName":"E-BTC-USDT",//合约名称
-        "openTakerFeeRate":0.00065,//开仓taker手续费率
-        "dealMoney":4.1,//成交价值
-        "status":4 //订单状态
-    }
+  {
+    "side":"BUY", //Order direction
+    "clientId":”0”,//Merchant unique identifier
+    "ctimeMs":1632903411000,//Create Timestamp
+    "positionType":2,//Position Type,1:Cross/2:Isolated
+    "orderId":777293886968070157,//Order ID
+    "avgPrice":41000,//Average trading price
+    "openOrClose":"OPEN",//OPEN/CLOSE
+    "leverageLevel":26,//Leverage
+    "type":4, //Order Type
+    "closeTakerFeeRate":0.00065,//taker closing fee rate
+    "volume":2,//Order ignored
+    "openMakerFeeRate":0.00025,//maker opening fee rate
+    "dealVolume":1,//Trading quantity
+    "price":41000,//Order price
+    "closeMakerFeeRate":0.00025,//Platform maker fee rate
+    "contractId":1,//Contract ID
+    "ctime":"2021-09-29T16:16:51",//Order creation time
+    "contractName":"E-BTC-USDT",//Contract name
+    "openTakerFeeRate":0.00065,//taker opening fee rate
+    "dealMoney":4.1,//Trading value
+    "status":4 //Order status
+  }
 ]
 ```
 ## Profit and loss record
@@ -572,25 +570,24 @@ The interface in Trade requires API-key and signature for access.
 
 ```json
 [
-    {
-        "side":"SELL",//仓位方向
-        "positionType":2,//仓位Type,1:全仓/2:逐仓
-        "tradeFee":-5.23575,//手续费
-        "realizedAmount":0,//弃用
-        "leverageLevel":26,//杠杆倍数
-        "openPrice":44500,//开仓价格
-        "settleProfit":0,//结算盈亏
-        "mtime":1632882739000,//更新时间
-        "shareAmount":0,//分摊金额
-        "openEndPrice":44500,//开仓均价
-        "closeProfit":-45,//平仓盈亏
-        "volume":900,//仓位数量
-        "contractId":1,//合约ID
-        "historyRealizedAmount":-50.23575,//历史已实现盈亏
-        "ctime":1632882691000,//创建Timestamp
-        "id":8764,//仓位ID
-        "capitalFee":0 //资金费
-    }
+  {
+    "side":"SELL",//Position direction
+    "positionType"":2,//Position Type,1:Cross/2:Isolated
+    "tradeFee":-5.23575,//Handling fee
+    "realizedAmount":0,//Deprecated
+    "leverageLevel":26,//Leverage
+    "openPrice":44500,//Opening price
+    "settleProfit":0,//Realized PNL
+    "mtime":1632882739000,//Update time
+    "shareAmount":0,//Share amount
+    "openEndPrice":44500,//Average opening price
+    "closeProfit":-45,//Closing PNL
+    "volume":900,//Position quantity
+    "contractId":1,//Contract ID
+    "historyRealizedAmount":-50.23575,//Historical realized PNL        "ctime":1632882691000,//Create Timestamp
+    "id":8764,//Position ID
+    "capitalFee":0 //Funding fee
+  }
 ]
 ```
 
@@ -880,3 +877,577 @@ The interface in Trade requires API-key and signature for access.
 }
 ```
 
+## Websocket
+### General
+`WebSocket`is a new HTML5 Protocol. It achieves full-duplex data transmission between the client and the server, allowing data to be transferred effectively in both directions. With just only one handshake, the connection between the client and the server is established. The server will then be able to push data to the client according to preset rules. Its advantages include:
+
+- The WebSocket request header for data transmission between client and server is approximately 2 bytes only
+- Either the client or server can initiate a data transmission
+- As there is no need to create and delete TCP connection repeatedly, it saves resources for both bandwidth and server
+
+**We strongly recommend developers to use WebSocket API to retrieve market data and order book depth.**
+
+### Ws information
+- url: [wss://futuresws.xxx.xxx/kline-api/ws](wss://futuresws.xxx.xxx/kline-api/ws) 
+- The returned data will be binary compressed except the heartbeat data (the user needs to decompress through Gzip algorithm)
+
+### Demo
+[https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java](https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java)
+
+#### Command Format
+
+| event   | channel                       | description |
+|---------|-------------------------------|------|
+| `sub`   | `market_$symbol_depth_step0`  | `Subscribe depth`  | 
+| `unsub` | `market_$symbol_depth_step0`  | `Unsubscribe depth`  | 
+| `sub`   | `market_$symbol_trade_ticker` | `Subscribe to real-time trade`    | 
+| `unsub` | `market_$symbol_trade_ticker` | `Unsubscribe real-time trade`    | 
+| `sub`   | `market_$symbol_ticker`       | `Subscribe to 24h market data`    | 
+| `unsub` | `market_$symbol_ticker`       | `Unsubscribe 24h market data`    | 
+| `sub` | `market_$symbol_kline_1min`   | `Subscribe to 1min k-line information`    | 
+| `req` | `market_$symbol_kline_1month`        | `Request 1 month historical bar record`    | 
+
+Heartbeat
+Every once in a while, the server will send a PING message. The client needs to reply to the PONG message, otherwise the server will close the connection.
+
+```json
+{
+    "ping": 1535975085052
+}
+```
+
+```json
+  {
+  "pong": 15359750
+  }
+```
+### Subscription Full Depth
+
+- Subscription message structure
+```json
+  {
+  "event":"sub",
+  "params":{
+    "channel":"market_$symbol_depth_step0", // $symbol E.g. btcusdt
+    "cb_id":"1" // Business ID is not required
+    }
+  }
+```
+- Payload
+
+```json
+{
+    "channel":"market_btcusdt_depth_step0",
+    "ts":1506584998239,
+    "tick":{//A maximum of 30 orders are returned
+        "asks":[ //asks
+            [10000.19,0.93],
+            [10001.21,0.2],
+            [10002.22,0.34]
+        ],
+        "buys":[ //buy
+            [9999.53,0.93],
+            [9998.2,0.2],
+            [9997.19,0.21]
+        ]
+    }
+}
+```
+### Subscription Real Time Trade
+- Subscription message structure
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_trade_ticker", // $symbol:e_btcusdt
+        "cb_id":"1" // // Business ID is not required
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "channel":"market_$symbol_trade_ticker",
+    "ts":1506584998239,//request time
+    "tick":{
+        "id":12121,//data max id 
+        "ts":1506584998239,//data mx time
+        "data":[
+            {
+                "side":"buy",//buy,sell
+                "price":32.233,
+                "vol":232,
+                "amount":323,
+                "ds":"2017-09-10 23:12:21"
+            }
+        ]
+    }
+}
+```
+
+### Subscription Kline Market
+- Subscription message structure
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]", // $symbol E.g. e_btcusdt 
+        "cb_id":"1" // // Business ID is not required
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "channel":"market_$symbol_kline_1min", //1min is for 1 minute
+    "ts":1506584998239,//request time
+    "tick":{
+        "id":1506602880,//kline start time
+        "vol":1212.12211,
+        "open":2233.22,//open price
+        "close":1221.11,//close price
+        "high":22322.22,//high price
+        "low":2321.22 //low price
+    }
+}
+```
+
+### Subscription Market Tickers
+
+- Subscription message structure
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_ticker", // $symbol E.g. e_btcusdt
+        "cb_id":"1" // // Business ID is not required
+    }
+}
+```
+- Payload
+
+```json
+{
+    "channel":"market_$symbol_ticker",
+    "ts":1506584998239,//request time
+    "tick":{
+        "amount":123.1221,
+        "vol":1212.12211,
+        "open":2233.22,//open price
+        "close":1221.11,//close price
+        "high":22322.22,//high price
+        "low":2321.22,//low price
+        "rose":-0.2922,//increase
+    }
+}
+```
+
+### Request Kline History Data
+
+- Subscription message structure
+
+```json
+{
+    "event":"req",
+    "params":{
+        "channel":"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]",
+        "cb_id":"1",
+        "endIdx":"1506602880", //Return pageSize data before endIdx Not required
+        "pageSize":100 // Not required
+    }
+}
+```
+
+- Payload
+
+```json
+{
+    "event_rep":"rep","channel":"market_$symbol_kline_5min","cb_id":"",
+    "ts":1506584998239,//request time
+  "data":[ //up to 300
+        {
+            "id":1506602880,//kline start time
+            "amount":123.1221,
+            "vol":1212.12211,
+            "open":2233.22,//open price
+            "close":1221.11,//close price
+            "high":22322.22,//high price
+            "low":2321.22 //low price
+        },
+        {
+            "id":1506602880,//kline start time
+            "amount":123.1221,
+            "vol":1212.12211,
+            "open":2233.22,//open price
+            "close":1221.11,//close price
+            "high":22322.22,//high price
+            "low":2321.22 //low price
+        }
+    ]
+}
+```
+
+### Request History Trade
+
+- Subscription message structure
+
+```json
+{
+    "event":"req",
+    "params":{
+        "channel":"market_$symbol_trade_ticker", // $symbol E.g.e_btcusdt
+        "cb_id":"1" // // Business ID is not required
+    }
+}
+```
+
+- Payload
+
+```json
+{
+    "event_rep":"rep","channel":"market_$symbol_trade_ticker",
+    "cb_id":"",
+    "ts":1506584998239,"status":"ok",
+    "data":[
+        {
+            "side":"buy",//buy,sell
+            "price":32.233,//trade price
+            "vol":232,//trade vol
+            "amount":323 //trade amount
+        },
+        {
+            "side":"buy",// buy,sell
+            "price":32.233,//trade price
+            "vol":232,//trade vol
+            "amount":323 //trade amount
+        }
+    ]
+}
+```
+
+## error code
+Error code explanation
+
+
+The returned error report generally consists of two parts: error code and error message. The error codes are universal, but the error messages will vary. The following is an example of an error JSON Payload:
+
+
+```json
+{
+  "code":-1121,
+  "msg":"Invalid symbol."
+}
+```
+
+
+### 10xx - General server and network errors
+
+
+#### -1000 UNKNOWN
+- An unknown error occurred while processing the request
+
+
+#### -1001 DISCONNECTED
+- Internal error, unable to process your request, please try again
+
+
+#### 1002 UNAUTHORIZED
+- You do not have permission to perform this request. The request requires sending an API key. We recommend appending the API key to all request headers.
+
+
+#### -1003 TOO_MANY_REQUESTS
+- The request is too frequent and exceeds the limit.
+
+
+#### -1006 UNEXPECTED_RESP
+- A message that does not conform to the preset format was received and the order status is unknown.
+
+
+#### -1007 TIMEOUT
+- Timeout waiting for backend server response. The sending status is unknown; the execution status is unknown
+
+
+#### -1014 UNKNOWN_ORDER_COMPOSITION
+- Unsupported order combination
+
+
+#### -1015 TOO_MANY_ORDERS
+- There are too many new orders. Please reduce the frequency of your requests
+
+
+#### -1016 SERVICE_SHUTTING_DOWN
+- Server offline
+
+
+#### -1017 ILLEGAL_CONTENT_TYPE
+- We recommend appending Content-Type to all request headers and setting it to application/json
+
+
+#### -1020 UNSUPPORTED_OPERATION
+- This operation is not supported
+
+
+#### 1021 INVALID_TIMESTAMP
+- The delay is too large, and the server determines that the time taken has exceeded the recevWindow based on the timestamp in the received request. Please improve the network conditions or increase the recevWindow.
+- The time offset is too large. The server determines that the client time is more than 1 second ahead of the server time based on the timestamp in the request.
+
+
+#### -1022 INVALID_SIGNATURE
+- The signature for this request is invalid.
+
+
+#### -1023 UNTIMESTAMP
+- You do not have permission to perform this request, we recommend that you append X-CH-TS to all request headers
+
+
+#### -1024 UNSIGNATURE
+- You do not have permission to perform this request. We recommend that you append X-CH-SIGN to the request header.
+
+
+### 11xx - Issues in request content
+
+
+#### -1100 ILLEGAL_CHARS
+- Illegal characters found in parameter.
+
+
+#### -1101 TOO_MANY_PARAMETERS
+- Too many parameters were sent.
+- Duplicate parameter value detected
+
+
+#### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
+- Mandatory parameter was not sent, was null/null or was malformed.
+- Mandatory parameter '%s' was not sent, empty/null or malformed.
+- Parameter '%s' or '%s' must be sent, but both are empty!
+
+
+#### -1103 UNKNOWN_PARAM
+- Unknown parameters were sent.
+- Each request requires at least one parameter {Timestamp}.
+
+
+#### -1104 UNREAD_PARAMETERS
+
+## Official SDK
+
+### Example of Signature
+
+```java
+/**
+ * Generate sign
+ **/
+private String toSign(String timestamp, String method, String requestPath,
+                             String queryString, String body, String secretKey) throws Exception {
+    
+    String preHash = preHash(timestamp, method, requestPath, queryString, body);
+    byte[] secretKeyBytes = secretKey.getBytes("UTF-8");
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secretKeyBytes, "HmacSHA256");
+    Mac mac = (Mac) MAC.clone();
+    mac.init(secretKeySpec);
+    return Hex.encodeHexString(mac.doFinal(preHash.getBytes("UTF-8")));
+}
+
+/**
+ * signature string
+ **/
+private String preHash(String timestamp, String method, String requestPath, String queryString, String body) {
+                                 
+    StringBuilder preHash = new StringBuilder();
+    preHash.append(timestamp);
+    preHash.append(method.toUpperCase());
+    preHash.append(requestPath);
+    if (org.apache.commons.lang3.StringUtils.isNotEmpty(queryString)) {
+        preHash.append("?").append(queryString);
+    }
+    if (org.apache.commons.lang3.StringUtils.isNotEmpty(body)) {
+        preHash.append(body);
+    }
+    return preHash.toString();
+}
+
+/**
+ * queryString
+ **/
+private String queryString(ServerHttpRequest request) {
+    String url = request.getURI().toString();
+    String queryString = "";
+    if (url.contains("?")) {
+        queryString = url.substring(url.lastIndexOf("?") + 1);
+    }
+    return queryString;
+}
+```
+#### Example of how to create order
+
+- java
+
+```java
+OkHttpClient client = new OkHttpClient().newBuilder()
+.build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}");
+Request request = new Request.Builder()
+.url("https://openapi.xxx.com")
+.method("POST", body)
+.addHeader("X-CH-APIKEY", "Your API key")
+.addHeader("X-CH-TS", "1596543296058")
+.addHeader("Content-Type", "application/json")
+.addHeader("X-CH-SIGN", "encrypt sign")
+.build();
+Response response = client.newCall(request).execute();
+```
+- go
+
+
+```
+package main
+import (
+"fmt"
+"strings"
+"net/http"
+"io/ioutil"
+)
+func main() {
+  url := "https://openapi.xxx.com"
+  method := "POST"
+  payload := strings.NewReader("{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}")
+  client := &http.Client {
+}
+  req, err := http.NewRequest(method, url, payload)
+if err != nil {
+    fmt.Println(err)
+}
+  req.Header.Add("X-CH-APIKEY", "Your API key")
+  req.Header.Add("X-CH-TS", "1596543881257")
+  req.Header.Add("Content-Type", "application/json")
+  req.Header.Add("X-CH-SIGN", "encrypt sign")
+  res, err := client.Do(req)
+  defer res.Body.Close()
+  body, err := ioutil.ReadAll(res.Body)
+  fmt.Println(string(body))
+}
+```
+
+- Python
+
+```
+import requests
+url = "https://openapi.xxx.com"
+payload = "{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}"
+headers = {
+'X-CH-APIKEY': 'Your API key',
+'X-CH-TS': '1596543881257',
+'Content-Type': 'application/json',
+'X-CH-SIGN': 'encrypt sign'
+}
+response = requests.request("POST", url, headers=headers, data = payload)
+print(response.text.encode('utf8'))
+```
+- php
+
+```
+<?php
+require_once 'HTTP/Request2.php';
+$request = new HTTP_Request2();
+$request->setUrl('https://openapi.xxx.com');
+$request->setMethod(HTTP_Request2::METHOD_POST);
+$request->setConfig(array(
+'follow_redirects' => TRUE
+));
+$request->setHeader(array(
+'X-CH-APIKEY' => 'Your API key',
+'X-CH-TS' => '1596543881257',
+'Content-Type' => 'application/json',
+'X-CH-SIGN' => 'encrypt sign'
+));
+$request->setBody('{"symbol":"BTCUSDT","volume":1,"side":"BUY","type":"LIMIT","price":10000,"newClientOrderId":"","recvWindow":5000}');
+try {
+  $response = $request->send();
+if ($response->getStatus() == 200) {
+    echo $response->getBody();
+}
+else {
+    echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+    $response->getReasonPhrase();
+}
+}
+catch(HTTP_Request2_Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+```
+
+- nodeJs
+
+```javascript
+var request = require('request');
+var options = {
+'method': 'POST',
+'url': 'https://openapi.xxx.com',
+'headers': {
+'X-CH-APIKEY': 'Your API key',
+'X-CH-TS': '1596543881257',
+'Content-Type': 'application/json',
+'X-CH-SIGN': 'encrypt sign'
+},
+  body: JSON.stringify({"symbol":"BTCUSDT","volume":1,"side":"BUY","type":"LIMIT","price":10000,"newClientOrderId":"","recvWindow":5000})
+};
+request(options, function (error, response) {
+if (error) throw new Error(error);
+  console.log(response.body);
+});
+
+```
+
+## Common Problem
+
+#### What is the maximum difference between the timestamp parameter of the request interface and the arrival time of the server?
+When the server receives the request, it will judge the timestamp in the request. If it is sent before 5000 milliseconds, the request will be considered invalid. This time window value can be customized by sending the optional parameter recvWindow.
+#### The request header "X-CH-TS" cannot be empty. How to solve it?
+First, it is recommended that the user print out the X-CH-TS, and check whether the X-CH-TS is empty when there is an exception, and it is recommended that the user code is optimized, and judge whether the X-CH-TS is empty before each request.
+#### Why does authentication always return invalid signatures?
+You can print out the request header information and the string before signature, with the following points:：
+- Compare your request header with the following request header example one by one
+- Is the API-key configured correctly in the program
+- Whether the string before signing conforms to the standard format, the order of all elements must be consistent. You can copy the following example to compare with your string before signing:
+
+>Example request header:Content-Type: application/json X-CH-APIKEY: 44c541a1-****-****-****-10fe390df2 X-CH-SIGN: ssseLeefrffraoEQ3yI9qEtI1CZ82ikZ4xSG5Kj8gnl3uw= X-CH-TS: 1574327555669> POST示例：1588591856950POST/sapi/v1/order/test{"symbol":"BTCUSDT","price":"9300","volume":"1","side":"BUY","type":"LIMIT"}
+
+#### The calling interface prompts ILLEGAL_CONTENT_TYPE (-1017). What is the reason?
+We recommend attaching Content-Type to all request headers and setting it to application/json
+
+#### Is there a limit to the frequency of API calls per second?
+There are restrictions. For details, see the access frequency restrictions for each interface in the document.
+
+#### What is the limit on API access frequency？
+Personal data is restricted according to API-key, and public data is restricted according to ip. It should be noted that if the user requests public data and passes in valid personal information, it is restricted according to API-key.
+
+#### What is the cause of HTTP status code 429?
+The request interface exceeds the access frequency limit. It is recommended to reduce the access frequency.
+
+##### Will the IP be blocked if the API call interface reports that the access frequency is exceeded? How long is it sealed?
+Normally not, just reduce the frequency of access.
+
+#### Why is WebSocker disconnected?
+- Without adding a heartbeat, the WebSocket connection requires the client to return to pong to ensure the stability of the connection.
+- The pong message sent by the client is caused by network reasons, but the server does not receive it, or other network reasons may also cause automatic disconnection.
+- It is recommended that users have a good WebSocket disconnect and reconnect mechanism to ensure that the program can automatically reconnect when the heartbeat (ping/pong) connection is accidentally disconnected.
+
+#### The user request interface reports an error Time Out?
+The network cannot connect to the server. It is recommended that you check whether the network is smooth.
+
+#### What is clientOrderId and what does it do?
+- clientOrderId is your customized order number, which can be used to identify your order. After the order is placed, you can make clientOrderId call the "Order Information" interface to view the order status;
+- The user needs to ensure that this ID is not repeated, and we will not prompt for re-relocation. If there is a repetition, you can only cancel or query the latest piece of data when canceling and querying the order
+
+#### How to get the latest transaction price?
+You can get ticker information, last is the latest transaction price
+
+#### Will there be a negative growth in the 24-hour trading volume in the ticker interface?
+Will do. Because the 24-hour trading volume is a 24-hour rolling data (the size of the translation window is 24 hours), it may happen that the accumulated trading volume and accumulated trading volume in the next window are smaller than the previous window.

@@ -954,3 +954,611 @@ curl 调用:
 }
 ```
 
+## Websocket推送
+### 概述
+WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服务器全双工通信， 使得数据可以快速地双向传播。通过一次简单的握手就可以建立客户端和服务器连接， 服务器根据业务规则可以主动推送信息给客户端。其优点如下：
+
+- 客户端和服务器进行数据传输时，请求头信息比较小，大概2个字节。
+- 客户端和服务器皆可以主动地发送数据给对方。
+- 不需要多次创建TCP请求和销毁，节约宽带和服务器的资源。
+
+**强烈建议开发者使用WebSocket API获取市场行情和买卖深度等信息。**
+
+### 基本信息
+- 合约行情基础站点: [wss://futuresws.xxx.xxx/kline-api/ws](wss://futuresws.xxx.xxx/kline-api/ws) 其中`xxx.xxx`替换成交易所的主域
+- 返回数据除了心跳数据都会二进制压缩(用户需要通过Gzip算法进行解压)
+
+### Demo
+[https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java](https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java)
+
+#### 参数示例
+
+| event   | channel                       | description |
+|---------|-------------------------------|------|
+| `sub`   | `market_$symbol_depth_step0`  | `订阅深度`  |
+| `unsub` | `market_$symbol_depth_step0`  | `取消订阅深度`  |
+| `sub`   | `market_$symbol_trade_ticker` | `订阅实时成交`    |
+| `unsub` | `market_$symbol_trade_ticker` | `取消订阅实时成交`    |
+| `sub`   | `market_$symbol_ticker`       | `订阅24h行情数据`    |
+| `unsub` | `market_$symbol_ticker`       | `取消订阅24h行情数据`    |
+| `sub` | `market_$symbol_kline_1min`   | `订阅1min实时k线信息`    |
+| `req` | `market_$symbol_kline_1month`        | `请求1month历史k线记录`    |
+
+```json
+  {
+  "pong": 15359750
+  }
+```
+### 订阅全量深度
+
+- 订阅数据样例
+```json
+  {
+  "event":"sub",
+  "params":{
+    "channel":"market_$symbol_depth_step0", // $symbol E.g. 币币:btcusdt 合约:e_btcusdt
+    "cb_id":"1" // 业务id 非必填
+    }
+  }
+```
+- 返回买卖盘最多30条数据
+
+```json
+{
+    "channel":"market_btcusdt_depth_step0",
+    "ts":1506584998239,
+    "tick":{
+        "asks":[ //卖盘
+            [10000.19,0.93],
+            [10001.21,0.2],
+            [10002.22,0.34]
+        ],
+        "buys":[ //买盘
+            [9999.53,0.93],
+            [9998.2,0.2],
+            [9997.19,0.21]
+        ]
+    }
+}
+```
+### 订阅实时成交
+- 订阅数据样例
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_trade_ticker", // $symbol E.g. 币币:btcusdt 合约:e_btcusdt
+        "cb_id":"1" // 业务id 非必填
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "channel":"market_$symbol_trade_ticker",
+    "ts":1506584998239,//请求时间
+    "tick":{
+        "id":12121,//data中最大交易ID
+        "ts":1506584998239,//data中最大时间
+        "data":[
+            {
+                "side":"buy",//买卖方向buy,sell
+                "price":32.233,//单价
+                "vol":232,//数量
+                "amount":323,//总额
+                "ds":'2017-09-10 23:12:21'
+            }
+        ]
+    }
+}
+```
+
+### 订阅k线行情
+- 订阅数据样例
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]", // $symbol E.g. btcusdt
+        "cb_id":"1" // 业务id 非必填
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "channel":"market_$symbol_kline_1min", //1min代表1分钟k线
+    "ts":1506584998239,//请求时间
+    "tick":{
+        "id":1506602880,//时间刻度起始值
+        "vol":1212.12211,//交易量
+        "open":2233.22,//开盘价
+        "close":1221.11,//收盘价
+        "high":22322.22,//最高价
+        "low":2321.22//最低价
+    }
+}
+```
+
+### 订阅24h行情ticker
+
+- 订阅数据样例
+
+```json
+{
+    "event":"sub",
+    "params":{
+        "channel":"market_$symbol_ticker", // $symbol E.g. 币币:btcusdt 合约:e_btcusdt
+        "cb_id":"1" // 业务id 非必填
+    }
+}
+```
+- 返回
+
+```json
+{
+    "channel":"market_$symbol_ticker",
+    "ts":1506584998239,//请求时间
+    "tick":{
+        "amount":123.1221,//交易额
+        "vol":1212.12211,//交易量
+        "open":2233.22,//开盘价
+        "close":1221.11,//收盘价
+        "high":22322.22,//最高价
+        "low":2321.22,//最低价
+        "rose":-0.2922,//涨幅
+    }
+}
+```
+
+### 请求k线历史数据
+
+- 请求数据样例
+
+```json
+{
+    "event":"req",
+    "params":{
+        "channel":"market_$symbol_kline_[1min/5min/15min/30min/60min/1day/1week/1month]",
+        "cb_id":"1",
+        "endIdx":"1506602880", //返回endIdx前pageSize条数据  非必填
+        "pageSize":100 // 非必填
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "event_rep":"rep","channel":"market_$symbol_kline_5min","cb_id":"原路返回",
+    "ts":1506584998239,//请求时间
+    "data":[ //最多300条
+        {
+            "id":1506602880,//时间刻度起始值
+            "amount":123.1221,//交易额
+            "vol":1212.12211,//交易量
+            "open":2233.22,//开盘价
+            "close":1221.11,//收盘价
+            "high":22322.22,//最高价
+            "low":2321.22//最低价
+        },
+        {
+            "id":1506602880,//时间刻度起始值
+            "amount":123.1221,//交易额
+            "vol":1212.12211,//交易量
+            "open":2233.22,//开盘价
+            "close":1221.11,//收盘价
+            "high":22322.22,//最高价
+            "low":2321.22//最低价
+        }
+    ]
+}
+```
+
+### 请求成交记录
+
+- 请求数据样例
+
+```json
+{
+    "event":"req",
+    "params":{
+        "channel":"market_$symbol_trade_ticker", // $symbol E.g. 币币:btcusdt 合约:e_btcusdt
+        "cb_id":"1" // 业务id 非必填
+    }
+}
+```
+
+- 返回
+
+```json
+{
+    "event_rep":"rep","channel":"market_$symbol_trade_ticker",
+    "cb_id":"原路返回",
+    "ts":1506584998239,"status":"ok",
+    "data":[
+        {
+            "side":"buy",//买卖方向buy,sell
+            "price":32.233,//单价
+            "vol":232,//数量
+            "amount":323//总额
+        },
+        {
+            "side":"buy",//买卖方向buy,sell
+            "price":32.233,//单价
+            "vol":232,//数量
+            "amount":323//总额
+        }
+    ]
+}
+```
+
+## 错误码
+错误码解释说明
+
+返回报错一般由两个部分组成：错误码和错误信息。错误码是通用的，但是错误信息会有所不同。如下是一个报错JSON Payload示例：
+
+```json
+{
+  "code":-1121,
+  "msg":"Invalid symbol."
+}
+```
+
+### 10xx - 通用服务器和网络错误
+
+#### -1000 UNKNOWN
+- 处理请求时发生未知错误
+
+#### -1001 DISCONNECTED
+- 内部错误, 无法处理您的请求, 请再试一次
+
+#### 1002 UNAUTHORIZED
+- 您无权执行此请求. 请求需要发送API key,  我们建议在所有的请求头附加API key
+
+#### -1003 TOO_MANY_REQUESTS
+- 请求过于频繁超过限制.
+
+#### -1006 UNEXPECTED_RESP
+- 接收到了不符合预设格式的消息，下单状态未知
+
+#### -1007 TIMEOUT
+- 等待后端服务器响应超时。 发送状态未知； 执行状态未知
+
+#### -1014 UNKNOWN_ORDER_COMPOSITION
+- 不支持的订单组合
+
+#### -1015 TOO_MANY_ORDERS
+- 新订单太多。请减少你的请求频率
+
+#### -1016 SERVICE_SHUTTING_DOWN
+- 服务器下线
+
+#### -1017 ILLEGAL_CONTENT_TYPE
+- 我们建议在所有的请求头附加Content-Type, 并设置成application/json
+
+#### -1020 UNSUPPORTED_OPERATION
+- 不支持此操作
+
+#### 1021 INVALID_TIMESTAMP
+- 时延过大，服务器根据接请求中的时间戳判定耗时已经超出了recevWindow。请改善网络条件或者增大recevWindow.
+- 时间偏移过大，服务器根据请求中的时间戳判定客户端时间比服务器时间提前了1秒钟以上.
+
+#### -1022 INVALID_SIGNATURE
+- 此请求的签名无效。
+
+#### -1023 UNTIMESTAMP
+- 您无权执行此请求, 我们建议您在所有的请求头附加X-CH-TS
+
+#### -1024 UNSIGNATURE
+- 您无权执行此请求, 我们建议您在请求头附加X-CH-SIGN
+
+### 11xx - 请求内容中的问题
+
+#### -1100 ILLEGAL_CHARS
+- 在参数中发现非法字符。
+
+#### -1101 TOO_MANY_PARAMETERS
+- 发送的参数太多。
+- 检测到的参数值重复
+
+#### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
+- 未发送强制性参数，该参数为空/空或格式错误。
+- 强制参数'％s'未发送，为空/空或格式错误。
+- 必须发送参数'％s'或'％s'，但两者均为空！
+
+#### -1103 UNKNOWN_PARAM
+- 发送了未知参数。
+- 每条请求需要至少一个参数{Timestamp}.
+
+#### -1104 UNREAD_PARAMETERS
+- 并非所有发送的参数都被读取。
+- 并非所有发送的参数都被读取； 读取了'％s'参数，但被发送了'％s'。
+
+#### -1105 PARAM_EMPTY
+- 参数为空。
+- 参数'％s'为空。
+
+#### -1106 PARAM_NOT_REQUIRED
+- 不需要时已发送参数。
+- 不需要时发送参数'％s'。
+
+#### -1111 BAD_PRECISION
+- 发送了未知参数。
+- 每条请求需要至少一个参数{Timestamp}.
+
+#### -1112 NO_DEPTH
+- 交易对没有挂单
+
+#### -1116 INVALID_ORDER_TYPE
+- 无效订单类型。
+
+#### -1117 INVALID_SIDE
+- 无效买卖方向。
+
+#### -1118 EMPTY_NEW_CL_ORD_ID
+- 新的客户订单ID为空。
+
+#### -1121 BAD_SYMBOL
+- 无效的symbol
+
+#### -1136 ORDER_QUANTITY_TOO_SMALL
+- 订单quantity小于最小值
+
+#### -1138 ORDER_PRICE_WAVE_EXCEED
+- 订单价格超出允许范围
+
+#### -1139 ORDER_NOT_SUPPORT_MARKET
+- 该交易对不支持市价交易
+
+#### -1145 ORDER_NOT_SUPPORT_CANCELLATION
+- 该订单类型不支持撤销
+
+#### -1147  PRICE_VOLUME_PRESION_ERROR
+- 订单价格或数量超过最大限制
+
+#### -2013 NO_SUCH_ORDER
+- Order不存在
+
+#### -2015 REJECTED_CH_KEY
+- 无效的API密钥，IP或操作权限.
+
+#### -2016 EXCHANGE_LOCK
+- 交易被冻结
+
+#### -2017 BALANCE_NOT_ENOUGH
+- 余额不足
+
+## SDK 开发库
+
+### 签名示例
+
+```java
+/**
+ * 生成sign
+ **/
+private String toSign(String timestamp, String method, String requestPath,
+                             String queryString, String body, String secretKey) throws Exception {
+    // 签名串
+    String preHash = preHash(timestamp, method, requestPath, queryString, body);
+    byte[] secretKeyBytes = secretKey.getBytes("UTF-8");
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secretKeyBytes, "HmacSHA256");
+    Mac mac = (Mac) MAC.clone();
+    mac.init(secretKeySpec);
+    return Hex.encodeHexString(mac.doFinal(preHash.getBytes("UTF-8")));
+}
+
+/**
+ * 签名串
+ **/
+private String preHash(String timestamp, String method, String requestPath, String queryString, String body) {
+
+    StringBuilder preHash = new StringBuilder();
+    preHash.append(timestamp);
+    preHash.append(method.toUpperCase());
+    preHash.append(requestPath);
+    if (org.apache.commons.lang3.StringUtils.isNotEmpty(queryString)) {
+        preHash.append("?").append(queryString);
+    }
+    if (org.apache.commons.lang3.StringUtils.isNotEmpty(body)) {
+        preHash.append(body);
+    }
+    return preHash.toString();
+}
+
+/**
+ * queryString
+ **/
+private String queryString(ServerHttpRequest request) {
+    String url = request.getURI().toString();
+    String queryString = "";
+    if (url.contains("?")) {
+        queryString = url.substring(url.lastIndexOf("?") + 1);
+    }
+    return queryString;
+}
+```
+#### 下面是创建订单的样例
+
+- java
+
+```java
+OkHttpClient client = new OkHttpClient().newBuilder()
+.build();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}");
+Request request = new Request.Builder()
+.url("https://openapi.xxx.com")
+.method("POST", body)
+.addHeader("X-CH-APIKEY", "Your API key")
+.addHeader("X-CH-TS", "1596543296058")
+.addHeader("Content-Type", "application/json")
+.addHeader("X-CH-SIGN", "encrypt sign")
+.build();
+Response response = client.newCall(request).execute();
+```
+- go
+
+
+```
+package main
+import (
+"fmt"
+"strings"
+"net/http"
+"io/ioutil"
+)
+func main() {
+  url := "https://openapi.xxx.com"
+  method := "POST"
+  payload := strings.NewReader("{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}")
+  client := &http.Client {
+}
+  req, err := http.NewRequest(method, url, payload)
+if err != nil {
+    fmt.Println(err)
+}
+  req.Header.Add("X-CH-APIKEY", "Your API key")
+  req.Header.Add("X-CH-TS", "1596543881257")
+  req.Header.Add("Content-Type", "application/json")
+  req.Header.Add("X-CH-SIGN", "encrypt sign")
+  res, err := client.Do(req)
+  defer res.Body.Close()
+  body, err := ioutil.ReadAll(res.Body)
+  fmt.Println(string(body))
+}
+```
+
+- Python
+
+```
+import requests
+url = "https://openapi.xxx.com"
+payload = "{\"symbol\":\"BTCUSDT\",\"volume\":1,\"side\":\"BUY\",\"type\":\"LIMIT\",\"price\":10000,\"newClientOrderId\":\"\",\"recvWindow\":5000}"
+headers = {
+'X-CH-APIKEY': 'Your API key',
+'X-CH-TS': '1596543881257',
+'Content-Type': 'application/json',
+'X-CH-SIGN': 'encrypt sign'
+}
+response = requests.request("POST", url, headers=headers, data = payload)
+print(response.text.encode('utf8'))
+```
+- php
+
+```
+<?php
+require_once 'HTTP/Request2.php';
+$request = new HTTP_Request2();
+$request->setUrl('https://openapi.xxx.com');
+$request->setMethod(HTTP_Request2::METHOD_POST);
+$request->setConfig(array(
+'follow_redirects' => TRUE
+));
+$request->setHeader(array(
+'X-CH-APIKEY' => 'Your API key',
+'X-CH-TS' => '1596543881257',
+'Content-Type' => 'application/json',
+'X-CH-SIGN' => 'encrypt sign'
+));
+$request->setBody('{"symbol":"BTCUSDT","volume":1,"side":"BUY","type":"LIMIT","price":10000,"newClientOrderId":"","recvWindow":5000}');
+try {
+  $response = $request->send();
+if ($response->getStatus() == 200) {
+    echo $response->getBody();
+}
+else {
+    echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+    $response->getReasonPhrase();
+}
+}
+catch(HTTP_Request2_Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+```
+
+- nodeJs
+
+```javascript
+var request = require('request');
+var options = {
+'method': 'POST',
+'url': 'https://openapi.xxx.com',
+'headers': {
+'X-CH-APIKEY': 'Your API key',
+'X-CH-TS': '1596543881257',
+'Content-Type': 'application/json',
+'X-CH-SIGN': 'encrypt sign'
+},
+  body: JSON.stringify({"symbol":"BTCUSDT","volume":1,"side":"BUY","type":"LIMIT","price":10000,"newClientOrderId":"","recvWindow":5000})
+};
+request(options, function (error, response) {
+if (error) throw new Error(error);
+  console.log(response.body);
+});
+
+```
+
+## 常见问题
+
+#### 请求接口的timestamp参数和到达服务器时间最大差值是多少?
+服务器收到请求时会判断请求中的时间戳，如果是5000毫秒之前发出的，则请求会被认为无效。这个时间窗口值可以通过发送可选参数`recvWindow`来自定义。
+
+#### 请求头"X-CH-TS"不能为空 如何解决？
+首先建议用户打印一下`X-CH-TS`，出现异常时检查`X-CH-TS`是否为空，另外建议用户代码优化，每次请求前先判断`X-CH-TS`是否为空。
+
+#### 为什么签名认证总返回无效的签名?
+可以打印出请求头信息和签名前字符串，重点有以下几点：
+- 将您的请求头和下面的请求头示例一一对比
+
+>请求头示例：
+> Content-Type: application/json
+> X-CH-APIKEY: 44c541a1-****-****-****-10fe390df2
+> X-CH-SIGN: ssseLeefrffraoEQ3yI9qEtI1CZ82ikZ4xSG5Kj8gnl3uw=
+> X-CH-TS: 1574327555669
+
+- 是否在程序中正确的配置了API-key
+- 签名前字符串是否符合标准格式, 所有要素的顺序要保持一致. 可以复制如下示例跟您的签名前字符串进行比对：
+
+>GET示例： 1588591856950GET/sapi/v1/account
+> POST示例：1588591856950POST/sapi/v1/order/test{"symbol":"BTCUSDT","price":"9300","volume":"1","side":"BUY","type":"LIMIT"}
+
+#### 调用接口提示ILLEGAL_CONTENT_TYPE (-1017),是什么原因？
+我们建议在所有的请求头附加Content-Type, 并设置成application/json
+
+#### API每秒调用频率有限制吗?
+有限制，具体可以看下文档中每个接口的访问频率限制。
+
+#### API的访问频率是根据什么限制的？
+个人数据是根据**API-key**限制的，公共数据是根据**ip**限制，需要注意的是，若用户请求公共数据时传入有效的个人信息就根据**API-key**限制。
+
+#### HTTP状态码429是怎样造成的?
+请求接口超过访问频率限制，建议降低访问频率。
+
+##### API调用接口报超过访问频率会被封IP吗？封多久？
+通常情况下不会的，降低访问频率就可以。
+
+#### 为什么WebSocker出现了断开连接?
+- 未添加心跳，WebSocket连接需客户端需要回pong，保证连接的稳定。
+- 网络原因造成客户端发送的pong消息，但服务端并未接收到，或其他网络原因也会导致自动断开连接。
+- 建议用户做好WebSocket断开重连机制，在确保心跳（ping/pong）连接意外断开时，程序能够自动重新进行连接。
+
+#### 用户请求接口报错Time Out?
+网络无法连接服务器，建议您检查下网络是否通畅。
+
+#### ClientOrderId是什么, 有什么作用?
+- clientOrderId是您自定义的订单号，可以用来标识您的一笔订单，当下单完成后，可以使clientOrderId调用 “订单信息“接口，查看订单状态；
+- 用户需要自己保证此ID不重复，我方不会进行排重提示，如有重复，撤单和查询订单时只能撤销或者查询最新的一条数据
+
+#### 如何获取最新成交价格?
+可以通过获取ticker信息, last就是最新成交价
+
+#### ticker接口中的24小时成交量会出现负增长吗？
+会的。因为24小时成交量，为24小时滚动数据（平移窗口大小24小时），有可能会出现后一个窗口内的累计成交量、累计成交额小于前一窗口的情况。
+
