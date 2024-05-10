@@ -5,7 +5,7 @@ docker run --rm --name slate1 -v $(pwd)/build/zh/latest/futures-open-api:/srv/sl
 # build futures-api/en
 docker run --rm --name slate1 -v $(pwd)/build/en/latest/futures-open-api:/srv/slate/build -v $(pwd)/futures-open-api/en/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-open-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
 
-docker run --rm --name slate1 -v $(pwd)/build/zh/latest/futures-broker-api:/srv/slate/build -v $(pwd)/futures-broker-api/zh/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-broker-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
+docker run --rm --name slate1 -v $(pwd)/build/zh/latest/futures-broker-api:/srv/slate/build -v $(pwd)/futures-broker-api/zh/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-broker-api/zh/includes:/srv/slate/source/includes futuresdocker/slate build
 
 docker run --rm --name slate1 -v $(pwd)/build/en/latest/futures-broker-api:/srv/slate/build -v $(pwd)/futures-broker-api/en/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-broker-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
 
