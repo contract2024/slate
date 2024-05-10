@@ -511,71 +511,15 @@
                     <a href="#10xx-general-server-and-network-errors" class="toc-h2 toc-link" data-title="10xx - General server and network errors">10xx - General server and network errors</a>
                       <ul class="toc-list-h3">
                           <li>
-                            <a href="#1000-unknown" class="toc-h3 toc-link" data-title="-1000 UNKNOWN">-1000 UNKNOWN</a>
-                          </li>
-                          <li>
-                            <a href="#1001-disconnected" class="toc-h3 toc-link" data-title="-1001 DISCONNECTED">-1001 DISCONNECTED</a>
-                          </li>
-                          <li>
                             <a href="#1002-unauthorized" class="toc-h3 toc-link" data-title="1002 UNAUTHORIZED">1002 UNAUTHORIZED</a>
                           </li>
                           <li>
-                            <a href="#1003-too_many_requests" class="toc-h3 toc-link" data-title="-1003 TOO_MANY_REQUESTS">-1003 TOO_MANY_REQUESTS</a>
-                          </li>
-                          <li>
-                            <a href="#1006-unexpected_resp" class="toc-h3 toc-link" data-title="-1006 UNEXPECTED_RESP">-1006 UNEXPECTED_RESP</a>
-                          </li>
-                          <li>
-                            <a href="#1007-timeout" class="toc-h3 toc-link" data-title="-1007 TIMEOUT">-1007 TIMEOUT</a>
-                          </li>
-                          <li>
-                            <a href="#1014-unknown_order_composition" class="toc-h3 toc-link" data-title="-1014 UNKNOWN_ORDER_COMPOSITION">-1014 UNKNOWN_ORDER_COMPOSITION</a>
-                          </li>
-                          <li>
-                            <a href="#1015-too_many_orders" class="toc-h3 toc-link" data-title="-1015 TOO_MANY_ORDERS">-1015 TOO_MANY_ORDERS</a>
-                          </li>
-                          <li>
-                            <a href="#1016-service_shutting_down" class="toc-h3 toc-link" data-title="-1016 SERVICE_SHUTTING_DOWN">-1016 SERVICE_SHUTTING_DOWN</a>
-                          </li>
-                          <li>
-                            <a href="#1017-illegal_content_type" class="toc-h3 toc-link" data-title="-1017 ILLEGAL_CONTENT_TYPE">-1017 ILLEGAL_CONTENT_TYPE</a>
-                          </li>
-                          <li>
-                            <a href="#1020-unsupported_operation" class="toc-h3 toc-link" data-title="-1020 UNSUPPORTED_OPERATION">-1020 UNSUPPORTED_OPERATION</a>
-                          </li>
-                          <li>
                             <a href="#1021-invalid_timestamp" class="toc-h3 toc-link" data-title="1021 INVALID_TIMESTAMP">1021 INVALID_TIMESTAMP</a>
-                          </li>
-                          <li>
-                            <a href="#1022-invalid_signature" class="toc-h3 toc-link" data-title="-1022 INVALID_SIGNATURE">-1022 INVALID_SIGNATURE</a>
-                          </li>
-                          <li>
-                            <a href="#1023-untimestamp" class="toc-h3 toc-link" data-title="-1023 UNTIMESTAMP">-1023 UNTIMESTAMP</a>
-                          </li>
-                          <li>
-                            <a href="#1024-unsignature" class="toc-h3 toc-link" data-title="-1024 UNSIGNATURE">-1024 UNSIGNATURE</a>
                           </li>
                       </ul>
                   </li>
                   <li>
                     <a href="#11xx-issues-in-request-content" class="toc-h2 toc-link" data-title="11xx - Issues in request content">11xx - Issues in request content</a>
-                      <ul class="toc-list-h3">
-                          <li>
-                            <a href="#1100-illegal_chars" class="toc-h3 toc-link" data-title="-1100 ILLEGAL_CHARS">-1100 ILLEGAL_CHARS</a>
-                          </li>
-                          <li>
-                            <a href="#1101-too_many_parameters" class="toc-h3 toc-link" data-title="-1101 TOO_MANY_PARAMETERS">-1101 TOO_MANY_PARAMETERS</a>
-                          </li>
-                          <li>
-                            <a href="#1102-mandatory_param_empty_or_malformed" class="toc-h3 toc-link" data-title="-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED">-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED</a>
-                          </li>
-                          <li>
-                            <a href="#1103-unknown_param" class="toc-h3 toc-link" data-title="-1103 UNKNOWN_PARAM">-1103 UNKNOWN_PARAM</a>
-                          </li>
-                          <li>
-                            <a href="#1104-unread_parameters" class="toc-h3 toc-link" data-title="-1104 UNREAD_PARAMETERS">-1104 UNREAD_PARAMETERS</a>
-                          </li>
-                      </ul>
                   </li>
               </ul>
           </li>
@@ -825,7 +769,7 @@
 - <code>1day</code>
 - <code>1week</code>
 - <code>1month</code></p>
-<h1 id='market'>Market</h1><h2 id='security-none'>Security:<code>None</code></h2>
+<h1 id='market'>Market</h1><h3 id='security-none'>Security:<code>None</code></h3>
 <p>Public section can be accessed freely without requiring any API-key or signatures.</p>
 <h2 id='test-connectivity'>Test Connectivity</h2>
 <p><code>GET</code> <code>https://futuresopenapi.xxx.com/fapi/v1/ping</code></p>
@@ -1050,7 +994,7 @@
         </span><span class="nl">"open"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6228.77"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre></div><h1 id='trade'>Trade</h1><h2 id='security-trade'>Security: TRADE</h2>
+</span></code></pre></div><h1 id='trade'>Trade</h1><h3 id='security-trade'>Security: TRADE</h3>
 <p>The interface in Trade requires API-key and signature for access.</p>
 <h2 id='create-new-order'>Create new order</h2>
 <p><code>GET</code> <code>https://futuresopenapi.xxx.com/fapi/v1/order</code></p>
@@ -2052,7 +1996,7 @@
     </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successful"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h1 id='account'>Account</h1><h2 id='security-user_data'>Security: USER_DATA</h2>
+</span></code></pre></div><h1 id='account'>Account</h1><h3 id='security-user_data'>Security: USER_DATA</h3>
 <p>The interface in Trade requires API-key and signature for access.</p>
 <h2 id='account-information'>Account Information</h2>
 <p><code>GET</code> <code>https://futuresopenapi.xxx.com/fapi/v1/account</code></p>
@@ -2429,88 +2373,73 @@ Every once in a while, the server will send a PING message. The client needs to 
   </span><span class="nl">"code"</span><span class="p">:</span><span class="mi">-1121</span><span class="p">,</span><span class="w">
   </span><span class="nl">"msg"</span><span class="p">:</span><span class="s2">"Invalid symbol."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h2 id='10xx-general-server-and-network-errors'>10xx - General server and network errors</h2><h3 id='1000-unknown'>-1000 UNKNOWN</h3>
-<ul>
-<li>An unknown error occurred while processing the request</li>
-</ul>
-<h3 id='1001-disconnected'>-1001 DISCONNECTED</h3>
-<ul>
-<li>Internal error, unable to process your request, please try again</li>
-</ul>
+</span></code></pre></div><h2 id='10xx-general-server-and-network-errors'>10xx - General server and network errors</h2>
+<p>-1000 UNKNOWN
+- An unknown error occurred while processing the request</p>
+
+<p>-1001 DISCONNECTED
+- Internal error, unable to process your request, please try again</p>
 <h3 id='1002-unauthorized'>1002 UNAUTHORIZED</h3>
 <ul>
 <li>You do not have permission to perform this request. The request requires sending an API key. We recommend appending the API key to all request headers.</li>
 </ul>
-<h3 id='1003-too_many_requests'>-1003 TOO_MANY_REQUESTS</h3>
-<ul>
-<li>The request is too frequent and exceeds the limit.</li>
-</ul>
-<h3 id='1006-unexpected_resp'>-1006 UNEXPECTED_RESP</h3>
-<ul>
-<li>A message that does not conform to the preset format was received and the order status is unknown.</li>
-</ul>
-<h3 id='1007-timeout'>-1007 TIMEOUT</h3>
-<ul>
-<li>Timeout waiting for backend server response. The sending status is unknown; the execution status is unknown</li>
-</ul>
-<h3 id='1014-unknown_order_composition'>-1014 UNKNOWN_ORDER_COMPOSITION</h3>
-<ul>
-<li>Unsupported order combination</li>
-</ul>
-<h3 id='1015-too_many_orders'>-1015 TOO_MANY_ORDERS</h3>
-<ul>
-<li>There are too many new orders. Please reduce the frequency of your requests</li>
-</ul>
-<h3 id='1016-service_shutting_down'>-1016 SERVICE_SHUTTING_DOWN</h3>
-<ul>
-<li>Server offline</li>
-</ul>
-<h3 id='1017-illegal_content_type'>-1017 ILLEGAL_CONTENT_TYPE</h3>
-<ul>
-<li>We recommend appending Content-Type to all request headers and setting it to application/json</li>
-</ul>
-<h3 id='1020-unsupported_operation'>-1020 UNSUPPORTED_OPERATION</h3>
-<ul>
-<li>This operation is not supported</li>
-</ul>
+
+<p>-1003 TOO_MANY_REQUESTS
+- The request is too frequent and exceeds the limit.</p>
+
+<p>-1006 UNEXPECTED_RESP
+- A message that does not conform to the preset format was received and the order status is unknown.</p>
+
+<p>-1007 TIMEOUT
+- Timeout waiting for backend server response. The sending status is unknown; the execution status is unknown</p>
+
+<p>-1014 UNKNOWN_ORDER_COMPOSITION
+- Unsupported order combination</p>
+
+<p>-1015 TOO_MANY_ORDERS
+- There are too many new orders. Please reduce the frequency of your requests</p>
+
+<p>-1016 SERVICE_SHUTTING_DOWN
+- Server offline</p>
+
+<p>-1017 ILLEGAL_CONTENT_TYPE
+- We recommend appending Content-Type to all request headers and setting it to application/json</p>
+
+<p>-1020 UNSUPPORTED_OPERATION
+- This operation is not supported</p>
 <h3 id='1021-invalid_timestamp'>1021 INVALID_TIMESTAMP</h3>
 <ul>
 <li>The delay is too large, and the server determines that the time taken has exceeded the recevWindow based on the timestamp in the received request. Please improve the network conditions or increase the recevWindow.</li>
 <li>The time offset is too large. The server determines that the client time is more than 1 second ahead of the server time based on the timestamp in the request.</li>
 </ul>
-<h3 id='1022-invalid_signature'>-1022 INVALID_SIGNATURE</h3>
-<ul>
-<li>The signature for this request is invalid.</li>
-</ul>
-<h3 id='1023-untimestamp'>-1023 UNTIMESTAMP</h3>
-<ul>
-<li>You do not have permission to perform this request, we recommend that you append X-CH-TS to all request headers</li>
-</ul>
-<h3 id='1024-unsignature'>-1024 UNSIGNATURE</h3>
-<ul>
-<li>You do not have permission to perform this request. We recommend that you append X-CH-SIGN to the request header.</li>
-</ul>
-<h2 id='11xx-issues-in-request-content'>11xx - Issues in request content</h2><h3 id='1100-illegal_chars'>-1100 ILLEGAL_CHARS</h3>
-<ul>
-<li>Illegal characters found in parameter.</li>
-</ul>
-<h3 id='1101-too_many_parameters'>-1101 TOO_MANY_PARAMETERS</h3>
-<ul>
-<li>Too many parameters were sent.</li>
-<li>Duplicate parameter value detected</li>
-</ul>
-<h3 id='1102-mandatory_param_empty_or_malformed'>-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED</h3>
-<ul>
-<li>Mandatory parameter was not sent, was null/null or was malformed.</li>
-<li>Mandatory parameter &#39;%s&#39; was not sent, empty/null or malformed.</li>
-<li>Parameter &#39;%s&#39; or &#39;%s&#39; must be sent, but both are empty!</li>
-</ul>
-<h3 id='1103-unknown_param'>-1103 UNKNOWN_PARAM</h3>
-<ul>
-<li>Unknown parameters were sent.</li>
-<li>Each request requires at least one parameter {Timestamp}.</li>
-</ul>
-<h3 id='1104-unread_parameters'>-1104 UNREAD_PARAMETERS</h3><h1 id='official-sdk'>Official SDK</h1><h2 id='example-of-signature'>Example of Signature</h2><div class="highlight"><pre class="highlight java tab-java"><code><span class="cm">/**
+
+<p>-1022 INVALID_SIGNATURE
+- The signature for this request is invalid.</p>
+
+<p>-1023 UNTIMESTAMP
+- You do not have permission to perform this request, we recommend that you append X-CH-TS to all request headers</p>
+
+<p>-1024 UNSIGNATURE
+- You do not have permission to perform this request. We recommend that you append X-CH-SIGN to the request header.</p>
+<h2 id='11xx-issues-in-request-content'>11xx - Issues in request content</h2>
+<p>-1100 ILLEGAL_CHARS
+- Illegal characters found in parameter.</p>
+
+<p>-1101 TOO_MANY_PARAMETERS
+- Too many parameters were sent.
+- Duplicate parameter value detected</p>
+
+<p>-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
+- Mandatory parameter was not sent, was null/null or was malformed.
+- Mandatory parameter &#39;%s&#39; was not sent, empty/null or malformed.
+- Parameter &#39;%s&#39; or &#39;%s&#39; must be sent, but both are empty!</p>
+
+<p>-1103 UNKNOWN_PARAM
+- Unknown parameters were sent.
+- Each request requires at least one parameter {Timestamp}.</p>
+
+<p>-1104 UNREAD_PARAMETERS</p>
+<h1 id='official-sdk'>Official SDK</h1><h2 id='example-of-signature'>Example of Signature</h2><div class="highlight"><pre class="highlight java tab-java"><code><span class="cm">/**
  * Generate sign
  **/</span>
 <span class="kd">private</span> <span class="nc">String</span> <span class="nf">toSign</span><span class="o">(</span><span class="nc">String</span> <span class="n">timestamp</span><span class="o">,</span> <span class="nc">String</span> <span class="n">method</span><span class="o">,</span> <span class="nc">String</span> <span class="n">requestPath</span><span class="o">,</span>

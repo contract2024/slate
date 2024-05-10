@@ -1,0 +1,1440 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
+    <title>API Reference</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-024da600.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[&quot;java&quot;]">
+    <div class="header">
+        <div class="header-left">
+            <img src="images/logo-1e815a84.png" class="logo" alt="" />
+            <div class="header-line"></div>
+            <div class="header-nav-h5">
+                Custody WAPI
+                <ul class="header-nav-list-h5">
+                        <li class="header-nav__item"><a href="/zh/latest/API-MPC/index.html">MPC WALLET</a></li>
+                        <li class="header-nav__item"><a href="/zh/latest/API-WaaS-V2/index.html">Custody V2</a></li>
+                        <li class="header-nav__item active"><a href="/zh/latest/API-WAPI/index.html">Custody WAPI</a></li>
+                </ul>
+            </div>
+            <ul class="header-nav">
+                    <li class="header-nav__item"><a href="/zh/latest/API-MPC/index.html">MPC WALLET</a></li>
+                    <li class="header-nav__item"><a href="/zh/latest/API-WaaS-V2/index.html">Custody V2</a></li>
+                    <li class="header-nav__item active"><a href="/zh/latest/API-WAPI/index.html">Custody WAPI</a></li>
+            </ul>
+        </div>
+        <a class="switch-language" href="/en/latest/API-WAPI/index.html">English</a>
+    </div>
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+        <div class="lang-selector">
+              <a href="#" data-language-name="java">java</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#instructions" class="toc-h1 toc-link" data-title="Instructions">Instructions</a>
+          </li>
+          <li>
+            <a href="#interface-information" class="toc-h1 toc-link" data-title="Interface information">Interface information</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#1-according-to-the-brokerid-uid-and-time-to-query-the-merchant-fee-sharing" class="toc-h2 toc-link" data-title="1. According to the brokerId, uid and time to query the merchant fee sharing">1. According to the brokerId, uid and time to query the merchant fee sharing</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameter" class="toc-h3 toc-link" data-title="Parameter:">Parameter:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#position-list" class="toc-h2 toc-link" data-title="Position List">Position List</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-2" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#entrusted-records" class="toc-h2 toc-link" data-title="Entrusted records">Entrusted records</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-2" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-3" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-the-transaction-history" class="toc-h2 toc-link" data-title="Query the transaction history">Query the transaction history</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-3" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-4" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#position-detail" class="toc-h2 toc-link" data-title="Position Detail">Position Detail</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-4" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-5" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-user-id-list-according-to-the-positive-order-of-contract-uid-the-maximum-limit-is-1000" class="toc-h2 toc-link" data-title="Query user id list(According to the positive order of contract UID, the maximum limit is 1000)">Query user id list(According to the positive order of contract UID, the maximum limit is 1000)</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-5" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-6" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-the-list-of-transfer-records" class="toc-h2 toc-link" data-title="Query the list of transfer records">Query the list of transfer records</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-6" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-7" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-all-the-user-asset-of-the-merchant" class="toc-h2 toc-link" data-title="Query all the user asset of the merchant">Query all the user asset of the merchant</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-7" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-8" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-the-insurance-funds-and-flow-of-the-merchant" class="toc-h2 toc-link" data-title="Query the Insurance funds and flow of the merchant">Query the Insurance funds and flow of the merchant</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-8" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-9" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-the-contract-information-of-this-merchant" class="toc-h2 toc-link" data-title="Query the contract information of this merchant">Query the contract information of this merchant</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#the-parameters-returned-10" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-user-assets" class="toc-h2 toc-link" data-title="Query user assets">Query user assets</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-9" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-11" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#query-user-fund-transactions" class="toc-h2 toc-link" data-title="Query user fund transactions">Query user fund transactions</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#parameters-10" class="toc-h3 toc-link" data-title="parameters:">parameters:</a>
+                          </li>
+                          <li>
+                            <a href="#the-parameters-returned-12" class="toc-h3 toc-link" data-title="The parameters returned::">The parameters returned::</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='instructions'>Instructions</h1>
+<ol>
+<li>Before requesting the API interface in the document, merchants need to contact the product manager to obtain the public and private keys. We need to generate a pair of RSA public key and private key. The private key will be delivered to the merchant by product manager. And merchant needs to keep the private key for use in the following steps.</li>
+<li>Create a user trading account under the merchant, use this account to log in to the Web side, and obtain APIKey and SecretKey. (Same steps as using user-level OpenApi)</li>
+<li>To call the merchant-level open API interface, need add the following parameters to the request header：</li>
+</ol>
+
+<blockquote>
+<p>{ &quot;X-CH-TS&quot;:&quot;时间戳&quot;, &quot;Ex-sign&quot;:&quot;签名后文本&quot;, &quot;Ex-ts&quot;:&quot;时间戳&quot;}</p>
+</blockquote>
+
+<ol>
+<li>The RSA algorithm is used to sign, the algorithm is as follows: The important thing is the signature need required correct parameters order. Before the paramMap is converted to json need use the Red-Black Tree data structure to format the parameters order. (Every port parameters entered which in this API document have correct order).</li>
+</ol>
+
+<blockquote>
+<p>paramMap:Required parameters
+time:The EX-ts which in the required head (Time stamp)
+signContent：Unsigned data
+String signContent = JSON.toJSONString(paramMap) + time</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>    /**
+      * RSA Signature
+      * @param content Data to be signed
+      * @param priKey Private key
+      * @return Signature value
+    */
+    public static String sign(String content, String priKey) {
+        try {
+            PrivateKey privateKey = getPrivateKey(priKey);
+            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+            signature.initSign(privateKey);
+            signature.update(content.getBytes());
+            byte[] signed = signature.sign();
+            return Base64.getEncoder().encodeToString(signed);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+</code></pre></div>
+<ol>
+<li>The interface involves the input of the user ID, and the interface contains a total of two types of user IDs.</li>
+</ol>
+
+<blockquote>
+<p>coUid:&quot;contract user id (cloud uid)&quot;
+exUid:&quot;exchange user id (originUid)&quot;</p>
+</blockquote>
+
+<ol>
+<li>The interface is sensitive to the type of the input parameter, and the character type needs to be included with the symbol &quot; &quot;, and the numeric type does not.</li>
+</ol>
+
+<blockquote>
+<p>String type : &quot;Parameters&quot;
+Number type : 100</p>
+</blockquote>
+
+<ol>
+<li><p>All input parameters unless otherwise specified are mandatory. Number types are include integers and floating-point numbers, which are integer types unless otherwise specified.</p></li>
+<li><p>The exmple of access URL：</p>
+
+<blockquote>
+<p>https://futuresopenapi.xxx.com/v1/inner/interface</p>
+</blockquote></li>
+</ol>
+<h1 id='interface-information'>Interface information</h1>
+<p>Note: All the following time formats are &quot;yyyy-MM-dd HH:mm:ss&quot; parameters and return value formats are json, where key is the parameter name and value are parameter type and definition.</p>
+<h2 id='1-according-to-the-brokerid-uid-and-time-to-query-the-merchant-fee-sharing'>1. According to the brokerId, uid and time to query the merchant fee sharing</h2>
+<p><code>POST</code> <code>/v1/inner/get_broker_fee_share_by_broker_ctime</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"beginTime"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"2000-01-01 00:00:00"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"brokerId"</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s2">"0000"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"coUid"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="s2">"000000"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"endTime"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"2001-01-01 00:00:00"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"limit"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"page"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"type"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"uid"</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="s2">"000000"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"beginTime"</span><span class="p">:</span><span class="s2">"2000-01-01 00:00:00"</span><span class="p">,</span><span class="nl">"brokerId"</span><span class="p">:</span><span class="s2">"0000"</span><span class="p">,</span><span class="nl">"endTime"</span><span class="p">:</span><span class="s2">"2000-01-01 00:00:00"</span><span class="p">,</span><span class="nl">"limit"</span><span class="p">:</span><span class="s2">"10"</span><span class="p">,</span><span class="nl">"page"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"type"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"uid"</span><span class="p">:</span><span class="s2">"000000"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameter'>Parameter:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>beginTime</td>
+<td>String</td>
+<td>yes</td>
+<td>begin time</td>
+</tr>
+<tr>
+<td>brokerId</td>
+<td>String</td>
+<td>yes</td>
+<td>merchant id</td>
+</tr>
+<tr>
+<td>coUid</td>
+<td>String</td>
+<td>no</td>
+<td>Non-required.If coUid and uid are both inputted,then use uid to query. If not input coUid and uid, then query all user</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>yes</td>
+<td>End date</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>String</td>
+<td>no</td>
+<td>Per page size(default 1000, Maximum 1000)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>String</td>
+<td>no</td>
+<td>Current page number</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>yes</td>
+<td>Sharing type, 1: Merchant fee share(Currently, only this type of query is being opened)</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>no</td>
+<td>exUid</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"totalShareAmount"</span><span class="w">          </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total merchant share amount"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"total"</span><span class="w">                     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total number of data"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"totalPlatformShareAmount"</span><span class="w">  </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total platform share amount"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"totalAmount"</span><span class="w">               </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total share amount (merchant+ platform)"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"records"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="w">                     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Autoincrement id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"uid"</span><span class="w">                    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"exUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"coUid"</span><span class="w">                  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"coUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctime"</span><span class="w">                  </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtime"</span><span class="w">                  </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctimeStamp"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtimeStamp"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"shareAmount"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Merchant sharing amount(Floating-point)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"platformShareAmount"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Platform share amount"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"totalShareAmountRecord"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total share amount per record (merchant + platform)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"brokerId"</span><span class="w">               </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Merchant id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"shareRatio"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Share proportions(Floating-point)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contractId"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Futures contract id"</span><span class="w">
+   </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='position-list'>Position List</h2>
+<p><code>POST</code> <code>/v1/inner/get_position_list</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"endDate"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originUid"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageNum"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startDate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"endDate"</span><span class="p">:</span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="nl">"originUid"</span><span class="p">:</span><span class="s2">"123456"</span><span class="p">,</span><span class="nl">"pageNum"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="s2">"10"</span><span class="p">,</span><span class="nl">"startDate"</span><span class="p">:</span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">,</span><span class="nl">"status"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>endDate</td>
+<td>String</td>
+<td>yes</td>
+<td>End date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>originUid</td>
+<td>String</td>
+<td>yes</td>
+<td>exUid</td>
+</tr>
+<tr>
+<td>pageNum</td>
+<td>String</td>
+<td>no</td>
+<td>Current page number</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>String</td>
+<td>yes</td>
+<td>Per page size(Default 10，Maximum 1000)</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>String</td>
+<td>no</td>
+<td>tart Date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>no</td>
+<td>Position status: 0 means query history position, 1 means current position, not &#39;status&#39; parameter means query all position</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-2'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"total"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The number of data"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"current"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Current page number"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"size"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Per page size"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"dataList"</span><span class="p">:[{</span><span class="w">
+      </span><span class="nl">"maxFeeRate"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Maximum fee rate for closing positions(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"returnRate"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"ROE% /Return on equity rate(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionType"</span><span class="w">      </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Holding type (1 Cross, 2 Isolated)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"unRealizedAmount"</span><span class="w">  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Unrealized Profit and Loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"avgPrice"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Average holding price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tradeFee"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Fee (floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"buy"</span><span class="w">               </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Judge whether it is a long position, it is true, otherwise, it is false"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"part"</span><span class="w">              </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Judge whether it is an isolated position, it is true, otherwise, it is false"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"realizedAmount"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Realized Profit and Loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openPrice"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Open price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secret"</span><span class="w">            </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position secret key"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtime"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Update time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtimeStamp"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Update time timeStamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionValue"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position opening value (cumulative)(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closeProfit"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Closing profit and loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"coinPrecious"</span><span class="w">      </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Coin Precious"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"uid"</span><span class="w">               </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"coUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"originUid"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"exUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lockTime"</span><span class="w">          </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Liquidation lock time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lockTimeStamp"</span><span class="w">     </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Liquidation lock time timestamp"</span><span class="w">
+      </span><span class="nl">"closeVolume"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Closed Volume"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"keepRate"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Ladder minimum maintenance margin rate(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctime"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Creation time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctimeStamp"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Creation time timeStamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contractName"</span><span class="w">      </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="w">                </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"pendingCloseVolume"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The volume of closing orders that have been placed"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"class"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Class name(Position data usage, without attention)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openRealizedAmount"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Unrealized profit and loss when opening a position(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"brokerId"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Merchant ID"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"side"</span><span class="w">              </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position direction"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indexPrice"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Latest mark price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionBalance"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"position value (contract size * volume * price)(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"freezeLock"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position freeze status: 0 normal, 1 liquidation freeze, 2 delivery freeze"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"leverageLevel"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Leverage multiple"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tagPrice"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The current contract mark price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"shareAmount"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Allocation amount(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openAmount"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Opening margin（including delta）(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volume"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contractId"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"historyRealizedAmount"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Historical cumulative realized profit and loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"holdAmount"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position margin(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closePrice"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Average closing price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"brokerName"</span><span class="w">        </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Merchant Name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"capitalFee"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Funding Fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Position validity, 0 is invalid, 1 is valid"</span><span class="w">
+   </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div><h2 id='entrusted-records'>Entrusted records</h2>
+<p><code>POST</code> <code>/v1/inner/get_entrusted_record</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"contractId"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contractName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"E-BTC-USDT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"endDate"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originUid"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originUids"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"123456,112312,321231"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageNum"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startDate"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"contractId"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="nl">"contractName"</span><span class="p">:</span><span class="s2">"E-BTC-USDT"</span><span class="p">,</span><span class="nl">"endDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="nl">"originUid"</span><span class="p">:</span><span class="s2">"123456"</span><span class="p">,</span><span class="nl">"originUids"</span><span class="p">:</span><span class="s2">"123456,112312,321231"</span><span class="p">,</span><span class="nl">"pageNum"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="s2">"10"</span><span class="p">,</span><span class="nl">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">}</span><span class="mi">946656000000</span><span class="err">```</span><span class="w">
+</span></code></pre></div><h3 id='parameters-2'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contractId</td>
+<td>String</td>
+<td>no</td>
+<td>Futures contract id(Priority is given to contractName queries, not required)</td>
+</tr>
+<tr>
+<td>contractName</td>
+<td>String</td>
+<td>no</td>
+<td>Futures contract currency name(not required. if contract name and contract id not input, query all)</td>
+</tr>
+<tr>
+<td>endDate</td>
+<td>String</td>
+<td>no</td>
+<td>End date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>originUid</td>
+<td>String</td>
+<td>no</td>
+<td>exUid</td>
+</tr>
+<tr>
+<td>originUids</td>
+<td>String</td>
+<td>no</td>
+<td>exUids separated by &#39;,&#39;. If input originUid and originUids at the same time, query originUid first.(The number of originUid maximum 10,non-required).</td>
+</tr>
+<tr>
+<td>pageNum</td>
+<td>String</td>
+<td>no</td>
+<td>The current page number</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>String</td>
+<td>no</td>
+<td>Per page size(Default 10，Maximum 1000)</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>String</td>
+<td>yes</td>
+<td>Start date yyyy-MM-dd HH:mm:ss&quot;</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-3'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"total"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The number of data"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"current"</span><span class="w">  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Current page number"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"size"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Per page size"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"dataList"</span><span class="p">:[{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="w">               </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"primary id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"clientId"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Client order identification"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"uid"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"coUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionType"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Position type(1 Cross Margin，2 Isolated Margin)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"open"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Open and close the position direction (open position, close position)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"side"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Buying and selling direction(buy, sell)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Order type(1 limit; 2 market; 3 IOC; 4 FOK; 5 POST_ONLY; 6 Force liquidation, Only displayed on the page, not the record type in the database)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"leverageLevel"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Leverage multiplier"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"price"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The price of place order(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volume"</span><span class="w">           </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The number of place order (Open position Market Order: Amount)(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openTakerFeeRate"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Open position maker fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openMakerFeeRate"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Open position taker fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closeTakerFeeRate"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Close position maker fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closeMakerFeeRate"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Close position taker fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"realizedAmount"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Orders accumulate profit and loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"dealVolume"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Number of Transactions Completed (Cont.)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"dealMoney"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The amount of the transaction that has been filled(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"avgPrice"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Average transaction price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tradeFee"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transaction fees(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="w">           </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Order status(0 init，1 new，2 filled，3 part_filled，4 canceled，5 pending_cancel，6 expired)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"memo"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Order status notes"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="w">           </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Source of the order(1web,2app,3api,4Other)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctime"</span><span class="w">            </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctimeStamp"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"create time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtime"</span><span class="w">            </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtimeStamp"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"brokerId"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Merchant id"</span><span class="w">
+   </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div><h2 id='query-the-transaction-history'>Query the transaction history</h2>
+<p><code>POST</code> <code>/v1/inner/get_trade_record</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"contractId"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contractName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"E-BTC-USDT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"endDate"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originUid"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageNum"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startDate"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"contractId"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="nl">"contractName"</span><span class="p">:</span><span class="s2">"E-BTC-USDT"</span><span class="p">,</span><span class="nl">"endTime"</span><span class="p">:</span><span class="s2">"1692164611000"</span><span class="p">,</span><span class="nl">"originUid"</span><span class="p">:</span><span class="s2">"123456"</span><span class="p">,</span><span class="nl">"pageNum"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="s2">"10"</span><span class="p">,</span><span class="nl">"startTime"</span><span class="p">:</span><span class="s2">"1674193411000"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-3'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contractId</td>
+<td>String</td>
+<td>no</td>
+<td>Futures contract id(Priority is given to contractName queries, not required)</td>
+</tr>
+<tr>
+<td>contractName</td>
+<td>String</td>
+<td>no</td>
+<td>Futures contract currency name</td>
+</tr>
+<tr>
+<td>endDate</td>
+<td>String</td>
+<td>no</td>
+<td>End date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>originUid</td>
+<td>String</td>
+<td>no</td>
+<td>exUid</td>
+</tr>
+<tr>
+<td>pageNum</td>
+<td>String</td>
+<td>no</td>
+<td>The current page number</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>String</td>
+<td>no</td>
+<td>Per page size(Default 10，Maximum 1000)</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>String</td>
+<td>yes</td>
+<td>Start date yyyy-MM-dd HH:mm:ss&quot;</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-4'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"total"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"The number of data"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"current"</span><span class="w">  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Current page number"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"size"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Per page size"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"dataList"</span><span class="p">:</span><span class="w">
+   </span><span class="p">[{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Primary key"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"price"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Deal price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volume"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Deal volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bidId"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Buy order id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"askId"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Sell order id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"trendSide"</span><span class="w"> </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Active order direction"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bidUserId"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Buy order user id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"askUserId"</span><span class="w"> </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Sell order user id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"buyFee"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Buy order fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"sellFee"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Sell order fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bidCid"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Buy order merchant id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"askCid"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Sell order merchant id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctime"</span><span class="w">     </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctimeStamp"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtime"</span><span class="w">     </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtimeStamp"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time timestamp"</span><span class="w">
+   </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div><h2 id='position-detail'>Position Detail</h2>
+<p><code>POST</code> <code>/v1/inner/get_position_detail</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"positionId"</span><span class="p">:</span><span class="s2">"123456"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"positionId"</span><span class="p">:</span><span class="s2">"123456"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-4'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>positionId</td>
+<td>String</td>
+<td>no</td>
+<td>position id</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-5'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"resultDate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"contactName"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Futures contract name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"side"</span><span class="w">                    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Direction"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionType"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Hold position type(1 Cross Margin，2 Isolated Margin)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"leverageLevel"</span><span class="w">           </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Leverage Multiple"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="w">                  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Status"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"holdVolume"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Hold number of volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closeVolume"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Manually close position volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volume"</span><span class="w">                  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Hold position volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mergeVolume"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Number of combined cont"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"liquidationVolume"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Number of liquidation cont"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"historyRealizedAmount"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total historical profit and loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"realizedAmount"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Position settlement profit and loss(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"capitalFee"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Funding cost(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tradeFee"</span><span class="w">                </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Handing fee(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"shareAmount"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Share amount(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openPrice"</span><span class="w">               </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Open price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"openEndPrice"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Average final price of open position(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"avgPrice"</span><span class="w">                </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Average position price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"tagPrice"</span><span class="w">                </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Tag price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"holdMargin"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Margin for open position(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marginRate"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Margin rate(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"holdAmount"</span><span class="w">              </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Profit and loss of open position(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"closeAmount"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Profit and loss of close position(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"brokerName"</span><span class="w">              </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Merchant name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marginCoin"</span><span class="w">              </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Margin coin"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctime"</span><span class="w">                   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ctimeStamp"</span><span class="w">      </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Create time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtime"</span><span class="w">                   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mtimeStamp"</span><span class="w">      </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Modify time timestamp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"liquidation"</span><span class="p">:[{</span><span class="w">
+         </span><span class="nl">"lockTime"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Force liquidation time"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"lockTimeStamp"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Force liquidation time timestamp"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"subVolume"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Force liquidation volume(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"forcedPrice"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Force liquidation price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"takeOverPrice"</span><span class="w">        </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"System take over price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"openPrice"</span><span class="w">            </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Open position average price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"keepRate"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Maintenance margin rate(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"liquidationLoss"</span><span class="w">      </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Force liquidation loss(floating-point numbers)"</span><span class="w">
+      </span><span class="p">}]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='query-user-id-list-according-to-the-positive-order-of-contract-uid-the-maximum-limit-is-1000'>Query user id list(According to the positive order of contract UID, the maximum limit is 1000)</h2>
+<p><code>POST</code> <code>/v1/inner/get_uid_list</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"limit"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startUid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"limit"</span><span class="p">:</span><span class="s2">"100"</span><span class="p">,</span><span class="nl">"startUid"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-5'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>String</td>
+<td>no</td>
+<td>Returns the number of entries(Default 20, maximum return 1000 data)</td>
+</tr>
+<tr>
+<td>startUid</td>
+<td>String</td>
+<td>no</td>
+<td>coUid,The first start ID in the user data, the first time to query please enters 0 (The return value does not contain the input user id)</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-6'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"msg"</span><span class="p">:</span><span class="s2">"成功(Success)"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"code"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"data"</span><span class="p">:</span><span class="w">
+   </span><span class="p">{</span><span class="nl">"uidInfo"</span><span class="p">:</span><span class="w">
+     </span><span class="p">[{</span><span class="w">
+        </span><span class="nl">"coUid"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Futures contract user id(cloud uid)"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"exUid"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"exchange user id(originUid)"</span><span class="w">
+     </span><span class="p">}]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='query-the-list-of-transfer-records'>Query the list of transfer records</h2>
+<p><code>POST</code> <code>/v1/inner/get_trans_records</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"endTime"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"948656000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"limit"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"page"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startTime"</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s2">"946656000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"transferType"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"wallet_to_contract"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uid"</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"endTime"</span><span class="p">:</span><span class="s2">"948656000000"</span><span class="p">,</span><span class="nl">"limit"</span><span class="p">:</span><span class="s2">"10"</span><span class="p">,</span><span class="nl">"page"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span><span class="nl">"startTime"</span><span class="p">:</span><span class="s2">"946656000000"</span><span class="p">,</span><span class="nl">"transferType"</span><span class="p">:</span><span class="s2">"wallet_to_contract"</span><span class="p">,</span><span class="nl">"uid"</span><span class="p">:</span><span class="s2">"123456"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-6'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>yes</td>
+<td>End date</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>String</td>
+<td>no</td>
+<td>The number of return data(Default 20, Maximum 1000)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>String</td>
+<td>no</td>
+<td>The number of page</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>yes</td>
+<td>Start date</td>
+</tr>
+<tr>
+<td>transferType</td>
+<td>String</td>
+<td>no</td>
+<td>Transfer direction type(Include futures transfer to spot:contract_to_wallet. And Spot transfer to futures: wallet_to_contract)&quot;</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>no</td>
+<td>coUid</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-7'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"msg"</span><span class="p">:</span><span class="s2">"成功(Success)"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"code"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"data"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"transRecords"</span><span class="p">:</span><span class="w">
+      </span><span class="p">[{</span><span class="w">
+         </span><span class="nl">"uid"</span><span class="w">          </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"coUid"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"amount"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer amount(floating-point numbers)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"unionId"</span><span class="w">      </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Unique ID"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"coinSymbol"</span><span class="w">   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer currency"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"transferType"</span><span class="w"> </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer direction type"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"ctime"</span><span class="w">        </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer record create time"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"ctimeStamp"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer record create time timestamp"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"type"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer type(1:Normal transfer, 2:Bonus transfer)"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"brokerName"</span><span class="w">   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"Merchant name"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"status"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Transfer status(0:Paying, 1:Success, 2:Fail)"</span><span class="w">
+      </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='query-all-the-user-asset-of-the-merchant'>Query all the user asset of the merchant</h2>
+<p><code>POST</code> <code>/v1/inner/get_trans_records</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"endDate"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"page"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startDate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uid"</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"endDate"</span><span class="p">:</span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="nl">"page"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="nl">"startDate"</span><span class="p">:</span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">,</span><span class="nl">"uid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-7'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>endDate</td>
+<td>String</td>
+<td>yes</td>
+<td>End dateyyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>String</td>
+<td>no</td>
+<td>The number of return data(Default 20, Maximum 1000)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>String</td>
+<td>no</td>
+<td>The number of page</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>yes</td>
+<td>Start date</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>no</td>
+<td>coUid</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-8'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"data"</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+     </span><span class="nl">"record"</span><span class="p">:</span><span class="w">
+     </span><span class="p">[{</span><span class="w">
+        </span><span class="nl">"uid"</span><span class="w">         </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"coUid"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"totalBalance"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"User asset(floating-point numbers)"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"symbol"</span><span class="w">      </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Currency"</span><span class="p">,</span><span class="w">
+     </span><span class="p">}],</span><span class="w">
+     </span><span class="nl">"total"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"Total data number"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+</span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"成功(success)"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='query-the-insurance-funds-and-flow-of-the-merchant'>Query the Insurance funds and flow of the merchant</h2>
+<p><code>POST</code> <code>/v1/inner/risk_amount</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"endDate"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"page"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"startDate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 00:00:00"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"endDate"</span><span class="p">:</span><span class="s2">"2023-06-01 00:00:00"</span><span class="p">,</span><span class="nl">"page"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="nl">"startDate"</span><span class="p">:</span><span class="s2">"2023-01-01 00:00:00"</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-8'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>endDate</td>
+<td>String</td>
+<td>yes</td>
+<td>End date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>String</td>
+<td>no</td>
+<td>The number of return data(Default 20, Maximum 1000)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>String</td>
+<td>no</td>
+<td>The number of page</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>String</td>
+<td>yes</td>
+<td>Start date yyyy-MM-dd HH:mm:ss</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-9'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"data"</span><span class="p">:</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"riskAmount"</span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Insurance fund(floating-point numbers)"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Currency"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"total"</span><span class="w">     </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The number of insurance flow"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"record"</span><span class="p">:</span><span class="w">
+      </span><span class="p">[{</span><span class="w">
+         </span><span class="nl">"symbol"</span><span class="w">   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Currency"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"mTime"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Flow record time stamp"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"mTimeDate"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Flow record time"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"amount"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Flow fund (Income is +, Expenditure is -)(floating-point numbers)"</span><span class="w">
+      </span><span class="p">}]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"成功(Success)"</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div><h2 id='query-the-contract-information-of-this-merchant'>Query the contract information of this merchant</h2>
+<p><code>GET</code> <code>/fapi/v1/contracts</code></p>
+<h3 id='the-parameters-returned-10'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+     </span><span class="nl">"symbol"</span><span class="w">           </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract name"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"pricePrecision"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Price accuracy"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"side"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract direction 0 reverse 1 forward"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"maxMarketVolume"</span><span class="w">  </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The maximum number of market orders"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"multiplier"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract par value(floating-point numbers)"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"minOrderVolume"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Minimum order quantity"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"maxMarketMoney"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The maximum order amount placed at the market price(floating-point numbers)"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"type"</span><span class="w">             </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract type，E:Perpetual contracts W:week N:next week M:month Q:Quarter"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"maxLimitVolume"</span><span class="w">   </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The maximum number of limit orders to place"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"maxValidOrder"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The maximum number of orders that are validly ordered"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"multiplierCoin"</span><span class="w">   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract par value units"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"minOrderMoney"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Minimum order amount(floating-point numbers)"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"maxLimitMoney"</span><span class="w">    </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"The maximum order amount for limit orders(floating-point numbers)"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"contractId"</span><span class="w">       </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract ID"</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"status"</span><span class="w">           </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w">  </span><span class="s2">"Contract status（0：Not tradable，1：Tradable）"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre></div><h2 id='query-user-assets'>Query user assets</h2>
+<p><code>POST</code> <code>/v1/inner/user_account_balance</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"coin"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uid"</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageSize"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pageNum"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span><span class="p">}</span><span class="w">
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"coin"</span><span class="p">:</span><span class="s2">"USDT"</span><span class="p">,</span><span class="nl">"uid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="nl">"pageSize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"pageNum"</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span><span class="mi">946656000000</span><span class="w">
+</span></code></pre></div><h3 id='parameters-9'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>coin</td>
+<td>String</td>
+<td>yes</td>
+<td>The margin currency of the query</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>number</td>
+<td>no</td>
+<td>exUid</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>number</td>
+<td>no</td>
+<td>The number of data each page (Maximum 100, at present, due to query performance, too much data per page will lead to query timeout, it is recommended that the maximum pageSize = 30 for querying ,and the performance of this query will be optimised later.)</td>
+</tr>
+<tr>
+<td>pageNum</td>
+<td>number</td>
+<td>no</td>
+<td>The current page number (Please set pageNum to 1 when querying for a specified uid.)</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-11'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"data"</span><span class="p">:</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uid"</span><span class="w">             </span><span class="p">:[</span><span class="err">number</span><span class="p">]</span><span class="w"> </span><span class="s2">"exUid"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"crossBalance"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"User cross balance"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"isolatedBalance"</span><span class="w"> </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"User isolated balance"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"totalBalance"</span><span class="w">    </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"User total balance"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"frozenBalance"</span><span class="w">   </span><span class="p">:[</span><span class="err">String</span><span class="p">]</span><span class="w"> </span><span class="s2">"User frozen balance"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div><h2 id='query-user-fund-transactions'>Query user fund transactions</h2>
+<p><code>POST</code> <code>/v1/inner/transaction_funding_record</code></p>
+
+<p>Examples of input parameters::</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"beginTime"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-01 08:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"endTime"</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s2">"2023-01-02 08:00:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"page"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"limit"</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uid"</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="mi">3221231</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+ </span><span class="err">-Examples</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">unsigned</span><span class="w"> </span><span class="err">data:：</span><span class="w">
+</span><span class="err">signContent</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="nl">"beginTime"</span><span class="p">:</span><span class="s2">"2023-01-01 08:00:00"</span><span class="p">,</span><span class="nl">"endTime"</span><span class="p">:</span><span class="s2">"2023-01-02 08:00:00"</span><span class="p">,</span><span class="nl">"page"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"limit"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="nl">"uid"</span><span class="p">:</span><span class="mi">3221231</span><span class="p">}</span><span class="mi">946656000000</span><span class="err">```</span><span class="w">
+</span></code></pre></div><h3 id='parameters-10'>parameters:</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Must</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>beginTime</td>
+<td>String</td>
+<td>yes</td>
+<td>The filter time of begining, the format is:yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>number</td>
+<td>no</td>
+<td>The filter time of ending, the format is:yyyy-MM-dd HH:mm:ss</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>number</td>
+<td>no</td>
+<td>The number of data each page (Non-required, Maximum 100, Default 100)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>number</td>
+<td>no</td>
+<td>Current page number (Non-required Default 1)</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>number</td>
+<td>yes</td>
+<td>coUid</td>
+</tr>
+</tbody></table>
+<h3 id='the-parameters-returned-12'>The parameters returned::</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"uid"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"contractName"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"contractOtherName"</span><span class="p">:,</span><span class="w">
+      </span><span class="s2">"timeStamp"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"date"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"page"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"limit"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="java">java</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
