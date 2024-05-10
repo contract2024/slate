@@ -1,0 +1,927 @@
+
+# 更新日志
+
+2024.04.15 更新API风格
+
+
+# 基本信息
+
+## Rest基本信息
+
+- 本篇列出REST接口的baseurl: **htts://futuresopenapi.xxx.xxx**
+- 所有接口都会返回一个JSON object或者array.
+- Response中如有数组，数组元素以时间倒序排列，越早的数据越提前.
+- 所有时间、Timestamp均为UNIX时间，单位为毫秒.
+- 所有数据Type采用JAVA的数据Type定义.
+
+## 接口错误代码
+- 每个接口都有可能抛出异常
+- 具体的错误代码及其解释在错误代码
+
+## HTTP返回代码
+- HTTP `4XX` 错误码用于指示错误的请求内容、行为、格式.
+- HTTP `429` 错误码表示警告访问频次超限，即将被封IP.
+- HTTP `418` 表示收到429后继续访问，于yes被封了.
+- HTTP `5XX` 返回错误码yes内部系统错误；这说明这个问题yes在服务器这边。在对待这个错误时，千万不要把它当成一个失败的任务，因为执行状态未知，有可能Successful也有可能yes失败.
+- HTTP `504` 表示API服务端已经向业务核心提交了请求但未能获取Response，特别需要注意的yes504代码不代表请求失败，而yes未知。很可能已经得到了执行，也有可能执行失败，需要做进一步确认.
+- 任何接口都可能返回ERROR(错误); 错误的返回payload如下:
+>{
+"code": -1121,
+"msg": "Invalid symbol."
+}
+
+## 接口通用信息
+- 所有请求基于Https协议，Headers信息中Content-Type需要统一设置为: 'application/json'
+- GET方法的接口, Parameter必须在query string中发送.
+- POST方法的接口, Parameter必须在request body中发送
+- 对Parameter的顺序不做要求。
+
+## 访问限制
+- 在每个接口下面会有限频的说明.
+- 违反频率限制都会收到HTTP 429，这yes一个警告.
+- 当收到429告警时，调用者应当降低访问频率或者停止访问.
+
+## 接口鉴权Type
+- 每个接口都有自己的鉴权Type，鉴权Type决定了访问时应当进行何种鉴权
+- 如果需要 `API-key`，应当在HTTP头中以`X-CH-APIKEY`Name传递
+- `API-key` 与 `API-secret` yes大小写敏感的
+- 可以在网页用户中心修改API-key 所具有的权限，例如读取账户信息、发送交易指令、发送提现指令
+
+| 鉴权Type        | 描述             |
+|-------------|----------------|
+| NONE        | 不需要鉴权的接口       |
+| TRADE       | 需要有效API-KEY和Sign |
+| USER_DATA   | 需要有效API-KEY和Sign |
+| USER_STREAM | 需要有效的API-KEY   |
+| MARKET_DATA | 需要有效的API-KEY   |
+
+## 需要Sign的接口(TRADE与USER_DATA)
+- 调用`TRADE`或者`USER_DATA`接口时，应当在HTTP头中以`X-CH-SIGN`Name传递SignParameter.
+- Sign使用HMAC `SHA256算法`. API-KEY所对应的API-Secret作为 `HMAC SHA256` 的密钥.
+- `X-CH-SIGN`的Headersyes以timestamp + method + requestPath + body字符串(+表示字符串连接)作为操作对象
+- 其中`timestamp`的值与`X-CH-TS`Headers相同, methodyes请求方法，字母全部大写：GET/POST.
+- requestPathyes请求接口路径 例如:/sapi/v1/order?orderId=211222334&symbol=BTCUSDT
+- bodyyes请求主体的字符串(post only) 如果yesGET请求则body可省略
+- Sign大小写不敏感
+
+## 时间同步安全
+- Sign接口均需要在HTTP头中以`X-CH-TS`Name传递Timestamp, 其值应当yes请求发送时刻的unixTimestamp（毫秒） e.g. 1528394129373
+- 服务器收到请求时会判断请求中的Timestamp，如果yes5000毫秒之前发出的，则请求会被认为无效。这个时间窗口值可以通过发送可选Parameter`recvWindow`来自定义。\
+- 另外，如果服务器计算得出客户端Timestamp在服务器时间的‘未来’一秒以上，也会拒绝请求。
+- 逻辑伪代码：
+
+```javascript
+if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow) {
+  // process request
+} else {
+  // reject request
+}
+```
+
+**关于交易时效性** 互联网状况并不100%可靠，不可完全依赖,因此你的程序本地到交易所服务器的时延会有抖动. 这yes我们设置recvWindow的目的所在，如果你从事高频交易，对交易时效性有较高的要求，可以灵活设置recvWindow以达到你的要求。 不推荐使用5秒以上的recvWindow
+
+## POST /sapi/v1/order/test 的示例
+以下yes在linux bash环境下使用 echo openssl 和curl工具实现的一个调用接口下单的示例 apikey、secret仅供示范
+
+| key       | value                            |
+|-----------|----------------------------------|
+| apikey    | vmPUZE6mv9SD5V5e14y7Ju91duEh8A   |
+| secretKey | 902ae3cb34ecee2779aa4d3e1d226686 |
+
+| Parameter     | 取值      |
+|--------|---------|
+| symbol | BTCUSDT |
+| side   | BUY     |
+| type   | LIMIT   |
+| volume | 1       |
+| price  | 9300    |
+
+## Sign示例
+
+- body
+> {"symbol":"BTCUSDT","price":"9300","volume":"1","side":"BUY","type":"LIMIT"}
+
+```shell
+HMAC SHA256 Sign:
+[linux]$ echo -n "1588591856950POST/sapi/v1/order/test{\"symbol\":\"BTCUSDT\",\"price\":\"9300\",\"volume\":\"1\",\"side\":\"BUY\",\"type\":\"LIMIT\"}" | openssl dgst -sha256 -hmac "902ae3cb34ecee2779aa4d3e1d226686"
+(stdin)= c50d0a74bb9427a9a03933d0eded03af9bf50115dc5b706882a4fcf07a26b761
+```
+
+```shell
+curl 调用:
+(HMAC SHA256)
+  [linux]$ curl -H "X-CH-APIKEY: c3b165fd5218cdd2c2874c65da468b1e" -H "X-CH-SIGN: c50d0a74bb9427a9a03933d0eded03af9bf50115dc5b706882a4fcf07a26b761" -H "X-CH-TS: 1588591856950" -H "Content-Type:application/json" -X POST 'http://localhost:30000/sapi/v1/order/test' -d '{"symbol":"BTCUSDT","price":"9300","quantity":"1","side":"BUY","type":"LIMIT"}'
+```
+
+## ENUM
+### 术语解释
+- `base` 指一个交易对的交易对象，即写在靠前部分的资产名
+- `quote` 指一个交易对的定价资产，即写在靠后部分资产名
+
+### 订单状态
+- `NEW` 新建订单
+- `PARTIALLY_FILLED`  部分成交
+- `FILLED`  全部成交
+- `CANCELED`  已撤销
+- `PENDING_CANCEL` 正在撤销中
+- `REJECTED` 订单被拒绝
+
+### 订单种类
+- `LIMIT` 限价单
+- `MARKET` 市价单
+
+### 订单方向
+- `BUY` 买单
+- `SELL` 卖单
+
+### K线间隔
+- `1min`
+- `5min`
+- `15min`
+- `30min`
+- `60min`
+- `1h`
+- `4h`
+- `1day`
+- `1week`
+- `1month`
+
+# Market
+
+## Security:`None`
+Public section can be accessed freely without requiring any API-key or signatures.
+
+## Test Connectivity
+
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/ping`
+
+** This interface checks connectivity to the host**
+
+Parameter: `NONE`
+
+> Response:
+
+```json
+{}
+```
+
+## Check Server Time
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/time`
+
+**Check Server Time**
+
+Parameter: `NONE`
+
+> Response:
+
+
+```json
+{
+  "serverTime":1607702400000, //Server timestamp
+  "timezone":"China Standard Time" //Server time zone
+}
+```
+
+## Contracts List
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/contracts`
+
+**Contracts List**
+
+Parameter: `NONE`
+
+> Response:
+
+```json
+[
+    {
+        "symbol": "H-HT-USDT", // Uppercase contract Name
+        "pricePrecision": 8, // Price accuracy
+        "side": 1, // Contract status (0: not tradable, 1: tradable)
+        "maxMarketVolume": 100000, // Maximum order quantity for market orders
+        "multiplier": 6, // Contract value
+        "minOrderVolume": 1, // Minimum order quantity
+        "maxMarketMoney": 10000000, //Maximum order amount at market price
+        "type": "H", // Contract type (E: Perpetual contract, S: Simulated contract, others are mixed contracts)
+        "maxLimitVolume": 1000000, // Maximum order quantity for limit orders
+        "maxValidOrder": 20, // The maximum number of valid orders
+        "multiplierCoin": "HT", // multiplier coin
+        "minOrderMoney": 0.001, // Minimum order amount
+        "maxLimitMoney": 1000000, //Limit price maximum order amount
+        "status": 1 //Contract status (0: not tradable, 1: tradable)
+    }
+]
+```
+
+## Depth
+
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/depth`
+
+#### Parameter
+| Name           | Type      | Description                |
+|--------------|---------|-------------------|
+| limit        | Integer | Default 100; Maximum 100       |
+| contractName | String  | Uppercase contract Name E.g. E-BTC-USDT |
+
+> Response:
+
+```json
+{
+  "bids": [
+    [
+      "3.90000000",   // Price
+      "431.00000000"  // Volume
+    ],
+    [
+      "4.00000000",
+      "431.00000000"
+    ]
+  ],
+  "asks": [
+    [
+      "4.00000200",  // Price
+      "12.00000000"  // Volume
+    ],
+    [
+      "5.10000000",
+      "28.00000000"
+    ]
+  ]
+}
+```
+### 24hrs ticker
+`GET` `https://futuersopenapi.xxx.com/fapi/v1/ticker`
+
+24hrs ticker
+
+#### Parameter
+| Name           | Type      | Description                |
+|--------------|---------|-------------------|
+| contractName | String  |Uppercase contract name E.g. E-BTC-USDT |
+
+> Response:
+
+```json
+{
+    "high": "9279.0301", //Highest price
+    "vol": "1302", //Trade volume
+    "last": "9200", //The last price
+    "low": "9279.0301", //Lowest price
+    "buy": 2100, //The price in the buying book order at the first one
+    "sell": 0,//The price in the selling book order at the first one
+    "rose": "0", // Range of increase and decrease, + is increase, - is decrease, +0.05 means increase by 5%
+    "time": 1595563624731 // Timestamp
+}
+```
+### Obtain index/tag price
+`GET` `https://futuersopenapi.xxx.com/fapi/v1/index`
+
+#### Parameter
+| Name           | Type      | Description                |
+|--------------|---------|-------------------|
+| limit        | Integer | Default 100; Maximum 1000       |
+| contractName | String  | Uppercase contract name E.g. E-BTC-USDT |
+
+> Response:
+
+```json
+{
+    "tagPrice": 581.5, //Tag price
+    "indexPrice": 646.393, // Index price
+    "currentFundRate": 0.001, // Funding rate price for the previous period (used for settlement in this period)
+    "nextFundRate": "E-ETH-USDT" //Funding rate price
+}
+```
+
+### Kline/candlestick data
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/klines`
+
+#### Parameter
+| Name           | Type      | Must | Description                                                                                             |
+|--------------|---------|------|------------------------------------------------------------------------------------------------|
+| contractName | string  | yes    | Uppercase contract name E.g. E-BTC-USDT                                                                            |
+| interval     | string  | yes    | Interval of the Kline. Possible values include:  1min,5min,15min,30min,1h,1day,1week,1month） |
+| limit        | integer | no    | Default 100; Maximum 300                                                                                  |
+> Response:
+
+```json
+[
+    {
+        "high": "6228.77",//Highest price
+        "vol": "111",//Trad volume
+        "low": "6228.77",//Lowest price
+        "idx": 1594640340,//Open time (timestamp,ms)
+        "close": "6228.77",//Close price
+        "open": "6228.77"//Open price
+    },
+    {
+        "high": "6228.77",
+        "vol": "222",
+        "low": "6228.77",
+        "idx": 1587632160,
+        "close": "6228.77",
+        "open": "6228.77"
+    },
+    {
+        "high": "6228.77",
+        "vol": "333",
+        "low": "6228.77",
+        "idx": 1587632100,
+        "close": "6228.77",
+        "open": "6228.77"
+    }
+]
+```
+# Trade
+## Security: TRADE
+The interface in Trade requires API-key and signature for access.
+
+## Create new order
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/order`
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+
+| Name            | Type     | Must | Description                          |
+|---------------|--------|------|-----------------------------|
+| volume        | number | yes    | The number of orders placed has a precision limit. The precision is set by the administrator. When opening a position at market price, the unit here is value. |
+| price         | number | no    | Order price. This field is required for limit orders. There is a precision limit. The precision is set by the administrator.  |
+| contractName  | string | yes    | Uppercase contract name E.g.`E-BTC-USDT`         |
+| type          | string | yes    | Order type :`LIMIT/MARKET`         |
+| side          | string | yes    | Order side`BUY/SELL`              |
+| open          | string | yes    | Position side`OPEN/CLOSE`           |
+| positionType  | number | no    | Position type:`1:Cross Margin/2:Isolated Margin`            |
+| clientOrderId | string | no    | Client order ID, a string less than 32 characters in length              |
+| timeInForce   | string | no    | `IOC,FOK,POST_ONLY`         |
+
+> Response:
+
+```json
+{
+    "orderId": 256609229205684228//Order ID
+}
+```
+## 创建条件单
+
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/conditionOrder/`
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+
+| Name            | Type     | Must | Description                          |
+|---------------|--------|------|-----------------------------|
+| triggerType   | string | yes    | Type of condition:`1:stop loss/2:take profit/3:chase the rise/4:kill the fall` |
+| triggerPrice  | string | yes    | Trigger price                         |
+| volume        | number | yes    | The order quantity. When opening a position at market price, the unit here is value. There is a precision limit. The precision is set by the administrator. |
+| price         | number | no    | The order price has precision limits, and the precision is set by the administrator.  |
+| contractName  | string | yes    | 大写合约名称:`E-BTC-USDT`         |
+| type          | string | yes    | 订单Type:`LIMIT/MARKET`         |
+| side          | string | yes    | 买卖方向`BUY/SELL`              |
+| open          | string | yes    | 开平仓方向`OPEN/CLOSE`           |
+| positionType  | number | no    | 持仓Type:`1:全仓/2:逐仓`            |
+| clientOrderId | string | no    | Client order identification, a string less than 32 characters in length             |
+
+> Response:
+
+```json
+{
+    "code": "0",
+    "msg": "Success",
+    "data": {
+        "triggerIds": [
+            "1322738336974712847"//条件单ID
+        ],
+        "ids": [],
+        "cancelIds": []
+    },
+    "succ": true
+}
+```
+## Cancel order
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/cancel`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+| orderId      | string | yes    | Order ID                |
+
+> Response:
+
+```json
+{
+    "orderId": 256609229205684228//Order ID
+}
+```
+## Order Information
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/order`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name            | Type     | Must | Description                  |
+|---------------|--------|------|---------------------|
+| contractName  | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+| orderId       | string | yes    | Order ID                |
+| clientOrderId | string | no    | Client unique identifier, default is 0             |
+
+> Response:
+
+```json
+{
+    "side": "BUY",//Order direction: BUY (buy long) and SELL (sell short)
+    "executedQty": 0,//Deal volume
+    "orderId": 2006628907041292645,//Order ID (system generated)
+    "price": 2000.0000000000000000,//Commission price
+    "origQty": 2.0000000000000000,//Commission volume
+    "avgPrice": 0E-8,//Deal average price
+    "transactTime": 1704967622000,//Order creation time
+    "action": "OPEN",//OPEN/CLOSE
+    "contractName": "E-BTC-USDT",//Uppercase contract name
+    "type": "LIMIT",//Order type:LIMIT/MARKET
+    "timeInForce": "",//Effective method of conditional order : 1 limit， 2 market，3 IOC，4 FOK，5 POST_ONLY
+    "status": "NEW"//Order Status. Possible values are: NEW (new order, no transaction), PARTIALLY_FILLED (partial transaction), FILLED (all transactions), CANCELED (cancelled) and REJECTED (order rejected)
+}
+```
+##  Current order information
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/openOrders`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name            | Type     | Must | Description                  |
+|---------------|--------|------|---------------------|
+| contractName  | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+
+> Response:
+
+```json
+[
+    {
+       "side": "BUY",//Order side:BUY/SELL
+       "executedQty": 0,//The number of already deal order
+       "orderId": 259396989397942275,//Order ID (system generated)
+       "price": 10000.0000000000000000,//Order price
+       "origQty": 1.0000000000000000,//Order volume
+       "avgPrice": 0E-8,//The average price of already deal order
+       "transactTime": "1607702400000",//Order creation time
+       "action": "OPEN",//CLOSE/BUY
+       "contractName": "E-BTC-USDT",//Order ID (system generated)
+       "type": "LIMIT",//Order type:LIMIT/MARKET
+       "status": "INIT"//Order Status. Possible values are: NEW (new order, no transaction), PARTIALLY_FILLED (partial transaction), FILLED (all transactions), CANCELED (cancelled) and REJECTED (order rejected)
+    }
+]
+```
+## Historical commission records
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/orderHistorical`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g.  `E-BTC-USDT` |
+| limit        | string | yes    | Default 100; Maximum 1000 |
+| fromId       | long   | no    | Start searching from this record           |
+
+> Response:
+
+```json
+[
+    {
+        "side":"BUY", //订单方向
+        "clientId":"0",//客户端唯一标识
+        "ctimeMs":1632903411000,//创建Timestamp
+        "positionType":2,//仓位Type,1:全仓/2:逐仓
+        "orderId":777293886968070157,//订单ID
+        "avgPrice":41000,//成交均价
+        "openOrClose":"OPEN",//OPEN/CLOSE
+        "leverageLevel":26,//杠杆倍数
+        "type":4,//订单Type
+        "closeTakerFeeRate":0.00065,//平仓taker手续费率
+        "volume":2,//订单忽略
+        "openMakerFeeRate":0.00025,//开仓maker手续费率
+        "dealVolume":1,//成交数量
+        "price":41000,//委托价格
+        "closeMakerFeeRate":0.00025,//平台maker手续费率
+        "contractId":1,//合约ID
+        "ctime":"2021-09-29T16:16:51",//订单创建时间
+        "contractName":"E-BTC-USDT",//合约名称
+        "openTakerFeeRate":0.00065,//开仓taker手续费率
+        "dealMoney":4.1,//成交价值
+        "status":4 //订单状态
+    }
+]
+```
+## Profit and loss record
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/profitHistorical`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+| limit        | string | yes    | Default 100; Maximum 1000 |
+| fromId       | long   | no    | Start searching from this record           |
+
+> Response:
+
+```json
+[
+    {
+        "side":"SELL",//仓位方向
+        "positionType":2,//仓位Type,1:全仓/2:逐仓
+        "tradeFee":-5.23575,//手续费
+        "realizedAmount":0,//弃用
+        "leverageLevel":26,//杠杆倍数
+        "openPrice":44500,//开仓价格
+        "settleProfit":0,//结算盈亏
+        "mtime":1632882739000,//更新时间
+        "shareAmount":0,//分摊金额
+        "openEndPrice":44500,//开仓均价
+        "closeProfit":-45,//平仓盈亏
+        "volume":900,//仓位数量
+        "contractId":1,//合约ID
+        "historyRealizedAmount":-50.23575,//历史已实现盈亏
+        "ctime":1632882691000,//创建Timestamp
+        "id":8764,//仓位ID
+        "capitalFee":0 //资金费
+    }
+]
+```
+
+## 盈亏记录
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/profitHistorical`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | 大写合约名称 `E-BTC-USDT` |
+| limit        | string | yes    | 分页条数, 默认100; 最大1000 |
+| fromId       | long   | no    | 从这条记录开始检索           |
+
+> Response:
+
+```json
+[
+    {
+        "side":"SELL",//仓位方向
+        "positionType":2,//仓位Type,1:全仓/2:逐仓
+        "tradeFee":-5.23575,//手续费
+        "realizedAmount":0,//弃用
+        "leverageLevel":26,//杠杆倍数
+        "openPrice":44500,//开仓价格
+        "settleProfit":0,//结算盈亏
+        "mtime":1632882739000,//更新时间
+        "shareAmount":0,//分摊金额
+        "openEndPrice":44500,//开仓均价
+        "closeProfit":-45,//平仓盈亏
+        "volume":900,//仓位数量
+        "contractId":1,//合约ID
+        "historyRealizedAmount":-50.23575,//历史已实现盈亏
+        "ctime":1632882691000,//创建Timestamp
+        "id":8764,//仓位ID
+        "capitalFee":0 //资金费
+    }
+]
+
+```
+
+## Transaction Record
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/myTrades`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+| limit        | string | yes    | Default 100; Maximum 1000 |
+| fromId       | long   | no    | Default 100; Maximum 1000           |
+
+> Response:
+
+```json
+[
+  {
+          "amount": 1.00000000000000000000000000000000, //Deal amount
+          "side": "BUY", //Order side:  BUY/SELL
+          "fee": "0.00025", //Trading fee
+          "isMaker": true, //Maker Or Taker: True : Maker,False: Taker
+          "isBuyer": true, //Whether is buyer: true: buyer，false: seller
+          "bidId": 1874564572563538059, //Buy side order ID
+          "bidUserId": 10034, // Buy side user ID
+          "price": 10.0000000000000000,//Deal price
+          "qty": 10,//Deal volume
+          "askId": 1954072405852309104,//Sell side user ID
+          "contractName": "E-ETH-USDT", //Uppercase contract name
+          "time": 1701419186000, // Trade timestamp
+          "tradeId": 1527, //Trade ID
+          "askUserId": 10378// Sell side user ID
+      }
+]
+```
+
+## Change position mode
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/edit_user_position_model`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g.  `E-BTC-USDT` |
+| positionModel| integer | yes   | The model of position(1.Net position 2. Two-way position) Input 1 or 2 |
+
+> Response:
+
+```json
+{
+    "code": "0",
+    "msg": "Successful",
+    "data": null
+}
+```
+
+## Change margin mode
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/edit_user_margin_model`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name            | Type     | Must | Description                  |
+|---------------|--------|------|---------------------|
+| contractName  | string | yes    | Uppercase contract name E.g.  `E-BTC-USDT` |
+| marginModel   | integer | yes   | Margin mode (1. Cross position 2. Isolated position) input 1 or 2 |
+
+> Response:
+
+```json
+{
+    "code": "0",
+    "msg": "Successful",
+    "data": null
+}
+```
+
+## Change leverage
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/edit_lever`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name            | Type     | Must | Description                  |
+|---------------|--------|------|---------------------|
+| contractName  | string | yes    | Uppercase contract name E.g. `E-BTC-USDT` |
+| nowLevel   | integer | yes   | Leverage multiple to be modified E.g. 50       |
+
+> Response:
+
+```json
+{
+    "code": "0",
+    "msg": "Successful",
+    "data": null
+}
+```
+
+## Obtain the current trigger order
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/trigger_order_list`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g.  `E-BTC-USDT` |
+| page         | integer | no    | Current page number, Default 1      |
+| limit     | integer | no     | Total data per page, Default 1000      |
+
+>200
+
+```json
+{
+  "code":"0",
+  "msg":"Successful",
+  "data":{
+    "count":2,
+    "trigOrderList":[
+      {
+        "mtime":1706513208000, //Modify time
+        "price":0, //Order price
+        "ctime":1706513208000,//Create time
+        "contractName":"BTCUSDT",//Contract name
+        "id":"895",//Trigger order collection table id
+        "triggerOrderId":"1322738336974712829",// Trigger order id
+        "pricePrecision":3, //Price accuracy
+        "side":"BUY", //Order side (BUY/SELL)
+        "triggerPrice":11111, //Trigger price
+        "multiplier":0.0001, //Contract value
+        "marginCoin":"USDT",//Margin currency
+        "volume":100,//Order volume
+        "expireTime":1707722808000,//Order expiration time
+        "contractId":127,//Contract id
+        "triggerType":4,//Trigger order type : 1 stop loss，2 take profit，3 stop loss limit，4 take profit limit
+        "open":"OPEN",//Direction of opening and closing positions (OPEN/CLOSE)
+        "status":0 //Valid status 0 valid 1 invalid
+      }
+    ]
+  }
+}
+```
+
+## Cancel trigger order
+`POST` `https://futuresopenapi.xxx.com/fapi/v1/trigger_order_cancel`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+#### Parameter
+| Name           | Type     | Must | Description                  |
+|--------------|--------|------|---------------------|
+| contractName | string | yes    | Uppercase contract name E.g.  `E-BTC-USDT` |
+| orderId      | long | no    | 1322738336974712828      |
+
+>200
+
+```json
+{
+    "code": "0",
+    "msg": "Successful",
+    "data": null
+}
+```
+
+# Account
+##Security: USER_DATA
+The interface in Trade requires API-key and signature for access.
+
+## Account Information
+`GET` `https://futuresopenapi.xxx.com/fapi/v1/account`
+
+#### Headers
+
+| Name          | Type     | Must | Description        |
+|-------------|--------|------|-----------|
+| X-CH-TS     | string | yes    | Timestamp       |
+| X-CH-APIKEY | string | yes    | User API-KEY |
+| X-CH-SIGN   | string | yes    | Sign        |
+
+>Response:
+
+```json
+{
+    "account": [ //Collection of balance
+        {
+            "marginCoin": "USDT", //Margin currency
+            "accountNormal": 999.5606, //Account balance
+            "accountLock": 23799.5017, //Margin frozen account
+            "partPositionNormal": 9110.7294, //Isolated margin balance
+            "totalPositionNormal": 0, //Initial margin occupied by full position
+            "achievedAmount": 4156.5072, //Realized profit and loss
+            "unrealizedAmount": 650.6385, //Unrealized profit or loss
+            "totalMarginRate": 0,//Cross Margin Rate
+            "totalEquity": 99964804.560,//Cross Margin Interest
+            "partEquity": 13917.8753,//Isolated interest
+            "totalCost": 0,//Cost of occupying the entire warehouse
+            "sumMarginRate": 873.4608,//Margin rate for all accounts
+            "positionVos": [ //Position contract records
+                {
+                    "contractId": 1, //Contract id
+                    "contractName": "E-BTC-USDT", //Uppercase contract name
+                    "contractOtherName": "E-BTC-USDT", //Currency alias
+                    "contractSymbol": "BTC-USDT", //Contract currency pair
+                    "positions": [
+                        {
+                            "id": 13603, //Position id
+                            "uid": 10023, //User ID
+                            "contractId": 1, //Contract ID
+                            "positionType": 2, // Position type (1: Cross position, 2: isolated position)
+                            "side": "BUY", //Position side (BUY: long position, SELL: short position)
+                            "volume": 69642.0,//Position quantity
+                            "openPrice": 11840.2394,//Opening price
+                            "avgPrice": 11840.3095,//Average position price
+                            "closePrice": 12155.3005,//Average closing price
+                            "leverageLevel": 24,//Leverage multiple
+                            "openAmount": 24,//Opening margin
+                            "holdAmount": 7014.2111,//Position margin
+                            "closeVolume": 40502.0,//Quantity of positions closed
+                            "pendingCloseVolume": 0,//The volume of place closing orders
+                            "realizedAmount": 8115.9125,//Realized profit and loss
+                            "historyRealizedAmount": 1865.3985,//Historical accumulated profit and loss
+                            "tradeFee": -432.0072,//Transaction Fees
+                            "capitalFee": 2891.2281,//Funding charges
+                            "closeProfit": 8117.6903,//Position closing profit and loss
+                            "shareAmount": 0.1112,//Sharing amount
+                            "freezeLock": 0,//Position frozen status (0: normal, 1: liquidation frozen, 2: delivery frozen)
+                            "status": 1,//Position validity (0: invalid, 1: valid)
+                            "ctime": "2020-12-11T17:42:10", //Creation time
+                            "mtime": "2020-12-18T20:35:43",//Update time
+                            "brokerId": 21,//Broker id
+                            "lockTime": 2023-12-05T13:53:04,//Liquidation lock time
+                            "marginRate": 0.2097,//margin rate
+                            "reducePrice": 9740.8083,//Forced price reduction
+                            "returnRate": 0.3086,//rate of return (yield)
+                            "unRealizedAmount": 2164.5289,//unrealized profit or loss
+                            "openRealizedAmount": 2165.0173,//Unrealized profit and loss on opening a position
+                            "positionBalance": 82458.2839,//Position value
+                            "settleProfit": 0.4883,//Position settlement
+                            "indexPrice": 12151.1175,//Latest tag price
+                            "keepRate": 0.005,//Tiered Minimum Maintenance Margin Rate
+                            "maxFeeRate": //0.0025//Maximum handling fee for closing the position
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
