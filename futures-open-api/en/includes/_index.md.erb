@@ -594,51 +594,6 @@ The interface in Trade requires API-key and signature for access.
 ]
 ```
 
-## 盈亏记录
-`GET` `https://futuresopenapi.xxx.com/fapi/v1/profitHistorical`
-
-#### Headers
-
-| Name          | Type     | Must | Description        |
-|-------------|--------|------|-----------|
-| X-CH-TS     | string | yes    | Timestamp       |
-| X-CH-APIKEY | string | yes    | User API-KEY |
-| X-CH-SIGN   | string | yes    | Sign        |
-
-#### Parameter
-| Name           | Type     | Must | Description                  |
-|--------------|--------|------|---------------------|
-| contractName | string | yes    | 大写合约名称 `E-BTC-USDT` |
-| limit        | string | yes    | 分页条数, 默认100; 最大1000 |
-| fromId       | long   | no    | 从这条记录开始检索           |
-
-> Response:
-
-```json
-[
-    {
-        "side":"SELL",//仓位方向
-        "positionType":2,//仓位Type,1:全仓/2:逐仓
-        "tradeFee":-5.23575,//手续费
-        "realizedAmount":0,//弃用
-        "leverageLevel":26,//杠杆倍数
-        "openPrice":44500,//开仓价格
-        "settleProfit":0,//结算盈亏
-        "mtime":1632882739000,//更新时间
-        "shareAmount":0,//分摊金额
-        "openEndPrice":44500,//开仓均价
-        "closeProfit":-45,//平仓盈亏
-        "volume":900,//仓位数量
-        "contractId":1,//合约ID
-        "historyRealizedAmount":-50.23575,//历史已实现盈亏
-        "ctime":1632882691000,//创建Timestamp
-        "id":8764,//仓位ID
-        "capitalFee":0 //资金费
-    }
-]
-
-```
-
 ## Transaction Record
 `GET` `https://futuresopenapi.xxx.com/fapi/v1/myTrades`
 

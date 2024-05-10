@@ -3,7 +3,7 @@ set -o errexit #abort if any command fails
 # build futures-api/zh
 docker run --rm --name slate1 -v $(pwd)/build/zh/latest/futures-open-api:/srv/slate/build -v $(pwd)/futures-open-api/zh/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-open-api/zh/includes:/srv/slate/source/includes futuresdocker/slate build
 # build futures-api/en
-#docker run --rm --name slate -v $(pwd)/build/en/latest/futures-api:/srv/slate/build -v $(pwd)/futures-api/en/_index.md.erb.erb:/srv/slate/source/_index.md.erb.erb -v $(pwd)/futures-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
+docker run --rm --name slate1 -v $(pwd)/build/en/latest/futures-open-api:/srv/slate/build -v $(pwd)/futures-open-api/en/index.html.md.erb:/srv/slate/source/index.html.md.erb -v $(pwd)/futures-open-api/en/includes:/srv/slate/source/includes futuresdocker/slate build
 
 
 #sudo cp $(pwd)/CNAME $(pwd)/build
