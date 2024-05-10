@@ -954,8 +954,8 @@ curl 调用:
 }
 ```
 
-## Websocket推送
-### 概述
+# Websocket推送
+## 概述
 WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服务器全双工通信， 使得数据可以快速地双向传播。通过一次简单的握手就可以建立客户端和服务器连接， 服务器根据业务规则可以主动推送信息给客户端。其优点如下：
 
 - 客户端和服务器进行数据传输时，请求头信息比较小，大概2个字节。
@@ -964,11 +964,11 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 
 **强烈建议开发者使用WebSocket API获取市场行情和买卖深度等信息。**
 
-### 基本信息
+## 基本信息
 - 合约行情基础站点: [wss://futuresws.xxx.xxx/kline-api/ws](wss://futuresws.xxx.xxx/kline-api/ws) 其中`xxx.xxx`替换成交易所的主域
 - 返回数据除了心跳数据都会二进制压缩(用户需要通过Gzip算法进行解压)
 
-### Demo
+## Demo
 [https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java](https://github.com/exchange2021/openapidemo/blob/master/src/main/java/com/ws/WsTest.java)
 
 #### 参数示例
@@ -989,7 +989,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
   "pong": 15359750
   }
 ```
-### 订阅全量深度
+## 订阅全量深度
 
 - 订阅数据样例
 ```json
@@ -1021,7 +1021,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
     }
 }
 ```
-### 订阅实时成交
+## 订阅实时成交
 - 订阅数据样例
 
 ```json
@@ -1056,7 +1056,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-### 订阅k线行情
+## 订阅k线行情
 - 订阅数据样例
 
 ```json
@@ -1086,7 +1086,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-### 订阅24h行情ticker
+## 订阅24h行情ticker
 
 - 订阅数据样例
 
@@ -1117,7 +1117,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-### 请求k线历史数据
+## 请求k线历史数据
 
 - 请求数据样例
 
@@ -1162,7 +1162,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-### 请求成交记录
+## 请求成交记录
 
 - 请求数据样例
 
@@ -1200,7 +1200,7 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-## 错误码
+# 错误码
 错误码解释说明
 
 返回报错一般由两个部分组成：错误码和错误信息。错误码是通用的，但是错误信息会有所不同。如下是一个报错JSON Payload示例：
@@ -1212,133 +1212,133 @@ WebSocket是HTML5一种新的协议（Protocol）。它实现了客户端与服�
 }
 ```
 
-### 10xx - 通用服务器和网络错误
+## 10xx - 通用服务器和网络错误
 
-#### -1000 UNKNOWN
+### -1000 UNKNOWN
 - 处理请求时发生未知错误
 
-#### -1001 DISCONNECTED
+### -1001 DISCONNECTED
 - 内部错误, 无法处理您的请求, 请再试一次
 
-#### 1002 UNAUTHORIZED
+### 1002 UNAUTHORIZED
 - 您无权执行此请求. 请求需要发送API key,  我们建议在所有的请求头附加API key
 
-#### -1003 TOO_MANY_REQUESTS
+### -1003 TOO_MANY_REQUESTS
 - 请求过于频繁超过限制.
 
-#### -1006 UNEXPECTED_RESP
+### -1006 UNEXPECTED_RESP
 - 接收到了不符合预设格式的消息，下单状态未知
 
-#### -1007 TIMEOUT
+### -1007 TIMEOUT
 - 等待后端服务器响应超时。 发送状态未知； 执行状态未知
 
-#### -1014 UNKNOWN_ORDER_COMPOSITION
+### -1014 UNKNOWN_ORDER_COMPOSITION
 - 不支持的订单组合
 
-#### -1015 TOO_MANY_ORDERS
+### -1015 TOO_MANY_ORDERS
 - 新订单太多。请减少你的请求频率
 
-#### -1016 SERVICE_SHUTTING_DOWN
+### -1016 SERVICE_SHUTTING_DOWN
 - 服务器下线
 
-#### -1017 ILLEGAL_CONTENT_TYPE
+### -1017 ILLEGAL_CONTENT_TYPE
 - 我们建议在所有的请求头附加Content-Type, 并设置成application/json
 
-#### -1020 UNSUPPORTED_OPERATION
+### -1020 UNSUPPORTED_OPERATION
 - 不支持此操作
 
-#### 1021 INVALID_TIMESTAMP
+### 1021 INVALID_TIMESTAMP
 - 时延过大，服务器根据接请求中的时间戳判定耗时已经超出了recevWindow。请改善网络条件或者增大recevWindow.
 - 时间偏移过大，服务器根据请求中的时间戳判定客户端时间比服务器时间提前了1秒钟以上.
 
-#### -1022 INVALID_SIGNATURE
+### -1022 INVALID_SIGNATURE
 - 此请求的签名无效。
 
-#### -1023 UNTIMESTAMP
+### -1023 UNTIMESTAMP
 - 您无权执行此请求, 我们建议您在所有的请求头附加X-CH-TS
 
-#### -1024 UNSIGNATURE
+### -1024 UNSIGNATURE
 - 您无权执行此请求, 我们建议您在请求头附加X-CH-SIGN
 
-### 11xx - 请求内容中的问题
+## 11xx - 请求内容中的问题
 
-#### -1100 ILLEGAL_CHARS
+### -1100 ILLEGAL_CHARS
 - 在参数中发现非法字符。
 
-#### -1101 TOO_MANY_PARAMETERS
+### -1101 TOO_MANY_PARAMETERS
 - 发送的参数太多。
 - 检测到的参数值重复
 
-#### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
+### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
 - 未发送强制性参数，该参数为空/空或格式错误。
 - 强制参数'％s'未发送，为空/空或格式错误。
 - 必须发送参数'％s'或'％s'，但两者均为空！
 
-#### -1103 UNKNOWN_PARAM
+### -1103 UNKNOWN_PARAM
 - 发送了未知参数。
 - 每条请求需要至少一个参数{Timestamp}.
 
-#### -1104 UNREAD_PARAMETERS
+### -1104 UNREAD_PARAMETERS
 - 并非所有发送的参数都被读取。
 - 并非所有发送的参数都被读取； 读取了'％s'参数，但被发送了'％s'。
 
-#### -1105 PARAM_EMPTY
+### -1105 PARAM_EMPTY
 - 参数为空。
 - 参数'％s'为空。
 
-#### -1106 PARAM_NOT_REQUIRED
+### -1106 PARAM_NOT_REQUIRED
 - 不需要时已发送参数。
 - 不需要时发送参数'％s'。
 
-#### -1111 BAD_PRECISION
+### -1111 BAD_PRECISION
 - 发送了未知参数。
 - 每条请求需要至少一个参数{Timestamp}.
 
-#### -1112 NO_DEPTH
+### -1112 NO_DEPTH
 - 交易对没有挂单
 
-#### -1116 INVALID_ORDER_TYPE
+### -1116 INVALID_ORDER_TYPE
 - 无效订单类型。
 
-#### -1117 INVALID_SIDE
+### -1117 INVALID_SIDE
 - 无效买卖方向。
 
-#### -1118 EMPTY_NEW_CL_ORD_ID
+### -1118 EMPTY_NEW_CL_ORD_ID
 - 新的客户订单ID为空。
 
-#### -1121 BAD_SYMBOL
+### -1121 BAD_SYMBOL
 - 无效的symbol
 
-#### -1136 ORDER_QUANTITY_TOO_SMALL
+### -1136 ORDER_QUANTITY_TOO_SMALL
 - 订单quantity小于最小值
 
-#### -1138 ORDER_PRICE_WAVE_EXCEED
+### -1138 ORDER_PRICE_WAVE_EXCEED
 - 订单价格超出允许范围
 
-#### -1139 ORDER_NOT_SUPPORT_MARKET
+### -1139 ORDER_NOT_SUPPORT_MARKET
 - 该交易对不支持市价交易
 
-#### -1145 ORDER_NOT_SUPPORT_CANCELLATION
+### -1145 ORDER_NOT_SUPPORT_CANCELLATION
 - 该订单类型不支持撤销
 
-#### -1147  PRICE_VOLUME_PRESION_ERROR
+### -1147  PRICE_VOLUME_PRESION_ERROR
 - 订单价格或数量超过最大限制
 
-#### -2013 NO_SUCH_ORDER
+### -2013 NO_SUCH_ORDER
 - Order不存在
 
-#### -2015 REJECTED_CH_KEY
+### -2015 REJECTED_CH_KEY
 - 无效的API密钥，IP或操作权限.
 
-#### -2016 EXCHANGE_LOCK
+### -2016 EXCHANGE_LOCK
 - 交易被冻结
 
-#### -2017 BALANCE_NOT_ENOUGH
+### -2017 BALANCE_NOT_ENOUGH
 - 余额不足
 
-## SDK 开发库
+# SDK 开发库
 
-### 签名示例
+## 签名示例
 
 ```java
 /**
