@@ -94,6 +94,7 @@ html, body {
       border-radius: 0; /* ios has a default border radius */
     }
 
+
     &:before {
       position: absolute;
       top: 17px;
@@ -101,6 +102,11 @@ html, body {
       color: $nav-text;
       @extend %icon-search;
     }
+    &::-webkit-input-placeholder {
+      font-size: 12px !important;
+      font-family: "HarmonyOS-Regular" !important;
+      color: #A0A2AA !important;
+  }
   }
 
   .search-results {
@@ -208,6 +214,9 @@ html, body {
   transition-timing-function: linear;
   transition-duration: 130ms;
   font-size: 14px;
+  height: 48px;
+  line-height: 48px;
+  font-family: "HarmonyOS-Regular" !important;
 }
 
 // button to show navigation on mobile devices
