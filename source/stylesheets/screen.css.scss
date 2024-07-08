@@ -197,7 +197,7 @@ html, body {
 }
 
 .toc-link, .toc-footer li {
-  padding: 150px $nav-padding 0 $nav-padding;
+  padding: 0 $nav-padding 0 $nav-padding;
   display: block;
   overflow-x: hidden;
   white-space: nowrap;
@@ -207,6 +207,7 @@ html, body {
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
+  font-size: 14px;
 }
 
 // button to show navigation on mobile devices
