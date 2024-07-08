@@ -81,10 +81,10 @@ body {
     margin-bottom: $logo-margin;
   }
 
-  &.search-icon {
+  .search-icon {
     position: absolute;
     top: 17px;
-    left: $nav-padding;
+    left: 13px;
     width: 16px;
     height: 16px;
   }
