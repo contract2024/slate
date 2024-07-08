@@ -10,6 +10,26 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: HarmonyOS-Medium;
+  src: url("../fonts/HarmonyOS_Sans_SC_Medium.ttf");
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+@font-face {
+  font-family: HarmonyOS-Regular;
+  src: url("../fonts/HarmonyOS_Sans_SC_Regular.ttf");
+  font-style: normal !important;
+  font-weight: 400 !important;
+}
+
+@font-face {
+  font-family: HarmonyOS-Bold;
+  src: url("../fonts/HarmonyOS_Sans_SC_Bold.ttf");
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
+
 %icon {
   font-family: 'slate';
   speak: none;
