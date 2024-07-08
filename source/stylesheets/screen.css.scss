@@ -153,7 +153,7 @@ html, body {
 
   // This is the currently selected ToC entry
   .toc-link.active {
-    background-color: $nav-active-bg;
+    background-color: red !important;
     color: $nav-active-text;
   }
 
@@ -197,13 +197,13 @@ html, body {
 }
 
 .toc-link, .toc-footer li {
-  padding: 0 $nav-padding 0 $nav-padding;
+  padding: 150px $nav-padding 0 $nav-padding;
   display: block;
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
-  color: $nav-text;
+  color: red !important;
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
