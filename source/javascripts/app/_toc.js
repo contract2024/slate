@@ -127,6 +127,7 @@
           .pathname
           .replace('slate/en', 'slate/zh')
         window.location.href = url
+        
       } else {
 
         let url
