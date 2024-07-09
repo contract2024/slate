@@ -227,19 +227,22 @@ body {
     background: $nav-subitem-bg;
 
     &.visible {
-      height: 30%;
-      margin-bottom: 1em;
+      height: auto;
+      margin-bottom: 12px;
     }
 
     li {
-      margin: 1em $nav-padding;
       line-height: 1;
+      margin-top:8px;
     }
 
     a {
       color: $nav-text;
       text-decoration: none;
-
+      display: block;
+      font-size: 14px;
+      margin-bottom: 12px;
+      margin-left:16px;
       &:hover {
         text-decoration: underline;
       }
