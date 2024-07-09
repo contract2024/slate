@@ -183,6 +183,12 @@ under the License.
 
   <script>
     let switchInput = document.getElementById('mySwitch')
+    if(window.location.pathname.indexOf('slate/zh')){
+      switchInput.checked = true;
+    }
+   if(window.location.pathname.indexOf('slate/en')){
+      switchInput.checked = false;
+    }
     switchInput.addEventListener('change', function () {
       let url
       if (this.checked) {

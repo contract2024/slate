@@ -231,7 +231,7 @@ body {
       margin-bottom: 12px;
     }
 
-    
+
     li {
       line-height: 1;
       margin-top:8px;
@@ -292,6 +292,8 @@ body {
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
     font-size: 12px;
+    font-family: HarmonyOS-Regular;
+
   }
 
   .toc-footer {
