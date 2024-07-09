@@ -104,7 +104,8 @@ under the License.
           <% end %>
         </div>
       <% end %>
-      # 语言切换
+
+      <% if current_page.data.search %>
       <label class="switch">
       <input type="checkbox" checked id="mySwitch">
       <span class="slider">
@@ -112,6 +113,7 @@ under the License.
           <div class="cn">CN</div>
       </span>
      </label>
+     <% end %>
 
       <% if current_page.data.search %>
         <div class="search">
