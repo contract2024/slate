@@ -283,12 +283,23 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-a33e20d8.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-10fe6d8e.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-65c24261.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-32c3485e.js"></script>
+      <script src="javascripts/all-08b13c88.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
+      let switchInput = document.getElementById('mySwitch')
+      switchInput.addEventListener('change', function () {
+        let url
+        if (this.checked) {
+          url = window.location.origin + window.location.pathname.replace('slate/en', 'slate/zh')
+          window.location.href = url
+        } else {
+          url = window.location.origin + window.location.pathname.replace('slate/zh', 'slate/en')
+          window.location.href = url
+        }
+      });
     </script>
   </head>
 
