@@ -838,3 +838,12 @@ body {
     display: none;
   }
 }
+
+@media (max-width: 930px) {
+  #header {
+    height: 444px;
+    background-size: 100% 100% !important;
+    margin-left:0px;
+    width:calc(100%-230px) !important;
+  }
+}
