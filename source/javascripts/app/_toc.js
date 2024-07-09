@@ -116,29 +116,6 @@
 
     window.recacheHeights = recacheHeights;
     window.refreshToc = refreshToc;
-
-    // 语言切换
-    let switchInput = document.getElementById('mySwitch')
-    switchInput.addEventListener('change', function () {
-      if (this.checked) {
-        let url
-        url = window.location.origin + window
-          .location
-          .pathname
-          .replace('slate/en', 'slate/zh')
-        window.location.href = url
-
-      } else {
-
-        let url
-        url = window.location.origin + window
-          .location
-          .pathname
-          .replace('slate/zh', 'slate/en')
-        window.location.href = url
-        
-      }
-    });
   }
   window.loadToc = loadToc;
 })();
