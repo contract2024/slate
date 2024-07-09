@@ -283,7 +283,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-bdab0075.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-4cca3218.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-65c24261.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-08b13c88.js"></script>
 
@@ -2652,11 +2652,12 @@ print(response.text.encode('utf8'))
 
   <script>
     let switchInput = document.getElementById('mySwitch')
+    var checkbox = document.getElementById('mySwitch');
+          
     if(window.location.pathname.indexOf('slate/zh')){
-      switchInput.checked = true;
-    }
-   if(window.location.pathname.indexOf('slate/en')){
-      switchInput.checked = false;
+      checkbox.checked = true;
+    } else{
+      checkbox.checked = false;
     }
     switchInput.addEventListener('change', function () {
       let url
