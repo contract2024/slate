@@ -61,17 +61,6 @@ under the License.
     <% if current_page.data.code_clipboard %>
     <script>
       $(function() { setupCodeCopy(); });
-      let switchInput = document.getElementById('mySwitch')
-      switchInput.addEventListener('change', function () {
-        let url
-        if (this.checked) {
-          url = window.location.origin + window.location.pathname.replace('slate/en', 'slate/zh')
-          window.location.href = url
-        } else {
-          url = window.location.origin + window.location.pathname.replace('slate/zh', 'slate/en')
-          window.location.href = url
-        }
-      });
     </script>
     <% end %>
   </head>
@@ -191,4 +180,18 @@ under the License.
       </div>
     </div>
   </body>
+
+  <script>
+    let switchInput = document.getElementById('mySwitch')
+    switchInput.addEventListener('change', function () {
+      let url
+      if (this.checked) {
+        url = window.location.origin + window.location.pathname.replace('slate/en', 'slate/zh')
+        window.location.href = url
+      } else {
+        url = window.location.origin + window.location.pathname.replace('slate/zh', 'slate/en')
+        window.location.href = url
+      }
+    });
+  </script>
 </html>
