@@ -106,6 +106,7 @@
             switchInput.addEventListener('change', function () {
                 if (this.checked) {
                     console.log('开关打开');
+                    
                     let url
                     url = window.location.origin + window
                         .location
@@ -113,6 +114,7 @@
                         .replace('slate/en', 'slate/zh')
                     window.location.href = url
                 } else {
+
                     console.log('开关关闭');
                     let url
                     url = window.location.origin + window
