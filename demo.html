@@ -1,77 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Switch 开关示例</title>
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 172px;
+                height: 36px;
+                line-height: 36px;
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-  .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
+            }
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
 
-  .switch input {
-      display: none;
-    }
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                -webkit-transition: 0.4s;
+                transition: 0.4s;
+                background: #262b2d;
+                border-radius: 50px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+                font-family: HarmonyOS-Medium;
+                color: #909090;
+            }
 
-  .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      -webkit-transition:.4s;
-      transition:.4s;
-    }
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 80px;
+                left: 6px;
+                bottom: 5px;
+                background: #515557;
+                -webkit-transition: 0.4s;
+                transition: 0.4s;
+                border-radius: 34px;
+            }
 
-  .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      -webkit-transition:.4s;
-      transition:.4s;
-    }
+            input:checked +.slider {
+                background: #262b2d;
+            }
 
-    input:checked+.slider {
-      background-color: #2196f3;
-    }
+            input:focus +.slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
 
-    input:focus+.slider {
-      box-shadow: 0 0 1px #2196f3;
-    }
+            input:checked +.slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+                background: #515557;
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 80px;
+                left: 60px;
+                bottom: 5px;
+            }
 
-    input:checked+.slider:before {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
-    }
+            .slider > .cn {
+                margin-right: 36px;
+                z-index: 10;
+            }
+            .slider > .en {
+                margin-left: 36px;
+                z-index: 10;
+            }
+            input:checked +.slider > .cn {
+                color: #fff;
+            }
+            input +.slider > .en {
+                color: #fff;
+            }
+            input:checked +.slider > .en {
+                color: #909090;
+            }
+        </style>
+    </head>
 
-    /* 圆形滑块样式 */
-  .slider.round {
-      border-radius: 34px;
-    }
+    <body>
+        <label class="switch">
+            <input type="checkbox" checked id="mySwitch">
+            <span class="slider">
+                <div class="en">EN</div>
+                <div class="cn">CN</div>
+            </span>
+        </label>
 
-  .slider.round:before {
-      border-radius: 50%;
-    }
-  </style>
-</head>
+        <script>
+            let switchInput = document.getElementById('mySwitch')
+            switchInput.addEventListener('change', function () {
+                if (this.checked) {
+                    console.log('开关打开');
+                    {
+                        # 中文 #
+                    }
+                    let url
+                    url = window.location.origin + window
+                        .location
+                        .pathname
+                        .replace('slate/en', 'slate/zh')
+                    window.location.href = url
+                } else {
+                    console.log('开关关闭');
+                    {# 英文 #}
+                    let url
+                    url = window.location.origin + window
+                        .location
+                        .pathname
+                        .replace('slate/zh', 'slate/en')
+                    window.location.href = url
 
-<body>
-  <h2>开关切换</h2>
-  <label class="switch">
-      <input type="checkbox">
-      <div class="slider"></div>
-    </label>
-</body>
+                }
+            });
+        </script>
+    </body>
 
 </html>

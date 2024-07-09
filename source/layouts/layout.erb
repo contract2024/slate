@@ -104,6 +104,15 @@ under the License.
           <% end %>
         </div>
       <% end %>
+      # 语言切换
+      <label class="switch">
+      <input type="checkbox" checked id="mySwitch">
+      <span class="slider">
+          <div class="en">EN</div>
+          <div class="cn">CN</div>
+      </span>
+     </label>
+
       <% if current_page.data.search %>
         <div class="search">
           <%= image_tag "search.png", class: 'search-icon' %>
