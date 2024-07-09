@@ -118,4 +118,5 @@
     window.refreshToc = refreshToc;
   }
   window.loadToc = loadToc;
+  
 })();
