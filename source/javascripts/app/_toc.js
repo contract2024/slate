@@ -127,7 +127,7 @@
           .pathname
           .replace('slate/en', 'slate/zh')
         window.location.href = url
-        
+
       } else {
 
         let url
@@ -136,6 +136,7 @@
           .pathname
           .replace('slate/zh', 'slate/en')
         window.location.href = url
+        
       }
     });
   }
