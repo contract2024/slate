@@ -283,7 +283,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-4cca3218.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-651044f0.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-65c24261.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-08b13c88.js"></script>
 
@@ -293,7 +293,7 @@
   </head>
 
   <body class="index" data-languages="[]">
-    <div class="header">
+    <div class="header" id="header" >
         <div class="header-left">
             <img src="images/logo-1e815a84.png" class="logo" alt="" />
             <div class="header-line"></div>
@@ -322,7 +322,7 @@
     <div class="toc-wrapper">
 
       <label class="switch">
-      <input type="checkbox" checked id="mySwitch">
+      <input type="checkbox" id="mySwitch">
       <span class="slider">
           <div class="en">EN</div>
           <div class="cn">CN</div>
@@ -2863,13 +2863,15 @@ POST示例：1588591856950POST/sapi/v1/order/test{&quot;symbol&quot;:&quot;BTCUS
   </body>
 
   <script>
+    let headerDiv = document.getElementById('header');
     let switchInput = document.getElementById('mySwitch')
     var checkbox = document.getElementById('mySwitch');
-          
     if(window.location.pathname.indexOf('slate/zh')){
+      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
       checkbox.checked = true;
     } else{
       checkbox.checked = false;
+      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
     }
     switchInput.addEventListener('change', function () {
       let url
