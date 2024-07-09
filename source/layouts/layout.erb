@@ -66,7 +66,7 @@ under the License.
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
-    <div class="header">
+    <div class="header" id="header" >
         <div class="header-left">
             <%= image_tag "logo.png", class: 'logo' %>
             <div class="header-line"></div>
@@ -107,7 +107,7 @@ under the License.
 
       <% if current_page.data.search %>
       <label class="switch">
-      <input type="checkbox" checked id="mySwitch">
+      <input type="checkbox" id="mySwitch">
       <span class="slider">
           <div class="en">EN</div>
           <div class="cn">CN</div>
@@ -182,13 +182,15 @@ under the License.
   </body>
 
   <script>
+    let headerDiv = document.getElementById('header');
     let switchInput = document.getElementById('mySwitch')
     var checkbox = document.getElementById('mySwitch');
-          
     if(window.location.pathname.indexOf('slate/zh')){
+      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
       checkbox.checked = true;
     } else{
       checkbox.checked = false;
+      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
     }
     switchInput.addEventListener('change', function () {
       let url
