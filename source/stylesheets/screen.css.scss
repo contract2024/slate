@@ -231,10 +231,12 @@ body {
       margin-bottom: 12px;
     }
 
+    
     li {
       line-height: 1;
       margin-top:8px;
     }
+
 
     a {
       color: $nav-text;
@@ -245,7 +247,7 @@ body {
       margin-left:16px;
       &:hover {
         text-decoration: underline;
-        
+
       }
     }
   }
