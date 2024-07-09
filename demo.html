@@ -103,15 +103,17 @@
 
         <script>
             
+            
             let switchInput = document.getElementById('mySwitch')
             // 获取元素
+        
             var checkbox = document.getElementById('mySwitch');
           
              if(window.location.pathname.indexOf('slate/zh')){
                checkbox.checked = true;
              }
             if(window.location.pathname.indexOf('slate/en')){
-               checkbox.checked = false;
+               checkbox.checked = true;
              }
             switchInput.addEventListener('change', function () {
                 if (this.checked) {

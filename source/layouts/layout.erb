@@ -185,13 +185,16 @@ under the License.
     let headerDiv = document.getElementById('header');
     let switchInput = document.getElementById('mySwitch')
     var checkbox = document.getElementById('mySwitch');
-    if(window.location.pathname.indexOf('slate/zh')){
-      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
-      checkbox.checked = true;
-    } else{
-      checkbox.checked = false;
-      headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
-    }
+    setTimeout(()=>{
+      if(window.location.pathname.indexOf('slate/zh')){
+        headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
+        checkbox.checked = true;
+      } 
+      if(window.location.pathname.indexOf('slate/en')){
+        headerDiv.style.background = "url('https://futures-test-oss.oss-cn-hongkong.aliyuncs.com/images/bg1.png') no-repeat";
+        checkbox.checked = false;
+      }
+    },1000)
     switchInput.addEventListener('change', function () {
       let url
       if (this.checked) {

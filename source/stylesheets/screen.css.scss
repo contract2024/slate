@@ -832,7 +832,7 @@ body {
   height: 444px;
   background-size: 100% 100% !important;
   margin-left:230px;
-  width:calc(100%-230px);
+  width:calc(100%-230px) !important;
 }
 .header-left {
   .logo{
