@@ -579,13 +579,26 @@ body {
     }
 
     th {
-      padding: 5px 10px;
-      border-bottom: 1px solid #ccc;
+      padding: 6px 10px;
+      border-bottom: 1px solid #E6ECF2;
+      border-top: 1px solid #E6ECF2;
       vertical-align: bottom;
+      background: #F3F7F9;
+      color: #000;
+      font-size: 14px;
+      font-family: HarmonyOS-Medium;
+      line-height: 22px;
     }
 
     td {
       padding: 10px;
+      color: #000;
+      font-family: HarmonyOS-Regular;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px;
+      border-bottom: 1px solid #E6ECF2;
     }
 
     tr:last-child {
@@ -811,7 +824,7 @@ body {
   height: 18px;
   width: 18px;
   position: absolute;
-  right:28px;
+  right: 28px;
 }
 
 .copy-clipboard:hover {
@@ -833,11 +846,12 @@ body {
 #header {
   height: 444px;
   background-size: 100% 100% !important;
-  margin-left:230px;
-  width:calc(100%-230px) !important;
+  margin-left: 230px;
+  width: calc(100%-230px) !important;
 }
+
 .header-left {
-  .logo{
+  .logo {
     display: none;
   }
 }
@@ -846,7 +860,7 @@ body {
   #header {
     height: 444px;
     background-size: 100% 100% !important;
-    margin-left:0px;
-    width:calc(100%-230px) !important;
+    margin-left: 0px;
+    width: calc(100%-230px) !important;
   }
 }
