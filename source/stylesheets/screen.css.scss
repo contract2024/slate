@@ -205,6 +205,16 @@ body {
         font-family: "HarmonyOS-Regular" !important;
         color: #A0A2AA !important;
       }
+      &::-moz-placeholder {
+        font-size: 12px !important;
+        font-family: "HarmonyOS-Regular" !important;
+        color: #A0A2AA !important;
+      }
+      &::placeholder {
+        font-size: 12px !important;
+        font-family: "HarmonyOS-Regular" !important;
+        color: #A0A2AA !important;
+      }
     }
 
 
