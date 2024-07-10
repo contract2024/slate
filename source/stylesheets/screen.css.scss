@@ -654,6 +654,9 @@ body {
   pre>code {
     background-color: transparent;
     padding: 0;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: HarmonyOS-Medium;
   }
 
   aside {
@@ -741,7 +744,7 @@ body {
     @extend %code-font;
     padding-top: 2em;
     padding-bottom: 2em;
-    padding: 2em $main-padding;
+    padding: 24px $main-padding;
   }
 
   blockquote {
