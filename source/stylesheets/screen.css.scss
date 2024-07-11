@@ -889,24 +889,24 @@ body {
     width: calc(100%-230px) !important;
   }
 }
-/* 初始化滚动条样式 */
-::-webkit-scrollbar {
-    width: 6px; /* 设置滚动条宽度 */
-}
+// /* 初始化滚动条样式 */
+// ::-webkit-scrollbar {
+//     width: 6px; /* 设置滚动条宽度 */
+// }
 
-/* 滚动条轨道 */
-::-webkit-scrollbar-track {
-    background: none; /* 设置轨道颜色 */
-}
+// /* 滚动条轨道 */
+// ::-webkit-scrollbar-track {
+//     background: none; /* 设置轨道颜色 */
+// }
 
-/* 滚动条滑块 */
-::-webkit-scrollbar-thumb {
-    background: #909090; /* 设置滑块颜色 */
-    border-radius: 10px;
-}
+// /* 滚动条滑块 */
+// ::-webkit-scrollbar-thumb {
+//     background: #909090; /* 设置滑块颜色 */
+//     border-radius: 10px;
+// }
 
-/* 滑块hover效果 */
-::-webkit-scrollbar-thumb:hover {
-    background: #909090; /* 设置滑块hover颜色 */
-    border-radius: 10px;
-}
+// /* 滑块hover效果 */
+// ::-webkit-scrollbar-thumb:hover {
+//     background: #909090; /* 设置滑块hover颜色 */
+//     border-radius: 10px;
+// }
