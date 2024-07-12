@@ -29,12 +29,14 @@ body {
   color: $main-text;
   padding: 0;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  @extend %default-font;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  // @extend %default-font;
+  font: HarmonyOS-Regular, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei,
+  WenQuanYi Micro Hei, serif !important;
   background-color: $main-bg;
   height: 100%;
-  -webkit-text-size-adjust: none;
+  // -webkit-text-size-adjust: none;
   /* Never autoresize text */
 }
 
