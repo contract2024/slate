@@ -183,13 +183,20 @@ body {
     width: 16px;
     height: 16px;
   }
+  .search-border {
+     width:200px;
+     border-top:1px solid  #545B60;
+     margin-left:16px;
+     position: relative;
+     top:-3px;
+  }
 
   &>.search {
     position: relative;
 
     input {
       background: $nav-bg;
-      border-width: 0 0 1px 0;
+      border-width: 0 0 0px 0;
       border-color: $search-box-border-color;
       padding: 6px 0 6px 20px;
       box-sizing: border-box;
@@ -902,12 +909,12 @@ body {
 
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-    background: #909090; /* 设置滑块颜色 */
+    background: #24282A; /* 设置滑块颜色 */
     border-radius: 10px;
 }
 
 /* 滑块hover效果 */
 ::-webkit-scrollbar-thumb:hover {
-    background: #909090; /* 设置滑块hover颜色 */
+    background: #24282A; /* 设置滑块hover颜色 */
     border-radius: 10px;
 }
