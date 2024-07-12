@@ -256,9 +256,9 @@ body {
 
     li {
       line-height: 1;
-      margin-top: 8px;
+      margin-top: 12px;
       padding-left: 16px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
 
@@ -267,7 +267,7 @@ body {
       text-decoration: none;
       display: block;
       font-size: 14px;
-      margin-bottom: 12px;
+      // margin-bottom: 12px;
       font-family: HarmonyOS-Regular;
 
       &:hover {
@@ -639,7 +639,7 @@ body {
 
     tr:nth-child(even)>td {
       // background-color: lighten($main-bg, 2.4%);
-      background-color:#fff;
+      background-color:#FBFCE6;
     }
   }
 
