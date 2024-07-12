@@ -29,7 +29,7 @@ body {
   color: $main-text;
   padding: 0;
   margin: 0;
-  // -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
   // -moz-osx-font-smoothing: grayscale;
   // @extend %default-font;
   font: HarmonyOS-Regular, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei,
