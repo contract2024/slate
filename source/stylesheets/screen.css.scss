@@ -64,7 +64,7 @@ body {
   width: $nav-width;
   background-color: $nav-bg;
   font-size: 13px;
-  font-weight: bold;
+  // font-weight: bold;
 
   // 语言切换
   .switch {
@@ -390,7 +390,7 @@ body {
   z-index: 100;
   color: #000;
   text-decoration: none;
-  font-weight: bold;
+  // font-weight: bold;
   opacity: 0.7;
   line-height: 16px;
 
@@ -449,7 +449,7 @@ body {
   display: flex;
   background-color: $lang-select-bg;
   width: 100%;
-  font-weight: bold;
+  // font-weight: bold;
   overflow-x: auto;
 
   a {
@@ -652,7 +652,7 @@ body {
 
 
   dt {
-    font-weight: bold;
+    // font-weight: bold;
   }
 
   dd {
